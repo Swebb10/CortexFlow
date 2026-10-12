@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0c1019" />
+    <meta name="description" content="Conecta tus ideas y aprende con mapas mentales, Markdown y sesiones de enfoque. CortexFlow guarda tus notas en este navegador." />
+    <title>CortexFlow — Conecta. Comprende. Recuerda.</title>
+    <script>
+      try { const theme = localStorage.getItem('cortexflow:theme'); if (['dark','light','cyberpunk','nordic','sunset'].includes(theme)) document.documentElement.dataset.theme = theme; } catch {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
