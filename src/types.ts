@@ -20,5 +20,11 @@ export type KnowledgeMap = {
   nodes: KnowledgeNode[]
   reviewedNodeIds: string[]
 }
-export type KnowledgeNodeData = KnowledgeNode & { reviewed: boolean; childCount: number }
+export type KnowledgeNodeData = KnowledgeNode & {
+  reviewed: boolean
+  childCount: number
+  onAdd: (parentId: string) => void
+  onEdit: (id: string) => void
+  onRemove: (id: string) => void
+}
 export type FlowKnowledgeNode = Node<KnowledgeNodeData, 'knowledge'>

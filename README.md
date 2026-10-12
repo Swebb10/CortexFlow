@@ -51,16 +51,22 @@ CortexFlow/
 │   │   ├── KnowledgeNode.tsx    # Nodos con estilos y estados propios
 │   │   ├── PomodoroTimer.tsx    # Controles de enfoque y descanso
 │   │   ├── NodeInspector.tsx    # Markdown y Active Recall
+│   │   ├── NodeEditor.tsx       # Crear/editar conceptos y su conexión
 │   │   ├── MarkdownContent.tsx  # Renderizado seguro con GFM
 │   │   └── Modal.tsx            # Diálogo accesible con foco nativo
 │   ├── context/ThemeContext.tsx # Tema global y LocalStorage
 │   ├── data/
 │   │   ├── initial-map.json     # Mock de 10 nodos: software, cloud y redes
 │   │   └── demo-maps.ts         # Módulos de React y HTTP
-│   ├── hooks/usePomodoro.ts     # Estado y sincronización del reloj
+│   ├── hooks/
+│   │   ├── usePomodoro.ts       # Estado y sincronización del reloj
+│   │   └── useMapHistory.ts     # Deshacer/rehacer por módulo
 │   ├── lib/
 │   │   ├── markdown.ts          # Parser y distribución jerárquica
 │   │   ├── storage.ts           # Validación y almacenamiento tolerante a fallos
+│   │   ├── map-editor.ts        # Creación, edición, conexiones y borrado de ramas
+│   │   ├── map-history.ts       # Historial reversible de cambios
+│   │   ├── map-editor.test.ts   # Invariantes del editor y del historial
 │   │   ├── timer.ts             # Transiciones puras del Pomodoro
 │   │   └── core.test.ts         # Pruebas del comportamiento principal
 │   ├── styles/index.css        # Cinco temas, layout y estilos del grafo
@@ -83,6 +89,15 @@ CortexFlow/
 5. Exporta tu módulo para respaldarlo. Incluye posiciones, Markdown y conceptos repasados; una importación JSON crea un módulo independiente.
 
 En pantallas pequeñas, la biblioteca y el inspector se abren con los botones de la barra superior. Escape cierra paneles, búsqueda o diálogos. La vista Esquema ofrece navegación por texto.
+
+## Editar un mapa
+
+- Pulsa **Nuevo concepto**, el botón **Añadir** sobre el nodo seleccionado o **Añadir hijo** en el inspector. Elige el padre, escribe el título y añade una explicación Markdown. Un nuevo concepto se coloca cerca del padre sin mover los nodos existentes.
+- Haz **doble clic** en un nodo o pulsa **Editar concepto**. Puedes cambiar título, resumen, explicación, pregunta de Active Recall, concepto padre y color de una rama principal. Editar la raíz también actualiza el nombre del módulo.
+- Para cambiar una conexión, selecciona otro padre en el editor o arrastra el punto derecho de un nodo al punto izquierdo del que quieres conectar como hijo. La nueva conexión reemplaza el padre anterior. La raíz se conserva y se rechazan conexiones circulares.
+- **Eliminar rama** borra el concepto y todos sus descendientes, después de confirmar en el diálogo. También puedes usar la tecla Delete con un nodo seleccionado. Sus IDs se eliminan del progreso de repaso.
+- **Deshacer / Rehacer** revierte hasta 30 cambios por módulo durante la sesión. Atajos: `Ctrl/Cmd + Z`, `Ctrl/Cmd + Shift + Z` y `Ctrl/Cmd + Y`. Dentro de un campo de texto se conserva el historial nativo de escritura. Recargar mantiene el mapa guardado, pero reinicia este historial de cambios.
+- Cambiar el título, la explicación o la pregunta de un concepto lo marca de nuevo para repasar. Los demás conceptos conservan su progreso. Todos los cambios del mapa se guardan localmente y se incluyen en la exportación JSON.
 
 ## Temas dinámicos
 
@@ -108,4 +123,15 @@ En pantallas pequeñas, la biblioteca y el inspector se abren con los botones de
 
 ## Despliegue
 
-`npm run build` produce una aplicación estática en `dist/`. Sirve esa carpeta con HTTPS. No se necesitan variables de entorno ni secretos. Para desplegar bajo un subdirectorio, configura `base` en `vite.config.ts`. No se ha publicado en ningún servicio externo.
+`npm run build` produce una aplicación estática en `dist/`. Sirve esa carpeta con HTTPS. No se necesitan variables de entorno ni secretos. Para desplegar bajo un subdirectorio, configura `base` en `vite.config.ts`.
+
+En Vercel, importa el repositorio de GitHub con preset **Vite**, comando `npm run build` y salida `dist`. Para actualizar un proyecto que ya está conectado a la rama `main`:
+
+```powershell
+Set-Location C:/Freelance/CortexFlow
+git add .
+git commit -m "Add mind map editing"
+git push
+```
+
+Vercel compilará el nuevo commit. Para ver cambios mientras desarrollas localmente, usa `npm run dev`; `npm run preview` sirve el último build, por lo que requiere compilar de nuevo después de editar el código.

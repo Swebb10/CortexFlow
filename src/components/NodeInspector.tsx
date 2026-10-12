@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { ArrowRight, BookOpen, Brain, Check, CheckCheck, ChevronRight, Eye, EyeOff, Lightbulb, Network, X } from 'lucide-react'
+import { ArrowRight, BookOpen, Brain, Check, CheckCheck, ChevronRight, Eye, EyeOff, Lightbulb, Network, Pencil, Plus, Trash2, X } from 'lucide-react'
 import type { KnowledgeMap, KnowledgeNode } from '../types'
 import { MarkdownContent } from './MarkdownContent'
 
-type Props = { node: KnowledgeNode; map: KnowledgeMap; onReview: () => void; onNext: () => void; onClose: () => void; onSelect: (id: string) => void }
-export function NodeInspector({ node, map, onReview, onNext, onClose, onSelect }: Props) {
+type Props = { node: KnowledgeNode; map: KnowledgeMap; onReview: () => void; onNext: () => void; onClose: () => void; onSelect: (id: string) => void; onAdd: (parentId: string) => void; onEdit: (id: string) => void; onRemove: (id: string) => void }
+export function NodeInspector({ node, map, onReview, onNext, onClose, onSelect, onAdd, onEdit, onRemove }: Props) {
   const [recall, setRecall] = useState(false)
   const [revealed, setRevealed] = useState(false)
   const reviewed = map.reviewedNodeIds.includes(node.id)
@@ -18,6 +18,7 @@ export function NodeInspector({ node, map, onReview, onNext, onClose, onSelect }
       <div className={`inspector-node-icon tone-${node.tone}`}><Network size={24} strokeWidth={1.6} /></div>
       <h2>{node.title}</h2><p className="inspector-summary">{node.summary}</p>
       <div className="concept-meta"><span className={`tone-badge tone-${node.tone}`}><i />{node.parentId === null ? 'Idea central' : children.length ? 'Concepto clave' : 'Subconcepto'}</span>{reviewed && <span className="reviewed-badge"><CheckCheck size={12} />Repasado</span>}</div>
+      <div className="inspector-edit-actions"><button className="button secondary" onClick={() => onEdit(node.id)}><Pencil size={14} />Editar concepto</button><button className="button secondary" onClick={() => onAdd(node.id)} aria-label="Añadir subconcepto"><Plus size={15} />Añadir hijo</button>{node.parentId !== null && <button className="icon-button" onClick={() => onRemove(node.id)} aria-label="Eliminar concepto y su rama" title="Eliminar rama"><Trash2 size={14} /></button>}</div>
       <section className={`recall-card ${recall ? 'recall-on' : ''}`}><div><span className="recall-icon"><Brain size={18} /></span><span><strong>Active Recall</strong><small>Recuerda antes de releer.</small></span><button className="toggle" role="switch" aria-checked={recall} aria-label="Activar modo Active Recall" onClick={() => { setRecall(!recall); setRevealed(false) }}><span /></button></div>{recall && <p className="recall-question">{node.question}</p>}</section>
       <div className="detail-label"><span><BookOpen size={13} />NOTAS DEL CONCEPTO</span>{recall && <button onClick={() => setRevealed(!revealed)}>{revealed ? <EyeOff size={13} /> : <Eye size={13} />}{revealed ? 'Ocultar' : 'Mostrar'}</button>}</div>
       {hidden ? <div className="recall-hidden"><div><Brain size={28} /></div><h3>Deja que tu mente conecte.</h3><p>Explica este concepto en voz alta o escribe una respuesta antes de consultar tus notas.</p><button className="button secondary" onClick={() => setRevealed(true)}><Eye size={15} />Mostrar explicación</button></div> : <MarkdownContent content={node.content} />}
