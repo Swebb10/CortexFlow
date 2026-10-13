@@ -1,6 +1,8 @@
 import type { Node, XYPosition } from '@xyflow/react'
 
 export type NodeTone = 'violet' | 'blue' | 'mint' | 'amber'
+export type StudyExercise = { prompt: string; answer: string; hint?: string }
+export type AudioSample = { language: 'de-DE' | 'ru-RU'; text: string }
 export type KnowledgeNode = {
   id: string
   parentId: string | null
@@ -10,6 +12,8 @@ export type KnowledgeNode = {
   question: string
   tone: NodeTone
   position: XYPosition
+  exercise?: StudyExercise
+  audio?: AudioSample
 }
 export type KnowledgeMap = {
   id: string

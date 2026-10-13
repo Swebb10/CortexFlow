@@ -6,11 +6,16 @@ export function readStorage(key: string): string | null {
 export function writeStorage(key: string, value: string): boolean {
   try { localStorage.setItem(key, value); return true } catch { return false }
 }
+export const MAPS_STORAGE_KEY = 'cortexflow:maps:v2'
+export const MAX_SAVED_MAPS = 50
+export const LEGACY_DEMO_IDS = new Set(['software-cloud', 'react-typescript', 'http-apis'])
 const isString = (value: unknown): value is string => typeof value === 'string'
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
 
 function isNode(value: unknown): value is KnowledgeNode {
   if (!isRecord(value) || !isRecord(value.position)) return false
+  if (value.exercise !== undefined && (!isRecord(value.exercise) || !isString(value.exercise.prompt) || !isString(value.exercise.answer) || (value.exercise.hint !== undefined && !isString(value.exercise.hint)))) return false
+  if (value.audio !== undefined && (!isRecord(value.audio) || !['de-DE', 'ru-RU'].includes(String(value.audio.language)) || !isString(value.audio.text))) return false
   return ['id','title','summary','content','question'].every((key) => isString(value[key]))
     && (value.parentId === null || isString(value.parentId))
     && ['violet','blue','mint','amber'].includes(String(value.tone))
@@ -37,13 +42,25 @@ export function isKnowledgeMap(value: unknown): value is KnowledgeMap {
   return true
 }
 
-export function loadMaps(fallback: KnowledgeMap[]): KnowledgeMap[] {
+export function decodeLibrary(raw: string | null): KnowledgeMap[] | null {
   try {
-    const raw = readStorage('cortexflow:maps:v1')
-    if (!raw) return fallback
-    const data: unknown = JSON.parse(raw)
-    if (!Array.isArray(data) || data.length === 0 || data.length > 30 || !data.every(isKnowledgeMap)) return fallback
-    if (new Set(data.map((map) => map.id)).size !== data.length) return fallback
+    const data: unknown = JSON.parse(raw ?? 'null')
+    if (!Array.isArray(data) || data.length === 0 || data.length > MAX_SAVED_MAPS || !data.every(isKnowledgeMap)) return null
+    if (new Set(data.map((map) => map.id)).size !== data.length) return null
     return data
-  } catch { return fallback }
+  } catch { return null }
+}
+export function migrateLegacyMaps(legacy: KnowledgeMap[], curriculum: KnowledgeMap[]): KnowledgeMap[] {
+  const personalMaps = legacy.filter((map) => !LEGACY_DEMO_IDS.has(map.id))
+  const existingIds = new Set(personalMaps.map((map) => map.id))
+  return [...curriculum.filter((map) => !existingIds.has(map.id)).slice(0, Math.max(0, MAX_SAVED_MAPS - personalMaps.length)), ...personalMaps]
+}
+export function loadMaps(fallback: KnowledgeMap[]): KnowledgeMap[] {
+  const current = decodeLibrary(readStorage(MAPS_STORAGE_KEY))
+  if (current) return current
+  const legacy = decodeLibrary(readStorage('cortexflow:maps:v1'))
+  return legacy ? migrateLegacyMaps(legacy, fallback) : fallback
+}
+export function saveMaps(maps: KnowledgeMap[]): boolean {
+  return writeStorage(MAPS_STORAGE_KEY, JSON.stringify(maps))
 }

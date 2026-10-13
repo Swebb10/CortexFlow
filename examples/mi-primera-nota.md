@@ -1,31 +1,23 @@
-# Sistemas distribuidos
+# Mi práctica de Cloud
 
-Un sistema distribuido coordina componentes que se comunican por una red y pueden fallar de forma independiente.
+Usa esta nota para registrar lo que observas en tus prácticas. Sustituye las preguntas por tu explicación antes de importarla a CortexFlow.
 
-## Disponibilidad
+## Redes y puertos
 
-La capacidad de atender solicitudes incluso cuando una parte del sistema falla.
+Explica la diferencia entre dirección IP y puerto usando una aplicación local. Anota qué dirección y puerto viste con `ss -ltn` en Linux.
 
-### Redundancia
+### Evidencia del laboratorio
 
-Usa réplicas y elimina puntos únicos de fallo. Diseña y prueba el proceso de recuperación.
+Guarda el comando, una parte de su salida y lo que significa. No incluyas contraseñas ni claves.
 
-### Observabilidad
+## Docker
 
-Relaciona logs, métricas y trazas para entender el comportamiento real del sistema.
+Describe qué cambia entre el puerto del host y el del contenedor al usar `-p 8080:80`. Comprueba tu explicación en una práctica local.
 
-## Consistencia
+### Problema y solución
 
-Define cuándo y cómo los lectores observan cambios en los datos.
+Anota un fallo, la hipótesis, la comprobación que hiciste y el resultado. Conserva también lo que descartaste y por qué.
 
-### Consistencia eventual
+## Próximo repaso
 
-Si dejan de producirse actualizaciones, las réplicas pueden converger. Comunica al usuario estados pendientes cuando sea necesario.
-
-### Idempotencia
-
-Un reintento debe conservar el efecto esperado de la operación.
-
-```ts
-const request = { idempotencyKey: 'order-123' }
-```
+Mañana intenta explicar el mismo concepto sin leer. Vuelve a revisarlo dentro de tres días y la semana siguiente.

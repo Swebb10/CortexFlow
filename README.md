@@ -1,6 +1,6 @@
 # CortexFlow
 
-Dashboard de aprendizaje local con mapas mentales interactivos, notas Markdown, Active Recall y Pomodoro. React 19, TypeScript estricto, Vite 7, Tailwind CSS 4, Lucide y React Flow 12.
+Dashboard de aprendizaje local con **siete rutas personales, 144 lecciones y 183 conceptos**, mapas mentales editables, notas Markdown, ejercicios, Active Recall y Pomodoro. React 19, TypeScript estricto, Vite 7, Tailwind CSS 4, Lucide y React Flow 12.
 
 ## Ejecutar el proyecto entregado
 
@@ -12,14 +12,38 @@ npm ci
 npm run dev
 ```
 
-Abre la URL que imprime Vite (normalmente `http://127.0.0.1:5173`). El mapa de Arquitectura de Software está disponible desde el primer inicio. `npm ci` usa las versiones reproducibles de `package-lock.json`; puedes omitirlo si ya tienes `node_modules` instalado.
+Abre la URL que imprime Vite (normalmente `http://127.0.0.1:5173`). La biblioteca personalizada está disponible desde el primer inicio y abre la primera lección de Cloud. `npm ci` usa las versiones reproducibles de `package-lock.json`; puedes omitirlo si ya tienes `node_modules` instalado.
 
 ```powershell
-npm run test       # Parser, validación de copias y temporizador
+npm run test       # Parser, editor, historial, migración, biblioteca y temporizador
 npm run typecheck  # TypeScript estricto
 npm run build      # Genera dist/ para producción
 npm run preview    # Revisa el build de producción
 ```
+
+## Biblioteca para estudiar
+
+| Ruta | Lecciones | Contenido |
+| --- | ---: | --- |
+| Ingeniero Cloud | 32 | Redes, Linux/terminal, Docker, AWS Cloud Practitioner, Terraform y proyecto |
+| Alemán | 24 | Pre-A1, A1, A2, B1 y B2; diálogos, patrones y producción |
+| Ruso | 24 | Cirílico en contexto, Pre-A1 a B2, frases y práctica progresiva |
+| Fundamentos de IA y LLMs | 16 | Modelos, tokens, contexto, instrucciones, APIs y evaluación |
+| RAG | 16 | Documentos, fragmentos, embeddings, búsqueda, fuentes y permisos |
+| Agentic AI | 16 | Herramientas, estado, planificación, memoria, límites y trazas |
+| RPA | 16 | UiPath/Automation Anywhere, selectores, excepciones, colas e IA |
+
+Cada lección contiene explicación, ejemplos y un reto con respuesta orientativa. Selecciona una ruta en la biblioteca; usa **Esquema** para recorrer todas las etapas o busca un concepto. **Siguiente concepto** lleva al siguiente concepto pendiente y lo centra en el mapa.
+
+Escribe en **Tu respuesta** antes de pulsar **Comparar mi respuesta**. Los intentos se guardan inmediatamente por lección en este navegador. Las respuestas son modelos de comparación, **no correcciones automáticas**. Active Recall permite ocultar también las notas; marca un concepto como repasado cuando puedas explicarlo o producirlo sin mirar.
+
+En alemán y ruso el método combina input, frases frecuentes, contexto, patrones, gramática breve cuando sirve, producción y repaso. Las rutas incluyen una rutina de 30–60 minutos y un prompt para un tutor. **Escuchar ejemplos** utiliza una voz del idioma disponible en el navegador/sistema; si falta, informa de ello. No graba ni evalúa pronunciación. Complementa con audio real, conversación y feedback de un profesor. Completar estas lecciones no certifica B2 ni sustituye un curso completo.
+
+Los laboratorios técnicos son material de estudio: no se ejecutan desde CortexFlow. Practica primero con datos ficticios y entornos locales; revisa costes y elimina recursos cuando uses AWS. Los enlaces oficiales permiten ampliar cada ruta y comprobar APIs actuales.
+
+### Actualización desde la biblioteca anterior
+
+La primera carga migra `cortexflow:maps:v1` a `cortexflow:maps:v2`: retira los tres módulos de ejemplo (software/cloud, React y HTTP), incorpora las siete rutas y conserva los otros módulos personales. El contenido de la antigua clave se mantiene como respaldo. Una vez guardada v2, tus ediciones y eliminaciones tienen prioridad; las rutas borradas no se vuelven a insertar al recargar. **No necesitas limpiar LocalStorage**. Los temas y el Pomodoro conservan sus claves.
 
 ## Inicializar desde cero con Vite y Tailwind
 
@@ -50,14 +74,17 @@ CortexFlow/
 │   │   ├── MindMapCanvas.tsx    # React Flow, navegación y minimapa
 │   │   ├── KnowledgeNode.tsx    # Nodos con estilos y estados propios
 │   │   ├── PomodoroTimer.tsx    # Controles de enfoque y descanso
-│   │   ├── NodeInspector.tsx    # Markdown y Active Recall
+│   │   ├── NodeInspector.tsx    # Markdown, Active Recall y práctica
+│   │   ├── StudyPractice.tsx    # Intento propio y respuesta orientativa
+│   │   ├── ListenButton.tsx     # Voz del navegador para los idiomas
 │   │   ├── NodeEditor.tsx       # Crear/editar conceptos y su conexión
 │   │   ├── MarkdownContent.tsx  # Renderizado seguro con GFM
 │   │   └── Modal.tsx            # Diálogo accesible con foco nativo
 │   ├── context/ThemeContext.tsx # Tema global y LocalStorage
 │   ├── data/
-│   │   ├── initial-map.json     # Mock de 10 nodos: software, cloud y redes
-│   │   └── demo-maps.ts         # Módulos de React y HTTP
+│   │   ├── curriculum/         # Siete JSON con las 144 lecciones
+│   │   ├── build-study-map.ts  # Etapas y lecciones → árbol de conceptos
+│   │   └── study-library.ts    # Biblioteca inicial personalizada
 │   ├── hooks/
 │   │   ├── usePomodoro.ts       # Estado y sincronización del reloj
 │   │   └── useMapHistory.ts     # Deshacer/rehacer por módulo
@@ -68,7 +95,9 @@ CortexFlow/
 │   │   ├── map-history.ts       # Historial reversible de cambios
 │   │   ├── map-editor.test.ts   # Invariantes del editor y del historial
 │   │   ├── timer.ts             # Transiciones puras del Pomodoro
-│   │   └── core.test.ts         # Pruebas del comportamiento principal
+│   │   ├── core.test.ts         # Pruebas del comportamiento principal
+│   │   ├── study-library.test.ts # Integridad de rutas y migración
+│   │   └── fixtures/            # Datos aislados para pruebas
 │   ├── styles/index.css        # Cinco temas, layout y estilos del grafo
 │   ├── types.ts
 │   ├── App.tsx
@@ -86,7 +115,7 @@ CortexFlow/
 2. Arrastra los nodos y el fondo; usa los controles de zoom o el gesto de pinza. La rueda desplaza el lienzo. Selecciona un nodo para abrir su contenido. `Ctrl + K` / `Cmd + K` lleva a la búsqueda de conceptos.
 3. Activa Active Recall. La explicación se retira del DOM mientras está oculta; responde a la pregunta y revela tus notas. Marca el concepto como repasado para actualizar el progreso.
 4. Inicia 25 minutos de enfoque; al finalizar se prepara un descanso de 5 minutos **pausado**. Cada fase requiere inicio explícito. Pausar conserva el tiempo y reiniciar restablece la fase actual.
-5. Exporta tu módulo para respaldarlo. Incluye posiciones, Markdown y conceptos repasados; una importación JSON crea un módulo independiente.
+5. Exporta tu módulo para respaldarlo. Incluye posiciones, Markdown, ejercicios, textos de audio y conceptos repasados; una importación JSON crea un módulo independiente. Los intentos escritos se guardan aparte en este navegador y no se incluyen en la copia del mapa.
 
 En pantallas pequeñas, la biblioteca y el inspector se abren con los botones de la barra superior. Escape cierra paneles, búsqueda o diálogos. La vista Esquema ofrece navegación por texto.
 
@@ -114,7 +143,7 @@ En pantallas pequeñas, la biblioteca y el inspector se abren con los botones de
 ## Datos, límites y decisiones
 
 - La conversión es **estructural y local**, sin IA ni servicios externos. Reconoce encabezados ATX (`#` a `######`), preserva sus explicaciones y respeta bloques de código. Sin encabezados, crea conceptos a partir de párrafos. Los encabezados Setext no forman nodos, aunque su contenido sí se puede leer como Markdown.
-- Los archivos tienen un límite de 1 MB; cada módulo, 100 nodos; la biblioteca, 30 módulos. Los árboles importados se validan contra ciclos, IDs duplicados, referencias inexistentes y posiciones inválidas.
+- Los archivos tienen un límite de 1 MB; cada módulo, 100 nodos; la biblioteca, 50 módulos. Los árboles importados se validan contra ciclos, IDs duplicados, referencias inexistentes, posiciones inválidas y datos de ejercicios/audio corruptos.
 - LocalStorage guarda módulos, posiciones al terminar de arrastrar, progreso, tema, módulo activo y Pomodoro. Si está bloqueado o se llena, se puede seguir trabajando en memoria; el panel muestra el problema de guardado de notas y permite exportar. El almacenamiento pertenece al origen: cambiar de puerto o navegador crea otro espacio.
 - El reloj usa `Date.now()` y una fecha de vencimiento, evitando depender del número de ticks. Reconcilia el tiempo después de recargar o volver a una pestaña inactiva. No requiere que la pestaña quede abierta para conservar una fase, pero no emite una alarma mientras está cerrada.
 - Markdown se renderiza con `react-markdown` y GFM. HTML incrustado se omite, los enlaces conservan la sanitización de la librería y abren con `noopener noreferrer`. Las imágenes se muestran como texto alternativo para evitar peticiones de red desde notas importadas. No se usa `dangerouslySetInnerHTML`.
@@ -130,7 +159,7 @@ En Vercel, importa el repositorio de GitHub con preset **Vite**, comando `npm ru
 ```powershell
 Set-Location C:/Freelance/CortexFlow
 git add .
-git commit -m "Add mind map editing"
+git commit -m "Add personalized study paths and practice"
 git push
 ```
 

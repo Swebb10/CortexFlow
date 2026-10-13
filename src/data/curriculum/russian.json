@@ -1,0 +1,356 @@
+{
+  "id": "russian-learning",
+  "title": "Ruso · desde cero hasta B2",
+  "description": "Cirílico en contexto, frases cotidianas, patrones reutilizables y producción guiada de Pre-A1 a B2.",
+  "category": "Idiomas",
+  "introduction": "# Aprender ruso para usarlo\n\nEmpieza en Pre-A1. Primero entiende una escena, aprende pocas frases y reutiliza sus piezas. La gramática llega cuando explica un patrón que ya has visto. Los niveles A1–B2 orientan competencias; completar las notas no equivale a certificarlas.\n\n## Rutina de 30–60 minutos\n5 minutos de recuperar frases anteriores; 10 de lectura o escucha; 10 de producción; 5 de corrección. Si tienes una hora, añade repetición de audio, lectura y una conversación. Alterna ruso y alemán si estudiar ambos a diario te sobrecarga.\n\n## Correcciones útiles\nMi frase → versión natural → razón breve → patrón → uno o dos ejemplos → nuevo intento. No avances a otra regla si la anterior sigue confusa. Combina cada frase nueva con alguna conocida y repasa mañana, en tres días y la semana siguiente.\n\n## Pronunciación\nEn las notas, el acento agudo ocasional señala dónde recae el acento tónico; normalmente no se escribe en textos rusos. Las aproximaciones al español nunca representan todos los sonidos. Usa ejemplos de hablantes reales además de la voz sintética del navegador.\n\n## Prompt para un tutor\n«Enséñame ruso desde cero con input, frases frecuentes, patrones y contexto. Estudio 30–60 minutos al día. Introduce pocas estructuras, hazme producir antes de dar respuestas, corrige brevemente y vuelve a practicar. Explica gramática cuando ayude y reutiliza lo aprendido. Incluye cirílico y pronunciación útil sin convertir la lección en una tabla».\n\nCortexFlow guarda intentos y ofrece respuestas orientativas; no corrige automáticamente ni sustituye una conversación con un profesor.",
+  "stages": [
+    {
+      "id": "pre-a1",
+      "title": "Pre-A1 · leer y empezar a hablar",
+      "content": "## Primeros pasos\n\nAprende el cirílico por palabras útiles, no intentando memorizar todo el alfabeto antes de comunicarte. Empieza con saludos, nombre y petición de ayuda.\n\n**Evidencia:** lees cinco palabras familiares, te presentas y pides que repitan. Para consultar palabras y acento: [Gramota](https://gramota.ru).",
+      "lessons": [
+        {
+          "id": "cyrillic",
+          "title": "Cirílico en palabras reales",
+          "content": "# Reconocer antes de memorizar\n\nEmpieza con **мама** (mamá), **дом** (casa), **кот** (gato), **метро́** (metro) y **кафе́** (café). Lee la palabra dentro de una escena: **Это кафе** = Esto es un café.\n\n## Letras que ayudan  \n`А, М, О, Т, К` se parecen a letras latinas en mayúscula. Algunas engañan: `В` suena aproximadamente /v/, `Н` corresponde a /n/, `Р` a una r vibrante y `С` a /s/. `У` suena /u/.\n\nEl acento importa y puede cambiar; las vocales sin acento no siempre suenan como su escritura aislada. No leas `Москва́` pronunciando todas las vocales con igual fuerza.\n\n## Una práctica pequeña  \nMira una palabra, escúchala, tapa el modelo y escríbela. Aprende tres letras nuevas dentro de otra palabra mañana. La transliteración puede servir al inicio, pero vuelve pronto al cirílico para no depender de ella.",
+          "exercise": {
+            "prompt": "Escribe en cirílico «casa», «metro» y «café». Explica por qué no debes leer Р como una p española.",
+            "answer": "дом, метро, кафе.\n\n`Р` corresponde a una r, no al sonido de p. La apariencia latina puede engañar. Forma otra frase: **Это дом** = Esto es una casa."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Это дом. Это метро. Это кафе."
+          }
+        },
+        {
+          "id": "greetings",
+          "title": "Saludos y trato formal",
+          "content": "# Encontrarte con alguien\n\n— **Привет! Как дела?** — ¡Hola! ¿Qué tal?  \n— **Хорошо, спасибо. А у тебя?** — Bien, gracias. ¿Y tú?  \n— **Тоже хорошо. Пока!** — Bien también. ¡Hasta luego!\n\n## Registro  \n`Привет` y `Пока` son informales. **Здравствуйте** es un saludo formal o dirigido a varias personas; **До свидания** es una despedida ampliamente útil. **Доброе утро** = buenos días por la mañana; **Добрый день** = buen día.\n\n`ты` es el trato cercano a una persona; `вы` sirve para cortesía o plural. En correspondencia respetuosa dirigida a una persona puede aparecer `Вы`.\n\n## Patrón  \nAprende `Как дела?` como bloque. Puedes cambiar la respuesta por **Нормально** (bien/normal) o **Не очень** (no muy bien). No conviertas el primer saludo en una explicación de declinaciones.\n\nRepite la escena con un amigo y luego con una recepción.",
+          "exercise": {
+            "prompt": "Escribe un saludo y despedida para un amigo. Después escribe un saludo y despedida para una recepción formal.",
+            "answer": "Amigo: **Привет! Как дела? … Пока!**\n\nRecepción: **Здравствуйте! … До свидания!**\n\nEn el diálogo informal puedes responder `Хорошо, спасибо. А у тебя?`. Mantén el trato según la relación."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Привет! Как дела? Хорошо, спасибо. А у тебя? Тоже хорошо. Пока!"
+          }
+        },
+        {
+          "id": "name",
+          "title": "Presentarte sin una tabla",
+          "content": "# Conocer a alguien\n\n— **Как тебя зовут?** — ¿Cómo te llamas?  \n— **Меня зовут Себастьян. А тебя?** — Me llamo Sebastian. ¿Y tú?  \n— **Меня зовут Анна. Очень приятно.** — Me llamo Anna. Mucho gusto.\n\n## Bloques que puedes cambiar  \n`Меня зовут ___` cambia el nombre. Formal: **Как вас зовут?**. Aprende estas frases completas antes de analizar por qué `меня` no es `я`.\n\nPara decir quién eres: **Я студент** o **Я студентка**. En presente, el ruso normalmente omite «ser» en este tipo de identificación. **Я Себастьян** también puede servir para identificarte.\n\n## Contexto  \nTe presentan a un compañero de curso. Saluda, pregunta su nombre y añade **Я учу русский язык** = Estoy aprendiendo ruso.\n\n## Reutilización  \nCambia un nombre y la ocupación. No traduzcas palabra por palabra «yo soy»: reconoce el patrón de identificación sin verbo presente.",
+          "exercise": {
+            "prompt": "Preséntate con tu nombre y como estudiante. Pregunta formalmente el nombre de otra persona.",
+            "answer": "Меня зовут Себастьян. Я студент. Как вас зовут?\n\nSi corresponde: `Я студентка`. Error frecuente: añadir una forma de «ser» innecesaria en esta identificación presente. Practica con otro nombre."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Как тебя зовут? Меня зовут Себастьян. Очень приятно. Я учу русский язык."
+          }
+        },
+        {
+          "id": "repair-sounds",
+          "title": "Pedir que repitan y escuchar",
+          "content": "# Frases para seguir conversando\n\n**Извините, я не понимаю.** — Disculpe, no entiendo.  \n**Повторите, пожалуйста.** — Repita, por favor.  \n**Говорите медленнее, пожалуйста.** — Hable más despacio, por favor.  \n**Что это значит?** — ¿Qué significa esto?\n\n## Pronunciación oportuna  \n`ж` se parece al sonido de la j francesa, con vibración; `ш` es una fricción sin vibración. `ы` no tiene equivalencia exacta española: empieza por escuchar `ты` y compararlo con `ти`, sin asumir que son iguales.\n\nLa consonante puede cambiar al ser suave. El signo `ь` no representa una vocal independiente; señala suavidad en muchos contextos. Aprende **день** (día) escuchando la palabra entera.\n\n## Método  \nEscucha, repite una frase corta y vuelve a escuchar. La voz sintética es apoyo, no una grabación que evalúe tu acento. Pide feedback humano sobre un sonido concreto cuando impida entenderte.",
+          "exercise": {
+            "prompt": "En una conversación formal, di que no entiendes y pide repetir más despacio. Escribe en cirílico las frases.",
+            "answer": "Извините, я не понимаю. Повторите, пожалуйста. Говорите медленнее, пожалуйста.\n\nAprende la petición como bloque. Después pregunta `Что это значит?` sobre una palabra que acabas de oír."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Извините, я не понимаю. Повторите, пожалуйста. Говорите медленнее, пожалуйста."
+          }
+        }
+      ]
+    },
+    {
+      "id": "a1",
+      "title": "A1 · necesidades y conversaciones básicas",
+      "content": "## Hablar de ti y resolver necesidades\n\nCombina origen, idiomas, café, posesión, rutinas y ubicación. Reutiliza saludos y petición de ayuda en todas las escenas.\n\n**Evidencia:** te presentas, haces un pedido y cuentas tres acciones de tu día.",
+      "lessons": [
+        {
+          "id": "origin",
+          "title": "Origen, idiomas y residencia",
+          "content": "# Tres preguntas frecuentes\n\n— **Откуда ты?** — ¿De dónde eres?  \n— **Я из Коста-Рики. Я живу в Сан-Хосе.** — Soy de Costa Rica. Vivo en San José.  \n— **Ты говоришь по-русски?** — ¿Hablas ruso?  \n— **Немного. Я говорю по-испански.** — Un poco. Hablo español.\n\n## Patrones  \n`Я из ___` indica procedencia; `Я живу в ___` residencia; `Я говорю по-___` idioma. **Я учу русский язык** habla del aprendizaje.\n\nObserva que `из Коста-Рики` cambia la terminación del nombre. Las preposiciones piden formas concretas, pero no necesitas todas las declinaciones para describir tu situación. Guarda tu país y ciudad como bloques y amplía después.\n\n## Preguntar  \nEn conversación, **Ты говоришь по-русски?** puede tener las mismas palabras que una afirmación; la entonación y el contexto la convierten en pregunta.\n\nAñade **А ты?** para devolverla y mantener el intercambio.",
+          "exercise": {
+            "prompt": "Di que eres de Costa Rica, vives en San José y hablas un poco de ruso. Devuelve la pregunta.",
+            "answer": "Я из Коста-Рики. Я живу в Сан-Хосе. Я немного говорю по-русски. А ты?\n\nSi tus datos son otros, adapta con ayuda de un diccionario o tutor las formas del país y ciudad; no apliques una terminación universal."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Откуда ты? Я из Коста-Рики. Я живу в Сан-Хосе. Я немного говорю по-русски."
+          }
+        },
+        {
+          "id": "cafe",
+          "title": "Pedir en un café",
+          "content": "# Una escena útil\n\n— **Здравствуйте! Можно кофе, пожалуйста?** — ¡Hola! ¿Me pone un café, por favor?  \n— **С молоком?** — ¿Con leche?  \n— **Да, пожалуйста. И воду.** — Sí, por favor. Y agua.  \n— **Что-нибудь ещё?** — ¿Algo más?  \n— **Нет, спасибо. Сколько это стоит?** — No, gracias. ¿Cuánto cuesta?\n\n## Patrones productivos  \n`Можно ___, пожалуйста?` es una petición cotidiana. **Я хочу чай** significa «quiero té»; `Можно…?` resulta una opción práctica y cortés en el pedido.\n\n`вода → воду` cambia la forma al ser lo que pides. Empieza por **воду**, **кофе**, **чай** en la frase, sin aprender toda la tabla del acusativo de golpe.\n\n## Variaciones  \n**без сахара** = sin azúcar; **с молоком** = con leche. Pide una sola variación nueva y repasa mañana la escena cambiando bebida.",
+          "exercise": {
+            "prompt": "Pide té sin azúcar y agua. Pregunta cuánto cuesta y responde que no quieres nada más.",
+            "answer": "Можно чай без сахара и воду, пожалуйста? Сколько это стоит? Нет, спасибо.\n\nError: `Можно вода?` → `Можно воду?` para este pedido. Practica después: `Я хочу воду`."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Здравствуйте! Можно кофе, пожалуйста? С молоком? Да, пожалуйста. Сколько это стоит?"
+          }
+        },
+        {
+          "id": "possession",
+          "title": "Tener, no tener y necesitar",
+          "content": "# Hablar de lo que tienes\n\n**У меня есть телефон.** — Tengo teléfono.  \n**У меня нет машины.** — No tengo coche.  \n**Мне нужен билет.** — Necesito un billete.  \n**Мне нужна помощь.** — Necesito ayuda.\n\n## Intuición  \nLa posesión suele construirse como «en mi caso hay»: `У меня есть ___`. No necesitas traducirla palabra por palabra al producirla.\n\nAl negar, el sustantivo cambia: **машина → машины** después de `нет`. Aprende esta pareja con un objeto real antes de estudiar otras formas.\n\n`нужен/нужна/нужно/нужны` se ajusta a lo que necesitas: `билет` masculino y `помощь` femenino. Empieza por esos dos bloques.\n\n## Diálogo  \n— **У тебя есть билет?**  \n— **Да, есть.** / **Нет, у меня нет билета.**\n\nCombina esta pregunta con las peticiones del café o de una estación.",
+          "exercise": {
+            "prompt": "Di que tienes teléfono, que no tienes coche y que necesitas ayuda. Pregunta si otra persona tiene billete.",
+            "answer": "У меня есть телефон. У меня нет машины. Мне нужна помощь. У тебя есть билет?\n\nReconoce `есть / нет` dentro de la posesión y `нужна помощь` como necesidad. Repite con `Мне нужен билет`."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "У меня есть телефон. У меня нет машины. Мне нужен билет. Мне нужна помощь."
+          }
+        },
+        {
+          "id": "routine",
+          "title": "Rutinas y presente",
+          "content": "# Describir un día\n\n**Утром я работаю. Днём я учу русский язык. Вечером я читаю. Я учусь каждый день.**\n\nPor la mañana trabajo. Durante el día estudio ruso. Por la tarde/noche leo. Estudio cada día.\n\n## Verbos dentro de frases  \n`я работаю` = trabajo; `я читаю` = leo; `я учу русский` = aprendo ruso; `я учусь` = estudio/aprendo en sentido general. `учить` puede significar aprender algo o enseñar según la construcción; mira la frase completa.\n\n**каждый день** = cada día; **иногда** = a veces; **часто** = a menudo.\n\n## Patrón  \nPara empezar mantén `я + verbo + información`. El ruso permite cambiar orden para énfasis, pero no necesitas utilizar esa flexibilidad desde el primer día.\n\n## Reutiliza  \nCuéntale tu rutina a alguien que ya conociste: saludo → una actividad → frecuencia → **А ты?**.",
+          "exercise": {
+            "prompt": "Escribe tres acciones: por la mañana trabajas, por la tarde estudias ruso y a veces lees. Añade «¿y tú?».",
+            "answer": "Утром я работаю. Вечером я учу русский язык. Иногда я читаю. А ты?\n\nPuedes usar otra actividad conocida. Mantén un patrón que produzcas con soltura y cambia solo tiempo o frecuencia."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Утром я работаю. Вечером я учу русский язык. Иногда я читаю. А ты?"
+          }
+        },
+        {
+          "id": "location",
+          "title": "Ubicación y preguntas útiles",
+          "content": "# Encontrar un lugar\n\n**Где метро?** — ¿Dónde está el metro?  \n**Где находится гостиница?** — ¿Dónde está el hotel?  \n**Это далеко?** — ¿Está lejos?  \n**Здесь / там / рядом.** — Aquí / allí / cerca.\n\n## En una conversación  \n— **Извините, где кафе?**  \n— **Кафе рядом с метро.**  \n— **Спасибо!**\n\n`рядом с ___` significa cerca de; **с метро** mantiene la forma porque `метро` es indeclinable. No concluyas que todo sustantivo queda igual después de `с`.\n\nPara situarte: **Я дома** = estoy en casa; **Я на работе** = estoy en el trabajo. Aprende ambos bloques antes de generalizar `в/на`.\n\n## Producción  \nDibuja tres lugares, pregunta por uno y responde. Reutiliza una petición para que te hablen más despacio si la explicación es larga. La meta es resolver una escena, no listar preposiciones.",
+          "exercise": {
+            "prompt": "Pregunta educadamente dónde está el metro. Responde que el café está cerca del metro y di que estás en casa.",
+            "answer": "Извините, где метро? Кафе рядом с метро. Я дома.\n\n`дома` aquí indica ubicación en casa. Más adelante distinguirás `домой` para movimiento hacia casa."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Извините, где метро? Это далеко? Кафе рядом с метро. Я дома."
+          }
+        },
+        {
+          "id": "plans",
+          "title": "Querer, poder y planes",
+          "content": "# Expresar lo que quieres hacer\n\n**Я хочу учить русский язык.** — Quiero aprender ruso.  \n**Я могу прийти завтра.** — Puedo venir mañana.  \n**Я не могу сегодня.** — Hoy no puedo.  \n**Давай встретимся завтра.** — Quedemos mañana.\n\n## Patrón  \n`хочу/могу + infinitivo` permite cambiar la acción: **Я хочу читать**, **Я могу помочь**. El infinitivo conserva su forma, mientras la primera parte cambia con la persona.\n\n`сегодня`, `завтра`, `утром`, `вечером` sitúan el plan. No intentes dominar todos los verbos de movimiento para usar la frase `Я могу прийти завтра`.\n\n## Mini diálogo  \n— **Ты можешь прийти сегодня?**  \n— **Сегодня не могу. Давай завтра.**\n\n## Comprobación A1  \nSaluda, preséntate, pide una bebida y organiza una cita breve. Si aún necesitas mirar todo, repite con datos nuevos antes de avanzar.",
+          "exercise": {
+            "prompt": "Di que quieres aprender ruso, que hoy no puedes venir y que puedes venir mañana. Propón veros mañana.",
+            "answer": "Я хочу учить русский язык. Я не могу прийти сегодня. Я могу прийти завтра. Давай встретимся завтра.\n\nRepite el patrón con `Я хочу читать` y `Я могу помочь`. No cambies el infinitivo como si fuera otro verbo conjugado."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Я хочу учить русский язык. Я не могу сегодня. Я могу прийти завтра. Давай встретимся завтра."
+          }
+        }
+      ]
+    },
+    {
+      "id": "a2",
+      "title": "A2 · pasado, necesidades y desplazamientos",
+      "content": "## Conectar frases conocidas\n\nHabla de ayer y mañana, expresa gustos y resuelve necesidades de compras, viaje y salud. Introduce los casos mediante frases frecuentes antes de estudiar sus nombres.\n\n**Evidencia:** cuentas una experiencia corta y puedes resolver una compra o cita.",
+      "lessons": [
+        {
+          "id": "past-future",
+          "title": "Ayer y mañana",
+          "content": "# Un relato pequeño\n\n**Вчера я работал и читал. Сегодня я учу русский. Завтра я буду работать.**\n\nAyer trabajé y leí. Hoy estudio ruso. Mañana trabajaré.\n\n## Observa el pasado  \nEn singular el pasado suele indicar género: **я работал** si habla un hombre; **я работала** si habla una mujer. Con `мы`: **мы работали**. Elige primero la forma que corresponde a tu propia producción.\n\nEl futuro de estos verbos imperfectivos usa `буду + infinitivo`: **буду читать**, **буду учиться**. Otros verbos expresan futuro de otra manera; no generalices este patrón a todo el sistema verbal.\n\n## Contexto  \nCuenta tres acciones a un amigo. Usa `потом` (después) para ordenarlas. El objetivo inicial es que se entienda cuándo pasó cada cosa.\n\nDespués relee una frase anterior y cambia únicamente `вчера` por `завтра` con el verbo adecuado.",
+          "exercise": {
+            "prompt": "Escribe que ayer trabajaste y leíste y que mañana estudiarás ruso. Elige la forma de pasado que corresponda a ti.",
+            "answer": "Si habla un hombre: `Вчера я работал и читал. Завтра я буду учить русский язык.`\n\nSi habla una mujer: `Вчера я работала и читала. Завтра я буду учить русский язык.`\n\nEl género aparece en el pasado singular, no en `буду` de estas frases."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Вчера я работал и читал. Сегодня я учу русский. Завтра я буду работать."
+          }
+        },
+        {
+          "id": "likes",
+          "title": "Gustos, sensaciones y explicaciones",
+          "content": "# Expresar preferencias\n\n**Мне нравится этот фильм.** — Me gusta esta película.  \n**Мне нравятся эти книги.** — Me gustan estos libros.  \n**Я люблю читать.** — Me gusta leer.  \n**Мне холодно.** — Tengo frío.\n\n## Patrón intuitivo  \nEn `Мне нравится…`, lo que gusta controla singular o plural: una película `нравится`, varios libros `нравятся`. `Мне` señala a quién le ocurre. Compáralo con el español «me gusta / me gustan».\n\n**Я люблю + infinitivo** expresa una preferencia habitual. Para una opinión sobre algo específico, `Мне нравится…` suele ser una opción útil.\n\n## Dar un motivo  \n**Мне нравится этот фильм, потому что он интересный.** = Me gusta esta película porque es interesante. `потому что` conecta una razón sin copiar el orden alemán.\n\nRecupera una película, libro o actividad real; produce dos frases en vez de memorizar diez adjetivos.",
+          "exercise": {
+            "prompt": "Di que te gustan estos libros, que te gusta leer y que te gusta esta película porque es interesante.",
+            "answer": "Мне нравятся эти книги. Я люблю читать. Мне нравится этот фильм, потому что он интересный.\n\nError: `Мне нравится эти книги` → `Мне нравятся эти книги`: los libros son plural. Practica con `эти фильмы`."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Мне нравится этот фильм. Мне нравятся эти книги. Я люблю читать."
+          }
+        },
+        {
+          "id": "shopping-time",
+          "title": "Comprar, cantidades y hora",
+          "content": "# Preguntar con precisión\n\n**Сколько стоит этот билет?** — ¿Cuánto cuesta este billete?  \n**Мне нужно два билета.** — Necesito dos billetes.  \n**У вас есть вода?** — ¿Tiene agua?  \n**Когда начинается урок?** — ¿Cuándo empieza la clase?  \n**В три часа.** — A las tres.\n\n## Bloques frecuentes  \n**один билет**, **два билета**, **пять билетов** muestran que los números afectan a la forma del sustantivo. Empieza por cantidades que realmente usarás, sin convertir la compra en una tabla completa.\n\n`час`, `часа`, `часов` aparece también en la hora. **в один час**, **в три часа**, **в пять часов** son modelos útiles.\n\n## Escena  \nCompras dos billetes y preguntas a qué hora sale el tren: **Когда отправляется поезд?**. Si no entiendes el precio, pide repetir y confirmarlo.\n\nPractica después cambiando solo la cantidad o la hora.",
+          "exercise": {
+            "prompt": "Pide dos billetes, pregunta cuánto cuesta este billete y di que la clase empieza a las tres.",
+            "answer": "Мне нужно два билета. Сколько стоит этот билет? Урок начинается в три часа.\n\nObserva `два билета`, no `два билет`. Una variante nueva: `Мне нужно пять билетов`."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Мне нужно два билета. Сколько стоит этот билет? Когда начинается урок? В три часа."
+          }
+        },
+        {
+          "id": "movement",
+          "title": "Ir, venir y volver a casa",
+          "content": "# Movimiento en situaciones reales\n\n**Я иду домой.** — Voy a casa andando, en un trayecto actual.  \n**Я еду на работу.** — Voy al trabajo en transporte.  \n**Я часто хожу в парк.** — Voy a menudo al parque, a pie.  \n**Я каждый день езжу на работу.** — Voy cada día al trabajo en transporte.\n\n## Dos contrastes útiles  \n`идти/ходить` se relacionan con ir a pie; `ехать/ездить` con transporte. El trayecto actual en una dirección y la actividad habitual se expresan de manera distinta en estos ejemplos.\n\nNo es una regla de «una vez / muchas veces» aplicable a cualquier frase: los verbos de movimiento tienen más usos. Empieza por la ruta de hoy y tu rutina real.\n\n**дома** = ubicación en casa; **домой** = hacia casa. Compara `Я дома` y `Я иду домой`.\n\n## Repaso  \nCuenta dónde estás y hacia dónde vas. Cambia un destino manteniendo el mismo contexto.",
+          "exercise": {
+            "prompt": "Di que estás en casa, que vas ahora a casa andando y que vas cada día al trabajo en transporte. Explica la diferencia de situación.",
+            "answer": "Я дома. Я иду домой. Я каждый день езжу на работу.\n\nLa primera es ubicación; la segunda describe un trayecto; la tercera una rutina en transporte. Repite con `Я еду на работу` para el viaje de ahora."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Я дома. Я иду домой. Я еду на работу. Я каждый день езжу на работу."
+          }
+        },
+        {
+          "id": "appointments",
+          "title": "Citas, salud y mensajes",
+          "content": "# Explicar una necesidad\n\n**Я хочу записаться к врачу.** — Quiero pedir cita con un médico.  \n**У меня болит голова.** — Me duele la cabeza.  \n**Можно перенести встречу?** — ¿Se puede cambiar la reunión?  \n**Я не могу прийти, потому что я заболел.** — No puedo venir porque me he puesto enfermo, si habla un hombre.\n\nSi habla una mujer: **я заболела**. Estas expresiones ayudan a comunicar síntomas; no son orientación médica.\n\n## Mensaje informal  \n**Привет, Анна! Сегодня я не могу прийти. Давай встретимся завтра вечером.**\n\n## Reutiliza  \nUne `не могу`, tiempo y una propuesta. Conserva el saludo informal con amigos y usa `Здравствуйте` al contactar una recepción.\n\n## Comprobación A2  \nCuenta qué ocurrió ayer, por qué cancelas algo hoy y qué propones para mañana. Practica la misma escena sin leer, cambiando motivo y hora.",
+          "exercise": {
+            "prompt": "Escribe a una amiga que hoy no puedes ir porque estás enfermo y propón veros mañana por la tarde.",
+            "answer": "Привет, Анна! Сегодня я не могу прийти, потому что я заболел. Давай встретимся завтра вечером.\n\nSi corresponde: `заболела`. Puedes simplificar el motivo con `потому что я болею` = porque estoy enfermo. Mantén el mensaje claro."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Можно перенести встречу? Сегодня я не могу прийти. Давай встретимся завтра вечером."
+          }
+        }
+      ]
+    },
+    {
+      "id": "b1",
+      "title": "B1 · relatos, opiniones y trabajo",
+      "content": "## Explicar y participar\n\nTrabaja aspecto verbal a partir de acciones reales, condiciones, opiniones y narraciones. Revisa lo que falla en tus producciones antes de añadir nuevas estructuras.\n\n**Evidencia:** explicas una experiencia y una decisión, haces preguntas de seguimiento y corriges un patrón recurrente.",
+      "lessons": [
+        {
+          "id": "aspect",
+          "title": "Acción en proceso y resultado",
+          "content": "# Qué quieres destacar\n\n**Вчера я читал книгу.** — Ayer estuve leyendo un libro; no afirmo que lo terminé.  \n**Вчера я прочитал книгу.** — Ayer leí el libro entero; destaco el resultado.  \n**Каждый день я читаю.** — Leo cada día.\n\n## Intuición  \nEl aspecto verbal cambia la perspectiva sobre la acción: proceso/hábito frente a un hecho visto como completo. `читать/прочитать` es una pareja útil, pero no toda pareja se forma añadiendo el mismo prefijo.\n\n**Я писал письмо / Я написал письмо** permite comparar estar escribiendo y haber escrito la carta. En futuro: **Я буду читать** frente a **Я прочитаю**.\n\nNo reduzcas el imperfectivo a «acción sin terminar»: también puede describir experiencias o hechos según el contexto. Pregunta qué quieres comunicar en esta escena.\n\n## Práctica  \nCuenta una actividad en curso y otra terminada; explica qué información añade el segundo verbo.",
+          "exercise": {
+            "prompt": "Di que ayer estuviste leyendo y después di que terminaste un libro. Explica qué cambia entre читал y прочитал.",
+            "answer": "Вчера я читал книгу. Вчера я прочитал книгу.\n\n`читал` presenta la actividad sin afirmar su finalización; `прочитал` destaca la lectura completada en esta escena. Si habla una mujer: `читала / прочитала`. Practica con `писал / написал`."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Вчера я читал книгу. Вчера я прочитал книгу. Завтра я буду читать."
+          }
+        },
+        {
+          "id": "opinions",
+          "title": "Opinar y explicar tu razonamiento",
+          "content": "# Una conversación de estudio\n\n**Я думаю, что практика важнее длинных списков слов. По-моему, короткие диалоги помогают лучше запоминать фразы. Я согласен, но чтение тоже полезно.**\n\nCreo que la práctica es más importante que listas largas de palabras. En mi opinión, los diálogos cortos ayudan a recordar frases. Estoy de acuerdo, pero leer también es útil.\n\n## Patrones  \n`Я думаю, что …` introduce una idea; `По-моему, …` una opinión; `Я согласен` si habla un hombre y `Я согласна` si habla una mujer.\n\n`потому что` añade una razón; `например` un ejemplo; **А ты как думаешь?** invita al otro a participar.\n\nNo copies automáticamente el orden verbal de alemán en subordinadas rusas. Aprende las frases rusas como patrones propios.\n\n## Producción  \nDa una opinión real con una razón y un ejemplo. Evita tres sinónimos nuevos cuando uno conocido comunica lo que quieres.",
+          "exercise": {
+            "prompt": "Explica que crees que practicar cada día ayuda y da un ejemplo. Pregunta la opinión de tu interlocutor.",
+            "answer": "Я думаю, что практика каждый день помогает. Например, я лучше запоминаю новые фразы. А ты как думаешь?\n\nUna respuesta distinta puede ser válida. Comprueba que hay opinión, ejemplo y pregunta, y no solo una lista de palabras."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Я думаю, что практика важна. По-моему, короткие диалоги помогают. А ты как думаешь?"
+          }
+        },
+        {
+          "id": "conditions",
+          "title": "Condiciones y contraste",
+          "content": "# Prepararte para alternativas\n\n**Если у меня будет время, я буду учить русский.** — Si tengo tiempo, estudiaré ruso.  \n**Хотя я устал, я хочу немного почитать.** — Aunque estoy cansado, quiero leer un poco, si habla un hombre.  \n**Я устала, но могу поговорить.** — Estoy cansada, pero puedo conversar, si habla una mujer.\n\n## Patrón  \n`если` marca una condición; `хотя` una circunstancia que no impide la acción; `но` conecta un contraste. Elige una conexión según el significado que quieres dar.\n\nEl ruso puede usar futuro después de `если` en esta condición: no traduzcas de forma automática la elección de tiempo del español.\n\n## Variaciones  \n**Если будет дождь, мы останемся дома** = Si llueve, nos quedaremos en casa. Practica primero con tiempo, lluvia o disponibilidad, manteniendo vocabulario conocido.\n\n## Repaso  \nRecupera `Я не могу сегодня` y añade una alternativa. Produce dos frases antes de ampliar la explicación gramatical.",
+          "exercise": {
+            "prompt": "Escribe que estudiarás ruso si tienes tiempo y que, aunque estés cansado, quieres leer un poco. Ajusta устал/устала a tu caso.",
+            "answer": "Если у меня будет время, я буду учить русский. Хотя я устал, я хочу немного почитать.\n\nSi corresponde: `устала`. El contraste no significa que desaparece el cansancio; la acción se realiza pese a él. Repite con una condición de lluvia."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Если у меня будет время, я буду учить русский. Хотя я устал, я хочу немного почитать."
+          }
+        },
+        {
+          "id": "story",
+          "title": "Narrar una experiencia",
+          "content": "# Una historia comprensible\n\n**Сначала я опоздал на автобус. Потом я позвонил другу. Он помог мне, и мы приехали вовремя. К счастью, встреча началась позже.**\n\nPrimero perdí/llegué tarde al autobús. Después llamé a un amigo. Me ayudó y llegamos a tiempo. Por suerte, la reunión empezó más tarde.\n\n## Estructura  \nSituación → problema → acción → resultado. `сначала` = primero; `потом` = después; `к счастью` = por suerte; `вовремя` = a tiempo.\n\nPara una hablante: `опоздала`, `позвонила`; el plural `мы приехали` permanece igual. Elige aspecto según el sentido, sin corregir todos los verbos a la vez.\n\n## Comprensión  \nCuenta el relato con tus palabras, luego pide que alguien pregunte un detalle no previsto. Eso comprueba si puedes conversar y no solo recitar.\n\n## Revisión  \nComprueba que tiempos y personas son coherentes. Si olvidas una palabra, reformula con otra conocida antes de detenerte.",
+          "exercise": {
+            "prompt": "Cuenta un problema de transporte en cuatro frases usando сначала, потом y к счастью. Incluye una solución.",
+            "answer": "Сначала я опоздал на автобус. Потом я позвонил другу. Он приехал и помог мне. К счастью, я приехал вовремя.\n\nSi habla una mujer, ajusta las formas referidas a ella: `опоздала, позвонила, приехала`. Valora orden y resultado, no copiar exactamente el modelo."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Сначала я опоздал на автобус. Потом я позвонил другу. К счастью, мы приехали вовремя."
+          }
+        },
+        {
+          "id": "work-correction",
+          "title": "Trabajo y correcciones por patrones",
+          "content": "# Hablar de tu aprendizaje técnico\n\n**Я изучаю облачные технологии. Я работаю с Linux. Сейчас я учусь использовать Docker. Я хочу найти работу, где можно многому научиться.**\n\nEstudio tecnologías cloud. Trabajo con Linux. Ahora aprendo a usar Docker. Quiero encontrar un trabajo donde pueda aprender mucho.\n\n## Un patrón profesional  \n`Я работаю с ___` = trabajo con; **Я отвечаю за серверы** = soy responsable de los servidores. Explica tu experiencia real sin atribuirte responsabilidades que no tienes.\n\n## Corrección breve  \nMi frase: `Мне нравится эти книги`.  \nVersión: **Мне нравятся эти книги**.  \nMotivo: varios libros piden plural.  \nPatrón: `Мне нравятся + plural`.  \nEjemplos: **Мне нравятся эти фильмы**, **Мне нравятся короткие уроки**.  \nNuevo intento: describe dos cosas que te gustan.\n\n## Comprobación B1  \nExplica durante dos minutos qué estudias, para qué y qué problema resolviste. Responde dos preguntas sin guion.",
+          "exercise": {
+            "prompt": "Preséntate como estudiante de tecnologías cloud y di que aprendes a usar Docker. Después corrige «Мне нравится короткие уроки».",
+            "answer": "Я изучаю облачные технологии. Я учусь использовать Docker.\n\nCorrección: **Мне нравятся короткие уроки**. `уроки` es plural. Nuevo ejemplo: `Мне нравятся эти книги`. Vuelve a escribir una frase con otra cosa plural que te guste."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Я изучаю облачные технологии. Я работаю с Linux. Сейчас я учусь использовать Docker."
+          }
+        }
+      ]
+    },
+    {
+      "id": "b2",
+      "title": "B2 · matices, argumentación y autonomía",
+      "content": "## Refinar comunicación y comprensión\n\nProduce textos claros, compara alternativas y resume fuentes sin traducir cada palabra. Combina input real, feedback humano y conversación sostenida.\n\n[Descriptores MCER](https://www.coe.int/en/web/common-european-framework-reference-languages/level-descriptions): comprueba tareas reales en lectura, escucha, escritura y conversación. Estos nodos ofrecen práctica, no una certificación.",
+      "lessons": [
+        {
+          "id": "argument",
+          "title": "Argumentar y reconocer límites",
+          "content": "# Comparar alternativas\n\n**С одной стороны, приложение помогает регулярно заниматься. С другой стороны, живое общение тоже необходимо. Например, во время разговора нужно быстро реагировать. Поэтому я использую оба способа.**\n\nPor un lado, una app ayuda a estudiar regularmente. Por otro, la comunicación real también es necesaria. En una conversación hay que reaccionar rápido. Por eso uso ambos métodos.\n\n## Estructura  \nPosición → razón → ejemplo → límite → conclusión. `с одной стороны / с другой стороны` presenta perspectivas; `однако` introduce una reserva; `поэтому` una consecuencia.\n\nUna opinión convincente define el contexto: **Это зависит от цели** = Depende del objetivo. Evita «siempre» cuando tu argumento solo sirve en algunas situaciones.\n\n## Producción  \nDefiende una decisión de aprendizaje usando vocabulario conocido. Añade un conector nuevo, pide feedback y repite el argumento de forma oral.",
+          "exercise": {
+            "prompt": "Escribe cuatro o cinco frases sobre usar una app y conversar con personas para aprender ruso. Incluye ambas perspectivas y una conclusión.",
+            "answer": "С одной стороны, приложение помогает повторять слова. С другой стороны, мне нужны настоящие разговоры. Например, в разговоре я учусь быстро отвечать. Поэтому я использую оба способа.\n\nComprueba perspectivas, ejemplo y conclusión. No hace falta que todos los verbos coincidan con este modelo."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "С одной стороны, приложение помогает заниматься. С другой стороны, живое общение тоже необходимо. Это зависит от цели."
+          }
+        },
+        {
+          "id": "register",
+          "title": "Registro y desacuerdo respetuoso",
+          "content": "# Adaptar una misma intención\n\nAmigo: **Можешь прислать мне файл?** — ¿Puedes mandarme el archivo?  \nFormal: **Не могли бы вы прислать мне файл?** — ¿Podría mandarme el archivo?  \nDesacuerdo: **Я понимаю вашу точку зрения, но вижу это немного иначе.** — Entiendo su punto de vista, pero lo veo un poco distinto.\n\n## Correo breve  \n**Здравствуйте, Анна! Спасибо за ваше сообщение. К сожалению, я не могу прийти во вторник. Можно перенести встречу на четверг? С уважением, Себастьян.**\n\n`не могли бы вы` suaviza la petición y no equivale simplemente a preguntar si antes pudieron. Reconoce la función de cortesía dentro de una situación real.\n\n## Naturalidad  \nEl saludo y cierre dependen del contexto y la relación. Un correo laboral no necesita palabras grandilocuentes; sí necesita una petición clara y un trato coherente.\n\nReescribe un mensaje conocido cambiando destinatario y dos expresiones.",
+          "exercise": {
+            "prompt": "Pide un archivo a un amigo y después a una persona con trato formal. Añade un desacuerdo respetuoso.",
+            "answer": "Amigo: `Можешь прислать мне файл?`\n\nFormal: `Не могли бы вы прислать мне файл?`\n\nDesacuerdo: `Я понимаю вашу точку зрения, но вижу это немного иначе.`\n\nRepite con una petición de cambiar una cita, manteniendo el mismo registro."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Не могли бы вы прислать мне файл? Я понимаю вашу точку зрения, но вижу это немного иначе."
+          }
+        },
+        {
+          "id": "summary",
+          "title": "Leer, escuchar y resumir",
+          "content": "# Entender la idea principal\n\nEscoge un texto o audio corto sobre una situación conocida. Primera pasada: tema y participantes. Segunda: ideas principales y relaciones. Tercera: fragmentos difíciles, con transcripción si existe.\n\n## Patrones de resumen  \n**В тексте говорится о …** — En el texto se habla de…  \n**Автор считает, что …** — El autor considera que…  \n**Другими словами, …** — En otras palabras…\n\nDistingue una afirmación del autor de tu propia opinión. Si falta una palabra, intenta inferirla por la escena y confirma después si cambia el significado principal.\n\n## Escucha  \nRepite 15–30 segundos y explica el sentido sin mirar. La velocidad natural y distintos hablantes aportan información que la voz sintética no cubre por sí sola.\n\n## Repaso  \nVuelve al fragmento dentro de dos días y resume en otras palabras. Eso practica recuperación y flexibilidad, no solo reconocimiento inmediato.",
+          "exercise": {
+            "prompt": "Resume en ruso: «Приложение помогает повторять слова. Но для свободного общения нужны разговоры с людьми». Usa una frase sobre el tema y otra sobre las dos ideas.",
+            "answer": "В тексте говорится об изучении языка. Приложение помогает повторять слова, но разговоры с людьми тоже важны.\n\nLa respuesta conserva utilidad de la app y necesidad de interacción. Una paráfrasis distinta puede ser igualmente válida."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "В тексте говорится об изучении языка. Автор считает, что практика важна. Другими словами, нужно регулярно общаться."
+          }
+        },
+        {
+          "id": "project-b2",
+          "title": "Proyecto y repaso sostenible",
+          "content": "# Construir evidencia de uso real\n\nPrepara una conversación cotidiana de cinco minutos, un relato sobre un problema y una opinión escrita con motivos. Conserva primer intento y revisión para observar progreso.\n\n## Ciclo  \n1. Selecciona una situación real y dos patrones conocidos.  \n2. Produce sin leer el modelo.  \n3. Identifica un error recurrente con ayuda de un tutor.  \n4. Corrige con frase → versión → motivo → patrón → ejemplos.  \n5. Vuelve a producir en otra situación.  \n6. Revisa mañana, dentro de tres días y una semana.\n\nSi entiendes textos pero no reaccionas al hablar, practica intercambios cortos con preguntas inesperadas. Si repites siempre el mismo vocabulario, incorpora una palabra dentro de una escena conocida.\n\n## Meta  \nB2 exige variedad de contextos y comprensión real; no es «saber todos los casos». Evalúa lectura, escucha, escritura y conversación por separado y ajusta el trabajo a tu dificultad actual.",
+          "exercise": {
+            "prompt": "Diseña una sesión de 30 minutos para contar un problema laboral en ruso. Incluye un repaso, un intento propio y una corrección seguida de otra práctica.",
+            "answer": "5 min de recuperar `сначала/потом`, 10 de escuchar o leer una escena, 10 de contar mi problema sin notas y 5 de revisar un error.\n\nCorrijo una frase, explico el patrón y cuento otro problema cambiando detalles. Reviso mañana y tres días después; no estudio cinco reglas nuevas a la vez."
+          },
+          "audio": {
+            "language": "ru-RU",
+            "text": "Сначала возникла проблема. Потом мы нашли решение. К счастью, всё получилось."
+          }
+        }
+      ]
+    }
+  ]
+}

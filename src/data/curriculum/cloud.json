@@ -1,0 +1,339 @@
+{
+  "id": "cloud-engineer",
+  "title": "Ingeniería Cloud",
+  "category": "Cloud",
+  "description": "Redes → Linux y terminal → Docker → AWS → Terraform. Aprende construyendo.",
+  "introduction": "## Tu ruta hacia Cloud\n\nEmpieza por comprender una petición de red; después administra el sistema que la recibe, empaqueta la aplicación y despliega infraestructura reproducible. **Los pasos 2 y 3 se estudian juntos: Linux y terminal.**\n\n### Cómo estudiar una lección\n\n1. Lee una explicación y dibuja sus conexiones.\n2. Reproduce el ejemplo en un laboratorio propio.\n3. Escribe tu intento en el ejercicio antes de consultar la solución.\n4. Explica qué esperabas y qué observaste.\n5. Guarda comandos, errores y aprendizajes en tus nodos.\n\n### Evidencias de progreso\n\n- Redes: explicar IP, puerto, ruta y firewall ante un fallo.\n- Linux: crear archivos, leer logs y gestionar permisos.\n- Docker: ejecutar una app con red y datos persistentes.\n- AWS: elegir servicios y justificar seguridad y costes.\n- Terraform: revisar un plan y reconstruir infraestructura.\n\nCloud Practitioner acredita fundamentos; el trabajo de ingeniería se demuestra también con proyectos y diagnóstico. No dependas solo de preguntas de examen.\n\n**Repaso:** vuelve al concepto al día siguiente, a los tres días y a la semana. Intenta resolverlo sin notas antes de marcarlo como repasado.",
+  "stages": [
+    {
+      "id": "networks",
+      "title": "1 · Redes informáticas",
+      "content": "## El cimiento\n\nAprende a seguir una solicitud: dispositivo → dirección → puerto → ruta → servicio. Estudia IP y subredes antes de VPC; TCP y DNS antes de diagnosticar contenedores.\n\n**Meta:** distinguir un problema de nombre, conexión, firewall o aplicación. Practica localmente con un servidor de pruebas y anota la evidencia.\n\nConsulta [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) cuando traslades estas ideas a AWS.",
+      "lessons": [
+        {
+          "id": "ip",
+          "title": "IP, interfaces y loopback",
+          "content": "## Una dirección para llegar a un equipo\n\nUna IP identifica una interfaz dentro de una red. Un ordenador puede tener varias: Wi-Fi, Ethernet, una interfaz virtual y loopback. **IPv4** tiene cuatro octetos; **IPv6** usa 128 bits. No memorices todo IPv6 ahora: reconoce que es otro formato y evita asumir que toda dirección tiene puntos.\n\n`127.0.0.1` y `::1` representan tu propio equipo. Un servidor que escucha solo allí no recibe conexiones dirigidas a la interfaz de red.\n\nEn Linux, `ip addr` muestra interfaces y direcciones. Compara una dirección privada como `192.168.1.20` con una dirección pública. La privada puede repetirse en redes independientes; no se enruta globalmente como una pública.\n\n**Conexión con Docker:** el contenedor tiene su contexto de red. Su `localhost` normalmente se refiere al propio contenedor, no a tu portátil.\n\n**Minilaboratorio:** dibuja portátil, router y servidor. Asigna una IP a cada interfaz y señala cuál pertenece a tu red local.",
+          "exercise": {
+            "prompt": "Una aplicación dentro de un contenedor intenta conectar a localhost:5432. La base de datos está en otro contenedor. ¿Por qué puede fallar y qué nombre debería usar?",
+            "answer": "Dentro del contenedor, localhost apunta a ese mismo contenedor. Si ambos están en una red Docker adecuada, utiliza el nombre del servicio de la base de datos, por ejemplo `db:5432`, y verifica que la base de datos escuche en su interfaz de red."
+          }
+        },
+        {
+          "id": "ports",
+          "title": "Puertos y sockets",
+          "content": "## Una puerta para cada servicio\n\nLa IP te lleva al equipo; el puerto ayuda a identificar el proceso que debe recibir la comunicación. Un extremo de comunicación se describe mediante dirección y puerto, junto con su protocolo.\n\nUn servidor HTTP puede escuchar en `0.0.0.0:8080`; `0.0.0.0` como dirección de escucha significa todas las interfaces IPv4 locales. No es una dirección de destino que debas entregar a un cliente remoto.\n\nPuertos habituales: SSH 22, HTTP 80, HTTPS 443. Una app de desarrollo puede utilizar 5173. Estos números no garantizan el protocolo: un administrador puede configurarlos de otra forma.\n\nEn Linux usa `ss -lntp` para buscar procesos que escuchan en TCP. Algunas propiedades del proceso requieren permisos adicionales.\n\n**Patrón de diagnóstico:** ¿el proceso existe?, ¿en qué IP escucha?, ¿qué puerto usa?, ¿qué camino sigue el cliente?\n\n**Docker:** `-p 8080:80` conecta un puerto del host con un puerto del contenedor.",
+          "exercise": {
+            "prompt": "Tu servidor escucha en 127.0.0.1:8080. Otra computadora de tu Wi-Fi no puede entrar con tu IP privada. ¿Qué revisarías primero?",
+            "answer": "La dirección de escucha: está limitada a loopback. Para acceso desde la red debe escuchar en una interfaz accesible o en todas las interfaces pertinentes. Después revisaría firewall y que el cliente utilice la IP y el puerto correctos."
+          }
+        },
+        {
+          "id": "tcp-udp",
+          "title": "TCP, UDP y latencia",
+          "content": "## Elegir cómo transportar datos\n\nTCP ofrece un flujo ordenado de bytes con mecanismos de retransmisión y control de congestión. Antes de enviar datos establece una conexión. No garantiza que una aplicación remota haya procesado correctamente tu petición: esa confirmación pertenece al protocolo de aplicación.\n\nUDP envía datagramas sin establecer esa conexión ni ofrecer las mismas garantías de entrega y orden. Algunas aplicaciones añaden sus propios mecanismos. QUIC, utilizado por HTTP/3, funciona sobre UDP.\n\n**Latencia** es el tiempo que tarda una comunicación; **ancho de banda** es capacidad de transporte. Tener gran ancho de banda no elimina un viaje largo hasta otra región.\n\nUna retransmisión puede aumentar el tiempo percibido. Un servicio lento también puede estar esperando disco, CPU o una base de datos.\n\n**Minilaboratorio mental:** separa tiempo de conexión, tiempo de procesamiento y tiempo de transferencia de una descarga.",
+          "exercise": {
+            "prompt": "¿Por qué una conexión TCP exitosa no demuestra que tu API esté funcionando correctamente?",
+            "answer": "Solo demuestra que se pudo establecer la conexión de transporte. La API puede devolver errores, esperar indefinidamente o producir datos incorrectos. Necesitas comprobar la respuesta de aplicación, sus códigos y su contenido."
+          }
+        },
+        {
+          "id": "dns",
+          "title": "DNS: nombres y resolución",
+          "content": "## Del nombre a la dirección\n\nDNS permite consultar registros asociados a un nombre. `A` suele contener una dirección IPv4; `AAAA`, IPv6; `CNAME` relaciona un nombre con otro. El resolvedor utiliza cachés y consultas para obtener una respuesta.\n\nEl **TTL** indica durante cuánto tiempo puede conservarse una respuesta en caché. Cambiar un registro no actualiza instantáneamente todas las cachés existentes.\n\nPrueba con `nslookup example.com` o `dig example.com` si tienes esas herramientas. Compara resolver el nombre con conectar al puerto: son pasos diferentes.\n\nEl error `Could not resolve host` ocurre antes de establecer la conexión al servicio por ese nombre. Comprueba escritura, conexión de red, resolución y configuración del cliente.\n\n**Conexión real:** esto explica por qué un `git push` puede fallar aunque el commit local esté bien. Cambiar código o repetir `git init` no corrige DNS.",
+          "exercise": {
+            "prompt": "Ordena estas comprobaciones ante un fallo: respuesta HTTP, resolución DNS y conexión TCP. Explica qué problema revela cada una.",
+            "answer": "Primero DNS: obtener una dirección para el nombre. Después TCP: alcanzar un proceso que escuche en el puerto. Finalmente HTTP: comprobar lo que respondió la aplicación. Un fallo en una capa no se corrige necesariamente cambiando otra."
+          }
+        },
+        {
+          "id": "subnets",
+          "title": "Subredes y CIDR",
+          "content": "## Dividir una red con intención\n\nUna dirección como `10.0.1.25/24` combina una IP y un prefijo. En IPv4, `/24` reserva 24 bits para identificar la red y deja 8 bits para direcciones dentro de ese bloque.\n\n`10.0.1.0/24` contiene 256 direcciones matemáticas. El número utilizable depende del entorno: en una LAN convencional algunas tienen usos especiales; AWS reserva además direcciones específicas de cada subred. No apliques siempre la misma resta a cualquier plataforma.\n\nAl aumentar el número del prefijo, el bloque se hace más pequeño: `/26` contiene 64 direcciones. Dos subredes no deben solaparse si quieres distinguir sus rutas sin ambigüedad.\n\n**Ejemplo:** divide `10.0.0.0/16` en una subred de aplicaciones y otra de datos. El tamaño del bloque y las reglas de acceso son decisiones diferentes.\n\nPrimero entiende rangos; después practica cálculo binario si necesitas diseñarlos.",
+          "exercise": {
+            "prompt": "¿Pertenecen 10.0.1.20/24 y 10.0.2.20/24 a la misma subred? ¿Cuántas direcciones contiene matemáticamente un /26 IPv4?",
+            "answer": "No: sus redes son `10.0.1.0/24` y `10.0.2.0/24`. Un /26 deja 6 bits: `2^6 = 64` direcciones. Esa cantidad matemática no equivale automáticamente a 64 hosts utilizables en cualquier plataforma."
+          }
+        },
+        {
+          "id": "routes-nat",
+          "title": "Rutas, gateway y NAT",
+          "content": "## Decidir por dónde sale un paquete\n\nUna tabla de rutas relaciona destinos con caminos. Se busca el prefijo más específico que coincida; una ruta por defecto se utiliza cuando no hay otra más específica.\n\nEl **gateway** es el siguiente salto para llegar a redes que no están conectadas directamente. En Linux, `ip route` te permite inspeccionar las rutas.\n\nNAT traduce direcciones —y a menudo puertos— entre redes. Que un equipo privado pueda iniciar una conexión a Internet no implica que Internet pueda iniciar cualquier conexión hacia él.\n\nEn AWS, una subred pública se distingue por una ruta directa a un Internet Gateway; eso, por sí solo, no vuelve accesible a cualquier instancia. También importan direcciones, controles y escucha del servicio.\n\n**Ejemplo:** una instancia privada puede descargar actualizaciones mediante una salida NAT sin exponer SSH públicamente.",
+          "exercise": {
+            "prompt": "Un equipo puede navegar por Internet pero no admite conexiones entrantes desde Internet. ¿Es contradictorio? Explica el papel de NAT y las reglas de entrada.",
+            "answer": "No es contradictorio. NAT puede permitir y registrar comunicaciones iniciadas desde dentro; las reglas de entrada pueden bloquear solicitudes no asociadas a esas comunicaciones. La conectividad saliente y la exposición entrante son decisiones distintas."
+          }
+        },
+        {
+          "id": "firewalls-http",
+          "title": "Firewalls y diagnóstico por capas",
+          "content": "## Permitir solo el tráfico necesario\n\nUn firewall evalúa tráfico según reglas: origen, destino, protocolo, puerto y, según el sistema, estado de la conexión. **Autorización de red** no sustituye autenticación ni permisos dentro de una aplicación.\n\nHTTP añade solicitudes y respuestas; HTTPS incorpora TLS. Un certificado permite verificar una identidad según el sistema de confianza del cliente y protege la comunicación cifrada.\n\nPrueba `curl -I https://example.com` para inspeccionar cabeceras. `401` suele requerir autenticación; `403` indica rechazo de la operación; `5xx` señala un error del servidor o un componente intermediario.\n\n**Lista de diagnóstico:** nombre → ruta → puerto → firewall → TLS → respuesta HTTP → datos esperados. Formula una hipótesis antes de cambiar reglas.\n\n**Práctica:** documenta una incidencia con síntoma, comprobaciones, resultado y solución. Evita abrir todos los puertos como respuesta automática.",
+          "exercise": {
+            "prompt": "Una API devuelve HTTP 403. ¿Abrir más puertos del firewall sería tu primer arreglo? Justifica qué evidencia tienes.",
+            "answer": "No. Ya recibiste una respuesta HTTP, por lo que al menos existe un camino hacia un componente que responde. Revisaría autorización, políticas y quién generó ese 403. El rechazo podría venir de la app o de un intermediario como un proxy o WAF."
+          }
+        }
+      ]
+    },
+    {
+      "id": "linux",
+      "title": "2–3 · Linux y terminal",
+      "content": "## Aprende el sistema usando la terminal\n\nEstudia navegación, archivos y permisos junto con procesos, servicios y logs. Trabaja en una carpeta de laboratorio para reconocer el alcance de cada comando.\n\n**Meta:** investigar una aplicación que no inicia sin depender de una interfaz gráfica. Guarda la salida esperada y la salida real.\n\nReferencia: [Manual de Bash](https://www.gnu.org/software/bash/manual/).",
+      "lessons": [
+        {
+          "id": "filesystem",
+          "title": "Navegar por el sistema de archivos",
+          "content": "## Orientarte antes de actuar\n\n`pwd` muestra el directorio actual, `ls` lista su contenido y `cd` cambia de directorio. Una ruta absoluta empieza por `/`; una relativa se interpreta desde tu ubicación actual.\n\nLinux organiza el sistema con una raíz `/`. `/home` contiene hogares habituales de usuarios, `/etc` suele alojar configuración y `/var/log` muchos registros. Las distribuciones y aplicaciones pueden organizar parte de su información de otro modo.\n\n~~~sh\npwd\nls -la\nmkdir -p cortex-lab/notas\ncd cortex-lab\nprintf 'Primera nota\\n' > notas/redes.txt\ncat notas/redes.txt\n~~~\n\n`ls -la` incluye entradas ocultas y detalles como propietario y permisos. Los nombres distinguen mayúsculas y minúsculas en los sistemas de archivos Linux habituales.\n\n**Patrón:** ubicación → ruta → operación → comprobación. Si un comando no encuentra un archivo, verifica primero dónde estás.",
+          "exercise": {
+            "prompt": "Estás en /home/alumno/cortex-lab. ¿Qué diferencia hay entre notas/redes.txt y /notas/redes.txt?",
+            "answer": "La primera es relativa: apunta a `/home/alumno/cortex-lab/notas/redes.txt`. La segunda parte de la raíz y apunta a `/notas/redes.txt`. Que compartan el final del nombre no significa que sean el mismo archivo."
+          }
+        },
+        {
+          "id": "files-search",
+          "title": "Archivos, búsqueda y lectura",
+          "content": "## Trabajar sin abrir todo en un editor\n\n`cat` es útil para archivos pequeños; `less` permite recorrer documentos largos. `head` y `tail` muestran extremos. `tail -f archivo.log` sigue cambios; termina el seguimiento con Ctrl + C.\n\n~~~sh\nhead -n 5 notas/redes.txt\nfind . -name '*.txt'\ngrep -n 'error' aplicacion.log\n~~~\n\n`find` busca entradas del sistema de archivos; `grep` busca contenido. Las comillas alrededor de `*.txt` evitan que el shell expanda ese patrón antes de pasarlo a `find`.\n\n`cp` copia, `mv` mueve o renombra y `rm` elimina archivos. Practícalos primero con archivos creados en tu laboratorio: identifica el destino y comprueba el resultado. Un archivo eliminado con `rm` no pasa necesariamente por una papelera.\n\n**Reto práctico:** crea dos notas, copia una a una carpeta de respaldo y encuentra una palabra concreta sin leerlas completamente.",
+          "exercise": {
+            "prompt": "Necesitas encontrar archivos .log y luego buscar la palabra timeout dentro de un archivo concreto. ¿Qué herramientas usarías y para qué?",
+            "answer": "Usaría `find` para localizar nombres de archivos y `grep` para buscar la palabra en el contenido. Por ejemplo, `find . -name '*.log'` y después `grep -n 'timeout' ruta/al/log`."
+          }
+        },
+        {
+          "id": "pipes",
+          "title": "Pipes y redirecciones",
+          "content": "## Conectar herramientas pequeñas\n\nUn proceso tiene entrada estándar, salida estándar y salida de errores. Un pipe `|` conecta la salida estándar de un comando con la entrada del siguiente.\n\n~~~sh\nprintf 'ok\\nerror\\nok\\n' | grep 'ok' | wc -l\nprintf 'nueva nota\\n' > nota.txt\nprintf 'otra línea\\n' >> nota.txt\n~~~\n\nEl primer ejemplo filtra líneas y cuenta resultados. `>` reemplaza el contenido del destino; `>>` añade al final. Los mensajes de error pueden ir por otro canal y no aparecer en ese pipe.\n\n`2> errores.log` redirige errores. El orden importa al combinar descriptores, por lo que aprende primero un caso sencillo y verifica la salida.\n\n**Patrón productivo:** producir texto → filtrar → transformar → resumir. No necesitas un gran programa para todas las inspecciones.\n\n**Repaso:** relaciona una salida vacía con el filtro empleado antes de concluir que no existen datos.",
+          "exercise": {
+            "prompt": "¿Cuántas líneas cuenta el primer ejemplo y qué diferencia hay entre > y >>?",
+            "answer": "Cuenta 2 líneas que contienen `ok`. `>` crea o trunca el archivo antes de escribir; `>>` añade al final. Por eso no debes tratar ambas redirecciones como equivalentes."
+          }
+        },
+        {
+          "id": "permissions",
+          "title": "Usuarios, permisos y sudo",
+          "content": "## Quién puede hacer qué\n\nLos permisos clásicos distinguen propietario, grupo y otros. Para cada conjunto existen lectura (`r`), escritura (`w`) y ejecución (`x`). En directorios, ejecutar permite recorrerlos; su significado no es idéntico al de ejecutar un archivo.\n\n`ls -l` muestra permisos; `whoami` identifica tu usuario. `chmod u+x script.sh` añade ejecución al propietario sin conceder todo a todos.\n\n`sudo` ejecuta una operación con privilegios autorizados. No arregla automáticamente un diseño incorrecto de permisos. Antes de utilizarlo, entiende qué recurso necesita cambiarse y quién debe ser su propietario.\n\n**Ejemplo:** un servicio necesita leer su configuración, pero no necesariamente modificarla. Sus logs pueden requerir escritura en una ubicación concreta.\n\n**Reto:** escribe una tabla de permisos mínimos para configuración, script y directorio de logs de una aplicación.",
+          "exercise": {
+            "prompt": "Un script tuyo no se puede ejecutar, pero sí lo puedes leer. ¿Qué comprobarías antes de usar chmod 777?",
+            "answer": "Revisaría su permiso de ejecución, el intérprete indicado y la ruta. Si el problema es solo la ejecución por el propietario, `chmod u+x script.sh` puede bastar. `777` concede lectura, escritura y ejecución a todos y suele dar permisos innecesarios."
+          }
+        },
+        {
+          "id": "processes",
+          "title": "Procesos, señales y recursos",
+          "content": "## Qué está ejecutándose\n\nUn programa en ejecución tiene un PID y utiliza recursos. `ps` ofrece una instantánea; `top` permite observar cambios. `free -h` orienta sobre memoria y `df -h` sobre espacio en sistemas de archivos.\n\nUna señal pide una acción al proceso. `kill PID` suele enviar TERM, que permite una terminación ordenada si la aplicación la maneja. KILL termina sin permitir esa limpieza; no es el primer paso para cualquier lentitud.\n\n**Diagnóstico de una app lenta:** observa CPU, memoria, disco y logs; registra el periodo de medición. Una CPU baja no descarta espera por red o disco.\n\nRelaciona `ss -lntp` con procesos: el puerto ocupado pertenece a alguien. Detener el proceso equivocado puede afectar otro servicio.\n\n**Minilaboratorio:** inicia un proceso de prueba, identifica su PID y termina únicamente ese proceso.",
+          "exercise": {
+            "prompt": "Una aplicación consume poca CPU pero tarda 20 segundos en responder. Propón dos causas y una observación que las diferencie.",
+            "answer": "Podría estar esperando una consulta de base de datos o una comunicación de red. También podría esperar disco. Revisaría tiempos por etapa, logs y métricas de esos recursos; poca CPU por sí sola no demuestra que la aplicación sea rápida."
+          }
+        },
+        {
+          "id": "services-logs",
+          "title": "Servicios y logs",
+          "content": "## Investigar un servicio que falla\n\nEn sistemas con systemd, `systemctl status nombre` describe el estado de un servicio y `journalctl -u nombre` muestra entradas de su registro. No todos los entornos usan systemd: muchos contenedores ejecutan un único proceso sin este gestor.\n\nDistingue **reiniciar**, **iniciar** y **habilitar al arranque**. Un servicio puede estar habilitado y fallar al iniciar. Reiniciarlo sin leer el error puede ocultar el síntoma sin resolver la causa.\n\nBusca señales concretas: configuración inválida, permiso insuficiente, puerto ocupado, dependencia inaccesible o falta de espacio.\n\nUn buen log incluye hora, contexto y resultado. No guardes contraseñas o tokens como parte de una depuración rutinaria.\n\n**Caso:** el proceso termina inmediatamente. Lee las últimas entradas, comprueba su configuración y reproduce el inicio con una entrada de prueba controlada.",
+          "exercise": {
+            "prompt": "¿Qué diferencia hay entre comprobar el estado de un servicio y habilitarlo al arranque?",
+            "answer": "Comprobar estado indica su situación actual. Habilitarlo configura su inicio en futuros arranques, pero no prueba que funcione ni que esté ejecutándose ahora. Hay que revisar también errores y dependencias."
+          }
+        },
+        {
+          "id": "ssh-scripts",
+          "title": "SSH, variables y scripts pequeños",
+          "content": "## Entrar y repetir tareas\n\nSSH ofrece acceso remoto cifrado. Identifica el host, el usuario y cómo se verifica la identidad del servidor. Las claves privadas permanecen contigo; el servidor recibe la clave pública autorizada.\n\nUn script agrupa comandos. Comienza con argumentos y validaciones pequeñas, no con automatizaciones que cambien toda una máquina.\n\n~~~sh\n#!/usr/bin/env bash\nnombre=\"${1:-estudiante}\"\nprintf 'Hola, %s\\n' \"$nombre\"\n~~~\n\nLas comillas preservan espacios en el valor. Una variable de entorno es una forma de pasar configuración a un proceso, pero su existencia no convierte un secreto en seguro.\n\n**Proyecto de terminal:** un script recibe la ruta de un log, comprueba que exista y cuenta incidencias. Documenta entradas, salida y códigos de error.\n\n**Conexión con Terraform:** más adelante automatizarás configuración y despliegue; primero aprende a explicar lo que hace cada paso.",
+          "exercise": {
+            "prompt": "¿Por qué conviene escribir \"$nombre\" entre comillas al pasar una variable a un comando?",
+            "answer": "Las comillas evitan que espacios o ciertos patrones del valor se interpreten como varios argumentos o expansiones. Una variable que contiene `Ana María` debe llegar como un único argumento cuando ese es el contrato esperado."
+          }
+        }
+      ]
+    },
+    {
+      "id": "docker",
+      "title": "4 · Docker",
+      "content": "## Empaquetar lo que ya comprendes\n\nUna imagen describe el entorno de una aplicación; un contenedor es una ejecución de esa imagen. Usa tus conocimientos de procesos, archivos y puertos para explicar su comportamiento.\n\n**Meta:** ejecutar una aplicación, consultar logs, conectar servicios y conservar datos al recrearla.\n\nReferencias: [Docker Get Started](https://docs.docker.com/get-started/) y [redes de Docker](https://docs.docker.com/engine/network/).",
+      "lessons": [
+        {
+          "id": "containers",
+          "title": "Imagen, contenedor y máquina virtual",
+          "content": "## Separar receta y ejecución\n\nUna imagen contiene capas y metadatos para iniciar una aplicación. Un contenedor crea una ejecución aislada basada en esa imagen, con un proceso principal y una capa escribible.\n\nLos contenedores Linux comparten el kernel del entorno Linux donde corre el motor. Una máquina virtual incluye su propio sistema operativo invitado. En un portátil con otro sistema puede haber una VM Linux detrás de Docker.\n\nEsto ayuda a entender por qué un contenedor no es simplemente una VM pequeña ni una barrera de seguridad absoluta. El aislamiento depende de configuración, capacidades y controles.\n\n**Ejemplo:** puedes ejecutar tres contenedores a partir de una misma imagen y detener uno sin borrar la imagen.\n\n**Primer ensayo:** ejecuta la imagen de prueba oficial `hello-world`, observa su salida y explica por qué termina: su proceso principal finalizó.",
+          "exercise": {
+            "prompt": "Si eliminas un contenedor, ¿necesariamente eliminas la imagen? ¿Y los archivos que escribió dentro?",
+            "answer": "La imagen no se elimina automáticamente al eliminar ese contenedor. Los archivos de su capa escribible sí se pierden con él. Los datos almacenados en un volumen externo a esa capa pueden conservarse."
+          }
+        },
+        {
+          "id": "dockerfile",
+          "title": "Dockerfile y capas",
+          "content": "## Una receta reproducible\n\nUn Dockerfile describe pasos para construir una imagen. `FROM` selecciona una base, `WORKDIR` define el directorio de trabajo, `COPY` copia archivos y `RUN` ejecuta acciones durante la construcción.\n\n`CMD` especifica un comando predeterminado de ejecución. No es lo mismo que `RUN`: uno pertenece al inicio del contenedor y otro a la construcción.\n\n~~~dockerfile\nFROM nginx:alpine\nCOPY ./site/ /usr/share/nginx/html/\n~~~\n\nEste ejemplo requiere una carpeta `site` con tus archivos. Construye con `docker build -t sitio-lab .`. La imagen base puede cambiar bajo una etiqueta mutable; en un despliegue reproducible controla versiones y considera fijar el digest.\n\nUsa `.dockerignore` para limitar el contexto de construcción y excluir archivos que no correspondan. El orden de los pasos influye en la reutilización de caché.\n\n**Reto:** identifica qué partes de tu proyecto deben entrar en la imagen y cuáles son solo herramientas de desarrollo.",
+          "exercise": {
+            "prompt": "¿Por qué instalar dependencias en RUN y arrancar el servidor en CMD resuelve necesidades diferentes?",
+            "answer": "RUN construye la imagen: por ejemplo instala dependencias y deja su resultado en una capa. CMD define qué se ejecuta al iniciar un contenedor. Un servidor que debe atender peticiones pertenece al tiempo de ejecución."
+          }
+        },
+        {
+          "id": "docker-ports",
+          "title": "Puertos, logs y ciclo de vida",
+          "content": "## Publicar un servicio de prueba\n\n~~~sh\ndocker run --name sitio-lab -p 127.0.0.1:8080:80 -d sitio-lab\ndocker ps\ndocker logs sitio-lab\ndocker stop sitio-lab\n~~~\n\nEl puerto 8080 del host se publica únicamente en loopback y se dirige al 80 del contenedor. Esto sirve para una prueba local sin publicarla a toda la red.\n\n`EXPOSE` en una imagen documenta puertos, pero no equivale a publicar un puerto del host. Para eso se utiliza el mapeo correspondiente.\n\n`docker ps` muestra ejecuciones activas; `docker ps -a` incluye detenidas. Un contenedor puede terminar porque terminó su proceso principal, no porque Docker falló.\n\n**Diagnóstico:** revisa estado, logs, dirección de escucha, mapeo y respuesta HTTP. Cambia una cosa a la vez y vuelve a comprobar.",
+          "exercise": {
+            "prompt": "En un mapeo 8080:80, ¿qué puerto usa el navegador de tu portátil y en cuál escucha la aplicación del contenedor?",
+            "answer": "El navegador utiliza el puerto 8080 del host. El tráfico se dirige al puerto 80 dentro del contenedor. Si la app realmente escucha en otro puerto interno, ese mapeo no la alcanzará."
+          }
+        },
+        {
+          "id": "docker-volumes",
+          "title": "Volúmenes y redes entre servicios",
+          "content": "## Los datos y la comunicación tienen vida propia\n\nUn volumen separa datos del ciclo de vida de la capa escribible del contenedor. Recrear una aplicación no debería borrar accidentalmente la base de datos que utiliza.\n\nUn bind mount relaciona una ruta del host con una ruta del contenedor. Un volumen es administrado por Docker. Elige según el uso y entiende propietario y permisos.\n\nEn una red bridge definida por el usuario, los contenedores pueden resolver los nombres de otros contenedores conectados a esa red. Una aplicación podría conectar a `db:5432`.\n\n**Patrón:** aplicación sin estado → datos persistentes en un servicio o volumen → red explícita para comunicar componentes.\n\n**Reto:** dibuja una app y una base de datos. Señala la red, los puertos internos, el puerto público y dónde quedan los datos tras recrear la app.",
+          "exercise": {
+            "prompt": "¿Por qué persistencia y publicación de puertos no son la misma configuración?",
+            "answer": "La persistencia decide dónde viven los datos más allá del contenedor. La publicación de puertos decide qué comunicación puede entrar desde el host. Puedes tener un volumen persistente sin exponer públicamente la base de datos."
+          }
+        },
+        {
+          "id": "compose",
+          "title": "Compose y proyecto de dos servicios",
+          "content": "## Describir una aplicación completa\n\nCompose permite definir servicios, redes, variables y volúmenes en un archivo. Así puedes reconstruir un entorno sin recordar todos los argumentos de `docker run`.\n\nUn proyecto sencillo puede contener `web` y `db`. La aplicación usa el nombre del servicio para conectar a la base de datos y esta guarda datos en un volumen.\n\n**Importante para comprenderlo:** ordenar el inicio no garantiza que una dependencia esté lista. Añade comprobaciones de salud y reintentos adecuados en la aplicación.\n\nPractica `docker compose up -d`, `docker compose logs` y `docker compose down` sobre tu laboratorio. Investiga cada opción antes de utilizar variantes que eliminen volúmenes.\n\n**Entrega:** archivo de Compose, instrucciones, una comprobación HTTP y evidencia de que los datos sobreviven a recrear `web`.\n\nNo necesitas introducir Kubernetes para comprender esta primera aplicación.",
+          "exercise": {
+            "prompt": "La base de datos arrancó, pero todavía no acepta conexiones. ¿Por qué iniciar web después de db puede no ser suficiente?",
+            "answer": "Un proceso iniciado puede tardar en quedar listo. Web necesita esperar una condición real de disponibilidad y tolerar fallos temporales mediante reintentos limitados. El orden de inicio por sí solo no prueba readiness."
+          }
+        }
+      ]
+    },
+    {
+      "id": "aws",
+      "title": "5 · AWS Cloud Practitioner",
+      "content": "## Dar nombre a las piezas de la nube\n\nRelaciona redes con VPC, Linux con instancias y contenedores con servicios administrados. Estudia también identidad, responsabilidad y facturación.\n\n**Meta:** justificar qué servicio resuelve un problema y qué responsabilidades conservas.\n\nRecurso oficial: [AWS Certified Cloud Practitioner](https://aws.amazon.com/certification/certified-cloud-practitioner/). Usa su guía vigente para comprobar el temario del examen; no dependas de una versión antigua del código de examen.",
+      "lessons": [
+        {
+          "id": "cloud-models",
+          "title": "Cloud, servicios y responsabilidad",
+          "content": "## Consumir infraestructura con un contrato\n\nLa nube ofrece recursos bajo demanda y distintos grados de administración. IaaS suele dejar más decisiones sobre el sistema operativo; servicios administrados trasladan parte de esa operación al proveedor.\n\nEn AWS se distingue seguridad **de la nube** y seguridad **en la nube**. Tus responsabilidades concretas cambian con el servicio: identidad, permisos, datos y configuración siguen requiriendo decisiones tuyas.\n\n**Ejemplo:** ejecutar una VM implica gestionar su sistema operativo. Usar un servicio de almacenamiento administrado evita administrar sus servidores, pero no decidir quién puede leer tus objetos.\n\nElige con una pregunta: ¿qué necesita mi producto y qué capacidad operativa tiene mi equipo? Menos administración de servidores no equivale a menos responsabilidad sobre los datos.\n\n**Práctica:** divide las tareas de una app en proveedor y cliente, explicando por qué.",
+          "exercise": {
+            "prompt": "En un bucket de almacenamiento administrado, ¿puedes asumir que AWS decidió quién debe acceder a tus documentos?",
+            "answer": "No. AWS administra la infraestructura del servicio, pero tú debes configurar acceso, identidades y políticas apropiadas para tus datos. El reparto exacto de responsabilidades depende del servicio."
+          }
+        },
+        {
+          "id": "regions",
+          "title": "Regiones, zonas y disponibilidad",
+          "content": "## Dónde corre tu sistema\n\nUna región es una ubicación geográfica de servicios AWS. Una Availability Zone ofrece aislamiento dentro de una región. Diseñar en varias zonas puede reducir el efecto de fallos locales.\n\n**Alta disponibilidad** busca mantener un servicio operativo. **Escalabilidad** busca ajustar capacidad. **Recuperación ante desastres** aborda cómo recuperar servicio y datos ante un incidente mayor. Son objetivos relacionados, pero distintos.\n\nLa región influye en latencia, servicios disponibles, requisitos de datos y costes. No elijas únicamente por costumbre.\n\nUna réplica de aplicación sin una estrategia adecuada para sus datos no resuelve toda la disponibilidad. Define también cómo detectar fallos y redirigir tráfico.\n\n**Reto:** diseña una aplicación sencilla en dos zonas y enumera qué partes seguirían siendo puntos únicos de fallo.",
+          "exercise": {
+            "prompt": "¿Tener dos servidores en la misma zona garantiza tolerar la caída completa de esa zona?",
+            "answer": "No. Ambos pueden compartir ese dominio de fallo. Distribuir componentes entre zonas ayuda a evitarlo, pero también debes considerar datos, balanceo, dependencias y cómo se realiza la recuperación."
+          }
+        },
+        {
+          "id": "iam",
+          "title": "IAM y mínimo privilegio",
+          "content": "## Identidad antes de permisos\n\nIAM permite gestionar acceso a recursos. Diferencia **quién** realiza una acción de **qué** tiene autorizado hacer. Las políticas describen acciones y recursos, junto con condiciones cuando corresponda.\n\nLos roles son especialmente útiles para delegar permisos y usar credenciales temporales. Para una app en AWS, busca mecanismos de identidad del entorno antes de insertar claves permanentes en el código.\n\nProtege el acceso humano con mecanismos como MFA y separa tareas cotidianas de administración privilegiada. La cuenta raíz tiene capacidades especiales y no es una identidad de trabajo rutinario.\n\n**Mínimo privilegio:** concede lo necesario para una tarea concreta y revisa su alcance. Acceso de lectura y acceso de borrado no deberían confundirse.\n\nReferencia: [introducción oficial de IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html).",
+          "exercise": {
+            "prompt": "Una app solo necesita leer objetos de un bucket. ¿Qué problema introduce darle permisos administrativos sobre toda la cuenta?",
+            "answer": "Amplía innecesariamente el impacto de un fallo o compromiso. Debe recibir acciones de lectura sobre los recursos necesarios y no permisos para modificar o borrar servicios ajenos a su tarea."
+          }
+        },
+        {
+          "id": "aws-services",
+          "title": "EC2, S3, RDS y Lambda",
+          "content": "## Reconocer qué administra cada servicio\n\n- **EC2:** capacidad de cómputo en instancias; permite controlar más aspectos del servidor.\n- **S3:** almacenamiento de objetos; útil para archivos y datos que se acceden como objetos.\n- **RDS:** bases de datos relacionales administradas, con decisiones sobre motor, disponibilidad y capacidad.\n- **Lambda:** ejecución de funciones activadas por eventos dentro de un entorno administrado.\n\nNo son alternativas equivalentes. Una base de datos relacional y un almacén de objetos resuelven accesos y contratos diferentes.\n\n**Caso:** una app recibe fotografías y guarda metadatos. Podría colocar archivos en objetos y relacionar metadatos en una base de datos, sin instalar una base de datos dentro de cada réplica web.\n\nInvestiga límites, operación y facturación antes de elegir. Utiliza proyectos pequeños para observar el comportamiento real.",
+          "exercise": {
+            "prompt": "¿Qué servicio encaja mejor con archivos de imágenes: S3 o una instancia EC2 usada solamente como disco compartido? Explica qué problema quieres resolver.",
+            "answer": "S3 suele encajar con almacenamiento de objetos como imágenes. La decisión depende del contrato de acceso; EC2 implica administrar un servidor y no convierte su disco por sí solo en un almacén de objetos administrado."
+          }
+        },
+        {
+          "id": "vpc-security",
+          "title": "VPC, subredes y controles",
+          "content": "## Tu conocimiento de redes en AWS\n\nUna VPC es una red virtual en la que defines rangos y otros componentes de conectividad. Las subredes dividen esos rangos y se ubican en zonas de disponibilidad.\n\nRelaciona tablas de rutas, Internet Gateway y salida NAT con lo que ya estudiaste. Una etiqueta llamada pública o privada no sustituye revisar las rutas reales.\n\nLos **Security Groups** controlan tráfico de recursos asociados y son stateful. Las **Network ACLs** operan a nivel de subred y son stateless. Aprende estas diferencias con un recorrido concreto de ida y retorno.\n\n**Diseño inicial:** entrada web limitada a lo necesario; base de datos sin acceso directo desde Internet; permisos entre componentes explícitos.\n\nReferencia: [guía de Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html).",
+          "exercise": {
+            "prompt": "Tu web está en una subred pública y la base de datos en una privada. ¿Qué debes comprobar para que web pueda hablar con la base de datos?",
+            "answer": "Rutas y conectividad entre sus direcciones, reglas de Security Groups y NACLs pertinentes, puerto del motor, dirección de escucha y credenciales de la base de datos. Estar en la misma VPC no elimina todos esos controles."
+          }
+        },
+        {
+          "id": "costs-observability",
+          "title": "Costes, métricas y preparación",
+          "content": "## Medir antes de aumentar capacidad\n\nRegistra al menos errores, latencia y una señal de uso de recursos. CloudWatch agrupa herramientas para observar recursos y aplicaciones; CloudTrail ayuda a revisar actividad de API. Sus objetivos no son idénticos.\n\nEn costes, identifica cómputo, almacenamiento, solicitudes y transferencia. Algunas piezas pueden cobrar aunque una aplicación de prueba no reciba visitas. Las ofertas gratuitas tienen condiciones que debes verificar en la cuenta y la documentación vigentes.\n\n**Laboratorio AWS:** antes de crear recursos, estima el alcance con la calculadora, configura alertas de presupuesto y escribe una lista de limpieza. Una alerta de presupuesto no debe asumirse como un apagado automático universal.\n\n**Para el examen:** explica decisiones, no solo siglas. Después de una pregunta equivocada, escribe por qué las otras opciones no resuelven el caso.\n\nRecurso: [calculadora oficial](https://calculator.aws/).",
+          "exercise": {
+            "prompt": "¿Qué diferencia hay entre saber que tu CPU está alta y saber quién cambió una política de acceso?",
+            "answer": "La CPU alta corresponde a observabilidad de recursos o rendimiento. Identificar cambios de políticas requiere registros de actividad y auditoría, como eventos pertinentes de CloudTrail. Son preguntas distintas y necesitan evidencias diferentes."
+          }
+        }
+      ]
+    },
+    {
+      "id": "terraform",
+      "title": "6 · Terraform",
+      "content": "## Infraestructura como código\n\nExpresa un estado deseado, revisa un plan y aplica cambios controlados. Comprende primero las redes y servicios que estás describiendo.\n\n**Meta:** reproducir un laboratorio y explicar cada diferencia del plan. No memorices HCL sin entender el recurso.\n\nReferencia: [tutorial AWS de HashiCorp](https://developer.hashicorp.com/terraform/tutorials/aws-get-started).",
+      "lessons": [
+        {
+          "id": "iac",
+          "title": "HCL, providers y recursos",
+          "content": "## Describir lo que debe existir\n\nTerraform utiliza configuración declarativa: describes recursos y sus relaciones. Un provider ofrece el enlace con las APIs de una plataforma.\n\n~~~hcl\nvariable \"project_name\" {\n  type    = string\n  default = \"cortex-lab\"\n}\n\nlocals {\n  common_tags = { Project = var.project_name }\n}\n~~~\n\nEste fragmento enseña variables y valores locales; no crea por sí solo infraestructura. Un recurso adicional utilizaría esos valores dentro del esquema de su provider.\n\nDistingue `resource` —infraestructura gestionada— de `data`, utilizado para consultar información. Comprueba los argumentos del provider y su versión en documentación oficial.\n\n**Patrón:** entrada → valor reutilizable → recurso → salida. La claridad importa más que comprimir todo en una expresión.\n\n**Práctica:** dibuja tres recursos y sus dependencias antes de escribir HCL.",
+          "exercise": {
+            "prompt": "¿Qué diferencia conceptual existe entre resource y data en Terraform?",
+            "answer": "`resource` describe una pieza que Terraform administra a través del provider. `data` obtiene información existente para usarla en la configuración. Consultar un dato no significa que Terraform sea propietario de ese recurso."
+          }
+        },
+        {
+          "id": "tf-workflow",
+          "title": "Init, validate, plan y apply",
+          "content": "## Revisar antes de cambiar\n\nEl flujo habitual comienza con `terraform init`, que prepara proveedores y módulos. `terraform fmt` ayuda al formato y `terraform validate` comprueba aspectos estructurales de la configuración.\n\n`terraform plan` calcula cambios propuestos. Lee creaciones, actualizaciones, reemplazos y borrados antes de ejecutar `apply`. Una validación estructural correcta no garantiza que las credenciales, cuotas o permisos permitirán una operación.\n\nUn reemplazo puede implicar crear y destruir. Evalúa datos, dependencias y tiempos de indisponibilidad; no trates todos los símbolos del plan como equivalentes.\n\n**Ejercicio inicial sin desplegar:** crea un archivo de variables y salidas, revisa formato y estructura. Después estudia un plan de ejemplo y describe su efecto con palabras.\n\nPara un laboratorio en AWS, prepara presupuesto y limpieza antes de cualquier aplicación real.",
+          "exercise": {
+            "prompt": "Un plan muestra que una base de datos será reemplazada. ¿Basta con que validate termine sin errores para aplicar?",
+            "answer": "No. Validate no evalúa todos los efectos operativos ni garantiza conservación de datos. Debes entender el motivo del reemplazo, el impacto, los respaldos y la estrategia de recuperación antes de aplicar cambios."
+          }
+        },
+        {
+          "id": "tf-state",
+          "title": "State, backend y bloqueo",
+          "content": "## Relacionar configuración con realidad\n\nEl state conserva información que Terraform necesita para relacionar su configuración con objetos administrados. No es simplemente otra copia de tus archivos HCL.\n\nUn backend determina cómo y dónde se almacena. En un equipo, un almacenamiento compartido y mecanismos de bloqueo adecuados ayudan a evitar operaciones concurrentes incompatibles. Las capacidades de bloqueo dependen del backend y su configuración.\n\nEl state puede contener valores sensibles. No lo subas al repositorio como si fuera documentación pública. La marca `sensitive` ayuda a ocultar determinadas salidas, pero no significa que el secreto desaparezca de todo estado.\n\nVersiona configuración y archivo de bloqueo de dependencias según tu flujo; gestiona el estado por su canal correspondiente.\n\nReferencia: [estado de Terraform](https://developer.hashicorp.com/terraform/language/state).",
+          "exercise": {
+            "prompt": "¿Por qué dos personas no deberían aplicar cambios simultáneos sobre un mismo estado sin coordinación?",
+            "answer": "Cada operación puede calcular cambios sobre información que la otra está modificando. Un backend y bloqueo apropiados evitan parte de esa concurrencia; además se necesita un flujo de equipo que coordine planes y aplicaciones."
+          }
+        },
+        {
+          "id": "tf-modules",
+          "title": "Variables, outputs y módulos",
+          "content": "## Reutilizar una decisión\n\nUna variable es una entrada, un output comunica un resultado y un módulo agrupa configuración. Diseña sus interfaces según necesidades reales, no por anticipar cualquier caso imaginable.\n\n**Ejemplo:** un módulo de red recibe el rango de la VPC y subredes; devuelve identificadores que consume el módulo de aplicación. Esto hace explícita una dependencia que antes estaba en una instrucción manual.\n\nEvita interfaces que acepten cientos de opciones sin un propósito. Explica nombres, tipos, valores predeterminados y ejemplos de uso.\n\nNo copies el mismo secreto a muchos archivos para diferenciar entornos. Separa configuración de gestión de credenciales y revisa cómo se distribuyen.\n\n**Miniproyecto:** diseña la interfaz de un módulo de laboratorio con tres entradas y dos salidas. Justifica qué oculta y qué deja visible.",
+          "exercise": {
+            "prompt": "¿Qué ventaja tiene que un módulo de aplicación reciba el ID de la subred como entrada, en lugar de repetir manualmente ese ID en muchos archivos?",
+            "answer": "Hace explícita la dependencia, reduce duplicación y permite conectar el resultado del módulo de red. También facilita cambiar la infraestructura sin perseguir identificadores repetidos por todo el proyecto."
+          }
+        },
+        {
+          "id": "tf-drift",
+          "title": "Drift, Git y entrega controlada",
+          "content": "## Detectar diferencias sin adivinarlas\n\nDrift es una diferencia entre la realidad y lo esperado por tu configuración o gestión de estado. Una modificación manual en consola puede crear esa divergencia.\n\nUn flujo de equipo suele versionar código, revisar cambios, validar y generar un plan. La aplicación a un entorno compartido requiere permisos y decisiones de aprobación acordes a su impacto.\n\n**Caso:** alguien cambia una regla de red manualmente para una incidencia. Después documenta el cambio y decide si debe incorporarse al código o revertirse; no dejes dos fuentes de intención contradictorias.\n\nGuarda evidencias del plan y de las comprobaciones posteriores. Una operación exitosa de Terraform no prueba que tu aplicación responda correctamente.\n\n**Entrega práctica:** README, configuración, instrucciones de recuperación y una explicación de cómo diagnosticar diferencias.",
+          "exercise": {
+            "prompt": "Terraform termina apply sin errores, pero la app no responde. ¿Qué revisarías después?",
+            "answer": "Comprobaría la salud de la aplicación, DNS, rutas, puertos y controles, además de logs y dependencias. Terraform pudo crear correctamente la infraestructura sin garantizar que el software esté configurado y funcionando como esperas."
+          }
+        }
+      ]
+    },
+    {
+      "id": "portfolio",
+      "title": "Proyecto · une las piezas",
+      "content": "## Convertir conocimiento en evidencia\n\nConstruye primero un laboratorio local; después adapta su diseño a AWS y finalmente exprésalo con Terraform.\n\n**Entrega:** diagrama, código, instrucciones reproducibles, diagnóstico de un fallo provocado y lista de limpieza. Describe tus decisiones y sus compromisos.",
+      "lessons": [
+        {
+          "id": "cloud-project",
+          "title": "Proyecto: aplicación reproducible",
+          "content": "## Un proyecto con cinco entregas\n\n1. **Redes:** dibuja navegador, servidor y base de datos. Anota direcciones, puertos y flujo.\n2. **Linux:** prepara un script de comprobación y documenta permisos y logs.\n3. **Docker:** crea una imagen y un entorno de dos servicios con datos persistentes.\n4. **AWS:** diseña su equivalente con identidad, subredes, observabilidad y estimación de costes.\n5. **Terraform:** expresa la parte de infraestructura y explica el plan.\n\nNo necesitas un producto complicado: una API que registra pequeñas notas es suficiente. Lo relevante es demostrar que puedes reconstruirla y diagnosticarla.\n\n**Prueba:** provoca un fallo controlado, como un puerto equivocado en tu laboratorio local. Documenta síntoma, hipótesis, prueba, solución y prevención.\n\n**Criterio de salida:** otra persona puede seguir tu README y comprender cómo recuperarse de un fallo.",
+          "exercise": {
+            "prompt": "Escribe las cinco evidencias que entregarías para demostrar tu proyecto y qué comprueba cada una.",
+            "answer": "Una respuesta posible: diagrama para explicar comunicación; script de diagnóstico para observar el sistema; imagen/Compose para reproducir el entorno; diseño AWS y presupuesto para justificar servicios; Terraform y plan revisado para reconstruir infraestructura."
+          }
+        },
+        {
+          "id": "cloud-review",
+          "title": "Repaso y siguiente etapa profesional",
+          "content": "## Explicar sin leer\n\nHaz una revisión cruzada. Si sabes qué es una VPC, relaciónala con CIDR y rutas. Si conoces un volumen, explica qué ocurre al borrar un contenedor. Si reconoces un role, distingue permisos de conectividad.\n\nUn repaso útil incluye una decisión: ¿por qué elegirías una opción en este caso y qué coste tiene? Repetir siglas no demuestra que puedas resolver una incidencia.\n\n**Rutina:** escoge tres conceptos, responde sin notas y verifica después. Registra la laguna concreta, no solo una sensación general de dificultad.\n\nCuando esta base sea estable, amplía con automatización de entrega, observabilidad más profunda y operación de sistemas distribuidos. Elige la siguiente herramienta según tu proyecto, no por acumular nombres.\n\n**Portafolio:** explica qué hiciste personalmente, cuáles son las limitaciones y cómo medirías una mejora.",
+          "exercise": {
+            "prompt": "Relaciona en un párrafo subnet, Linux, contenedor, IAM y Terraform dentro de una misma aplicación.",
+            "answer": "Por ejemplo: Terraform define la subred y recursos; Linux ejecuta el entorno; el contenedor empaqueta la app; IAM determina sus permisos sobre servicios; las rutas y reglas de la subred permiten la comunicación necesaria. Son capas distintas que colaboran."
+          }
+        }
+      ]
+    }
+  ]
+}

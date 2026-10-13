@@ -3,7 +3,7 @@ import { addKnowledgeNode, branchIds, canReparent, editKnowledgeNode, removeKnow
 import type { NodeDraft } from './map-editor'
 import { createMapHistory, mapHistoryReducer } from './map-history'
 import { isKnowledgeMap } from './storage'
-import initialMap from '../data/initial-map.json'
+import initialMap from './fixtures/example-map.json'
 import type { KnowledgeMap } from '../types'
 
 const freshMap = (): KnowledgeMap => structuredClone(initialMap) as KnowledgeMap

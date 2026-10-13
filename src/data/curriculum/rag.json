@@ -1,0 +1,181 @@
+{
+  "id": "rag-learning",
+  "title": "RAG · documentos y búsqueda vectorial",
+  "description": "Ingesta, fragmentos, embeddings, recuperación, fuentes y evaluación. Diseña un asistente para tus apuntes.",
+  "category": "IA · RAG",
+  "introduction": "# Introducción de cinco minutos\n\nRAG combina **recuperar información** y **generar una respuesta**. Como un estudiante con apuntes abiertos: primero encuentra páginas pertinentes y después responde usando su contenido. El modelo no aprende permanentemente esos documentos solo porque se los entregues en una petición.\n\n## Dos recorridos\nPreparación: documentos → limpieza → fragmentos → embeddings/metadatos → índice.\nConsulta: pregunta → búsqueda → selección de evidencia → contexto → respuesta con fuentes.\n\nUna respuesta mala puede venir de documentos incorrectos, búsqueda deficiente o generación que no usa bien la evidencia. Evalúa cada tramo por separado.\n\n## Ruta práctica\nEmpieza con diez notas locales, preguntas conocidas y búsqueda sencilla. Compara después búsqueda vectorial e híbrida; añade permisos, actualización y métricas.\n\n## Prompt de tutor\n«Sé mi mentor de RAG y bases vectoriales. Explica con analogías y ejemplos, dame un mini reto que pueda implementar y espera mi intento. Comprueba recuperación y respuesta por separado. Prioriza una solución pequeña que pueda medir».\n\nReferencia de implementación: [documentación de recuperación de LangChain](https://docs.langchain.com/oss/python/deepagents/retrieval). Los conceptos también pueden implementarse sin ese framework. Las lecciones no crean una base de datos ni llaman a servicios desde CortexFlow.",
+  "stages": [
+    {
+      "id": "documents",
+      "title": "1 · Preparar documentos útiles",
+      "content": "## Objetivo\n\nConstruir una colección pequeña, limpia y trazable. Mantener origen y versión desde el inicio permite citar y depurar después.",
+      "lessons": [
+        {
+          "id": "rag-vs-search",
+          "title": "RAG, búsqueda y fine-tuning",
+          "content": "# Encontrar y explicar\n\nUn buscador devuelve documentos o pasajes. RAG usa esos resultados como evidencia para redactar una respuesta. El fine-tuning modifica parámetros o adaptadores del modelo; no sustituye automáticamente una colección documental actualizada.\n\n## Ejemplo\nPregunta: «¿Por qué mi contenedor no recibe tráfico?». Busca notas sobre publicación de puertos y dirección de escucha. Después sintetiza los puntos encontrados y enlaza cada afirmación al pasaje que la respalda.\n\nSi el documento no describe tu configuración concreta, el asistente debe decirlo y pedir el dato faltante, en lugar de inventar un diagnóstico.\n\n## Mini prueba\nResponde primero solo con una lista de pasajes. Si ninguno resuelve la pregunta, añadir generación no arregla la búsqueda.\n\nUsa RAG cuando la evidencia externa sea relevante y deba mantenerse actual; evita añadirlo a una tarea que ya tiene toda la información en la entrada.",
+          "exercise": {
+            "prompt": "Tienes notas actualizadas de Docker. Explica qué hace búsqueda, qué añade RAG y qué no resuelve por sí solo.",
+            "answer": "La búsqueda encuentra pasajes sobre el problema. RAG los aporta al modelo para construir una explicación con referencias. No garantiza que los pasajes sean correctos o que la respuesta respete la evidencia; hay que evaluar ambas partes."
+          }
+        },
+        {
+          "id": "ingestion",
+          "title": "Ingesta, limpieza y procedencia",
+          "content": "# Convertir archivos en evidencia\n\nLa ingesta extrae texto y metadatos. Guarda identificador de documento, título, origen, fecha o versión y posición del fragmento. No pierdas la ruta mientras limpias el contenido.\n\n## Problemas comunes\nCabeceras repetidas, pies de página, tablas mal extraídas y OCR incorrecto pueden llenar el índice de ruido. Una tabla de puertos pierde sentido si se separan servicio y número.\n\nPara Markdown, conserva títulos y bloques de código con su explicación. Para PDF, revisa muestras visualmente; extraer texto sin error técnico no implica haber conservado el significado.\n\n## Mini laboratorio\nImporta diez notas y abre el texto obtenido. Cuenta documentos vacíos y duplicados. Define cómo se informa un archivo que no pudo procesarse.\n\nEl pipeline debe poder repetirse sin generar copias infinitas del mismo documento.",
+          "exercise": {
+            "prompt": "Propón metadatos mínimos para un fragmento de una nota Markdown y dos comprobaciones de calidad al importar.",
+            "answer": "Metadatos: `documentId`, título, ruta/origen, versión o hash, encabezado y posición del fragmento. Comprobaciones: texto no vacío y contenido estructural conservado, especialmente código/tablas. Detectaría duplicados antes de añadirlos."
+          }
+        },
+        {
+          "id": "chunking",
+          "title": "Fragmentos con sentido",
+          "content": "# Cortar sin perder la idea\n\nUn fragmento debe tener suficiente contexto para entenderse y ser lo bastante específico para recuperarse. No existe un tamaño universal que funcione con cualquier documento, modelo y pregunta.\n\n## Ejemplo\nUna nota explica `docker run -p 8080:80` y luego distingue puerto del host y del contenedor. Mantén comando y explicación juntos. Si divides justo entre ambos, podrías recuperar una instrucción sin su interpretación.\n\nPuedes comenzar por encabezados y párrafos. Un pequeño solapamiento conserva continuidad, pero demasiado duplica evidencia y consume contexto.\n\n## Experimento\nCompara fragmentación por secciones y por tamaño fijo usando las mismas preguntas. Mide si el fragmento que contiene la respuesta aparece entre los primeros resultados.\n\nGuarda relación padre-hijo si recuperar una pieza pequeña y ampliar su sección mejora comprensión.",
+          "exercise": {
+            "prompt": "Divide conceptualmente una nota con definición de DNS, ejemplo de consulta y explicación del resultado. ¿Qué mantendrías junto y cómo lo comprobarías?",
+            "answer": "Mantendría cada ejemplo con su explicación y conservaría el encabezado del tema. Probaría preguntas sobre definición y salida de la consulta; revisaría si el fragmento recuperado contiene la información suficiente para responder sin piezas desconectadas."
+          }
+        },
+        {
+          "id": "metadata",
+          "title": "Metadatos y filtros",
+          "content": "# Buscar dentro del espacio correcto\n\nLos metadatos permiten restringir por módulo, idioma, versión o propietario antes de seleccionar evidencia. Un filtro de permisos debe aplicarse en el servidor; el modelo no decide qué documentos puede ver el usuario.\n\n## Ejemplo\nUna pregunta del módulo de ruso no debería recuperar una lección alemana por compartir palabras como «presente» o «caso». Filtra idioma o ruta cuando la tarea lo requiera.\n\nNo filtres demasiado: una pregunta transversal de redes y Docker necesita ambos módulos. Distingue restricciones obligatorias de preferencias de relevancia.\n\n## Práctica\nCrea dos usuarios con documentos distintos y preguntas parecidas. Comprueba que la recuperación no cruza permisos ni en las citas ni en los registros visibles.\n\nLos filtros no sustituyen verificar que cada documento pertenece realmente al propietario esperado.",
+          "exercise": {
+            "prompt": "Diseña filtros para responder sobre apuntes de Docker de un usuario. ¿Qué filtro es obligatorio y cuál podría ampliarse?",
+            "answer": "Propietario/permisos es obligatorio y se aplica antes de devolver evidencia. El módulo Docker puede ampliarse a redes o Linux si la pregunta lo exige. La versión debe permitir elegir contenido vigente y evitar notas obsoletas."
+          }
+        }
+      ]
+    },
+    {
+      "id": "index",
+      "title": "2 · Embeddings e índices",
+      "content": "## Objetivo\n\nEntender similitud, distancia y búsqueda sin confundir cercanía numérica con verdad. Empieza con una colección pequeña que puedas inspeccionar.",
+      "lessons": [
+        {
+          "id": "embeddings",
+          "title": "Qué representa un embedding",
+          "content": "# Un vector para comparar textos\n\nUn embedding es una representación numérica producida por un modelo. Textos relacionados pueden quedar cercanos en ese espacio, permitiendo encontrar una nota aunque la pregunta use otras palabras.\n\n## Ejemplo\n«¿Cómo traducir nombres de dominio?» puede acercarse a «DNS resuelve nombres a direcciones IP». Una búsqueda literal podría no encontrar todas las coincidencias conceptuales.\n\nLa representación depende del modelo. No mezcles vectores de modelos distintos como si compartieran coordenadas; una actualización suele exigir reindexar y evaluar.\n\nLa similitud no comprueba verdad, vigencia o permiso. Un texto falso sobre DNS puede ser muy parecido a una pregunta correcta.\n\n## Práctica\nCompara pares: paráfrasis, tema distinto y frase con negación. Observa si el modelo distingue adecuadamente significados que para ti son importantes.",
+          "exercise": {
+            "prompt": "Explica por qué un fragmento falso puede tener alta similitud con la pregunta. ¿Qué verificaciones adicionales necesitas?",
+            "answer": "El embedding representa características del texto, no certifica los hechos. Un fragmento con las mismas entidades puede quedar cerca aunque sea falso. Revisaría fuente, versión, contenido y respuesta apoyada en evidencia válida."
+          }
+        },
+        {
+          "id": "similarity",
+          "title": "Coseno, distancia y puntuaciones",
+          "content": "# Interpretar una búsqueda\n\nLa similitud coseno compara dirección de vectores; otras búsquedas usan distancia euclídea o producto interno. La elección depende de cómo se entrenó y normalizó la representación.\n\n## No es probabilidad\nUna puntuación de `0.82` no significa automáticamente «82 % de probabilidad de que esto sea la respuesta». Las escalas y rangos cambian entre modelos y sistemas.\n\n## Umbrales\nUn umbral puede permitir abstención cuando la búsqueda no encuentra apoyo suficiente, pero debes calibrarlo con preguntas respondibles y no respondibles. Un número elegido porque «parece alto» puede descartar evidencia útil o aceptar ruido.\n\n## Mini laboratorio\nAnota puntuaciones de consultas conocidas y ajenas al corpus. Observa solapamientos. Evalúa también si el texto realmente contiene la respuesta, no solo si su puntuación destaca.",
+          "exercise": {
+            "prompt": "Tu sistema acepta toda coincidencia con puntuación mayor de 0.8. ¿Por qué puede fallar y cómo elegirías el criterio?",
+            "answer": "La escala no es universal ni una probabilidad calibrada. Evaluaría consultas con y sin respuesta, revisaría relevancia real y elegiría un criterio con el balance deseado entre falsos apoyos y abstenciones. Cambiar modelo obliga a reevaluar."
+          }
+        },
+        {
+          "id": "vector-store",
+          "title": "Almacenamiento e índice vectorial",
+          "content": "# Guardar para consultar\n\nUn almacén vectorial conserva vectores y metadatos y permite buscar vecinos similares. Un índice acelera la búsqueda; ciertos métodos aproximados intercambian exactitud de vecinos por velocidad y memoria.\n\nPara diez notas, una búsqueda exacta en memoria puede ser suficiente. Una base especializada cobra sentido cuando necesitas persistencia, volumen, filtros, concurrencia u operación más compleja.\n\n## Responsabilidades\nGuardar identificadores estables, actualizar o borrar fragmentos, mantener permisos y respaldar el índice o poder reconstruirlo. La base vectorial no limpia tus documentos ni garantiza respuestas fiables.\n\n## Decisión\nCompara facilidad de operación, filtros y recuperación real con tu conjunto de prueba. No elijas solo por una lista de marcas populares.\n\n## Práctica\nImplementa primero la interfaz `insertar / buscar / borrar`. Mantenerla separada te permitirá cambiar almacenamiento sin reescribir todo el asistente.",
+          "exercise": {
+            "prompt": "¿Usarías inmediatamente una base distribuida para diez archivos? Define qué requisito justificaría cambiar el prototipo.",
+            "answer": "Comenzaría con almacenamiento simple y búsqueda exacta si satisface la tarea. Cambiaría cuando volumen, filtros, persistencia, concurrencia o tiempos medidos lo requieran. La decisión se basa en requisitos y pruebas, no solo en popularidad."
+          }
+        },
+        {
+          "id": "hybrid",
+          "title": "Búsqueda literal e híbrida",
+          "content": "# Palabras exactas y sentido\n\nLa búsqueda léxica destaca coincidencias de términos; la vectorial busca cercanía representada. Para códigos de error, nombres exactos y comandos, la primera puede ser especialmente útil.\n\n## Ejemplo\n`ECONNREFUSED` y `ECONNRESET` son distintos aunque ambos traten de red. Un sistema semántico puede traer pasajes parecidos; la coincidencia exacta ayuda a distinguirlos.\n\nUna búsqueda híbrida combina resultados, por ejemplo con fusión por ranking. No sumes puntuaciones de escalas incompatibles sin un criterio definido.\n\n## Experimento\nReserva preguntas de paráfrasis y preguntas con códigos exactos. Compara búsqueda léxica, vectorial e híbrida y registra en cuáles mejora cada una.\n\nMás complejidad solo se justifica si mejora evidencia relevante y cabe dentro de tu presupuesto de latencia.",
+          "exercise": {
+            "prompt": "Diseña dos consultas para comparar búsqueda literal y vectorial en notas técnicas. Explica cuándo probarías una combinación.",
+            "answer": "Literal: «ECONNREFUSED». Semántica: «¿Por qué rechaza la conexión mi aplicación?». Probaría híbrida si el corpus mezcla identificadores exactos y explicaciones conceptuales y las pruebas muestran fallos complementarios."
+          }
+        }
+      ]
+    },
+    {
+      "id": "retrieval",
+      "title": "3 · Recuperar y responder",
+      "content": "## Objetivo\n\nElegir evidencia relevante, construir contexto legible y citar pasajes reales. Evalúa búsquedas antes de culpar a las instrucciones del modelo.",
+      "lessons": [
+        {
+          "id": "query-topk",
+          "title": "Consulta y selección de resultados",
+          "content": "# De pregunta a evidencia\n\nUna consulta demasiado vaga puede recuperar contenido genérico. Puedes aclararla con contexto conocido, pero no inventar una intención que el usuario no expresó.\n\n`top-k` indica cuántos resultados recuperar, no cuántos serán correctos. Aumentarlo puede mejorar cobertura y también añadir ruido, coste o documentos contradictorios.\n\n## Ejemplo\n«No funciona» necesita aplicación, síntoma y entorno. «Mi contenedor escucha en localhost y publiqué 8080:80» permite buscar una explicación más concreta.\n\n## Práctica\nPrueba `k` pequeño y mayor en preguntas respondibles y no respondibles. Cuenta si aparece evidencia suficiente y cuánto contenido irrelevante llega al modelo.\n\nLa reformulación de consultas debe conservar entidades, restricciones y significado. Guarda pregunta original y consulta transformada para depurar.",
+          "exercise": {
+            "prompt": "Una pregunta dice «Docker no funciona». ¿Qué pedirías antes de reformular y qué riesgo hay al aumentar k sin medir?",
+            "answer": "Pediría síntoma, comando, puertos y entorno pertinentes. Aumentar k puede aportar evidencia, pero también ruido y consumo. Evaluaría presencia del pasaje correcto y calidad final en vez de asumir que más resultados siempre ayuda."
+          }
+        },
+        {
+          "id": "reranking",
+          "title": "Reordenar y ampliar contexto",
+          "content": "# Una segunda revisión de relevancia\n\nUn reranker compara consulta y candidatos para ordenar mejor los pasajes. Se aplica después de una recuperación inicial; no puede seleccionar un documento que nunca apareció entre los candidatos.\n\n## Ejemplo\nLa búsqueda trae diez notas sobre puertos. El reranker coloca primero la que explica escucha en `0.0.0.0`, relevante para la configuración descrita.\n\nPuedes recuperar un fragmento breve y ampliar a su sección para incluir condiciones o advertencias. Evita sumar varios fragmentos casi duplicados.\n\n## Coste\nReordenar añade trabajo y latencia. Compara calidad antes y después, especialmente preguntas donde los primeros resultados originales son parecidos pero no suficientes.\n\n## Mini laboratorio\nConserva un listado antes/después para cinco fallos. Clasifica si el problema fue ausencia de candidato, orden incorrecto o contexto incompleto.",
+          "exercise": {
+            "prompt": "El documento correcto no aparece entre los candidatos. ¿Puede arreglarlo un reranker? Propón el siguiente paso.",
+            "answer": "No: solo reordena lo que recibió. Revisaría ingesta, fragmentación, filtros, consulta y cantidad/método de recuperación. Si aparece pero queda abajo, entonces reordenar podría ayudar."
+          }
+        },
+        {
+          "id": "grounded-answer",
+          "title": "Contexto, fuentes y abstención",
+          "content": "# Responder con apoyo verificable\n\nEntrega al modelo pasajes identificados y solicita que base afirmaciones en ellos. Conserva una relación entre ID de fuente y documento real.\n\n## Formato útil\nRespuesta breve → evidencia → dato que falta. Una cita debe apuntar a un pasaje que respalda la afirmación asociada, no simplemente a cualquier documento del mismo tema.\n\n## Contradicciones\nSi dos versiones difieren, prioriza la política de vigencia definida o explica el conflicto. No mezcles silenciosamente instrucciones de versiones incompatibles.\n\nCuando no hay evidencia suficiente, devuelve una abstención y, si ayuda, una pregunta de aclaración. No rellenes la respuesta con una suposición para que parezca completa.\n\n## Práctica\nVerifica manualmente cada cita de cinco respuestas y cuenta afirmaciones sin apoyo. Esa revisión detecta fallos que una métrica de búsqueda sola no revela.",
+          "exercise": {
+            "prompt": "La búsqueda encuentra una definición de DNS pero nada sobre el precio de un servicio. El usuario pregunta ambas cosas. Diseña la respuesta.",
+            "answer": "Respondería la definición con una cita al pasaje real. Sobre precio diría que las notas no contienen información suficiente y remitiría a la fuente oficial actual. No usaría la cita de DNS para respaldar una cifra inventada."
+          }
+        },
+        {
+          "id": "rag-frameworks",
+          "title": "LangChain, LlamaIndex y piezas propias",
+          "content": "# Framework como organización\n\nLangChain ofrece componentes para integrar modelos, herramientas y recuperación; LlamaIndex se orienta también a flujos centrados en datos y documentos. Sus APIs cambian: consulta documentación vigente al implementar.\n\nAntes de elegir, identifica tus piezas: lector, fragmentador, generador de embeddings, almacén, recuperador, constructor de contexto y generador de respuesta. Esas responsabilidades existen con o sin framework.\n\n## Pseudocódigo\n~~~text\nfragmentos = recuperar(pregunta, permisos)\nevidencia = ordenar_y_deduplicar(fragmentos)\nrespuesta = generar(pregunta, evidencia)\nvalidar_citas(respuesta, evidencia)\n~~~\n\n## Mini proyecto\nImplementa una versión sencilla y explica qué responsabilidad añadiría un framework. Evita una cadena extensa que no puedas inspeccionar cuando falla.\n\nRecurso: [documentación oficial de LlamaIndex](https://docs.llamaindex.ai/) y documentación de LangChain indicada al inicio.",
+          "exercise": {
+            "prompt": "Lista cuatro responsabilidades de tu pipeline que deben seguir claras aunque uses un framework. ¿Cómo depurarías una respuesta mala?",
+            "answer": "Ingesta, fragmentación, recuperación y generación/validación. Inspeccionaría texto importado, candidatos recuperados, evidencia enviada y citas de salida. Localizaría el tramo del fallo antes de cambiar toda la cadena."
+          }
+        }
+      ]
+    },
+    {
+      "id": "rag-quality",
+      "title": "4 · Evaluación, permisos y proyecto",
+      "content": "## Objetivo\n\nEntregar un asistente reproducible sobre tus notas, con actualizaciones y límites visibles. Comparar variantes sobre las mismas preguntas.",
+      "lessons": [
+        {
+          "id": "rag-metrics",
+          "title": "Medir recuperación y respuesta",
+          "content": "# Separar errores\n\nPara recuperación, mide si aparece evidencia relevante entre los primeros resultados: `recall@k` con un conjunto etiquetado permite comprobar cobertura. Precisión valora cuánto de lo recuperado es pertinente.\n\nPara respuesta, revisa exactitud, apoyo en evidencia, citas válidas y abstención. Tener el pasaje correcto en el contexto no asegura usarlo bien.\n\n## Dataset\nIncluye preguntas cuya respuesta está en una nota, requiere varias notas, no existe o aparece en versiones contradictorias. Etiqueta documentos relevantes antes de ejecutar.\n\n## Experimento\nCambia fragmentación o recuperador manteniendo iguales modelo, preguntas y criterios. Registra latencia y coste además de calidad.\n\nNo conviertas una sola puntuación en diagnóstico universal. Las muestras fallidas explican qué mejorar y qué tradeoff estás aceptando.",
+          "exercise": {
+            "prompt": "Recuperas el pasaje correcto pero la respuesta inventa una causa. ¿Qué métrica sola no detectaría el problema y qué revisarías?",
+            "answer": "La cobertura de recuperación puede verse bien pese al fallo. Revisaría apoyo de cada afirmación, exactitud, instrucciones de generación y citas. Separaría fallo de recuperación de fallo al utilizar la evidencia."
+          }
+        },
+        {
+          "id": "rag-update",
+          "title": "Versiones, borrado y reindexación",
+          "content": "# Mantener evidencia vigente\n\nCada fragmento debe estar asociado a un documento y versión. Al cambiar una nota, elimina o reemplaza sus fragmentos anteriores para no recuperar instrucciones obsoletas junto a las nuevas.\n\nUn hash ayuda a detectar cambios de contenido. Un identificador estable permite actualizar sin duplicar. Si cambia el modelo de embeddings, evalúa y reconstruye vectores en el espacio correspondiente.\n\n## Borrado\nEliminar un documento debe retirar sus fragmentos del índice y revisar caches o copias según la política de retención. Un botón que borra solo el archivo original deja evidencia residual.\n\n## Práctica\nActualiza una nota sobre un puerto, pregunta de nuevo y verifica qué versión se cita. Después borra el documento y comprueba que no se recupera.\n\nDiseña recuperación ante fallos para no dejar una mezcla accidental de versiones a mitad de una actualización.",
+          "exercise": {
+            "prompt": "Una nota cambia de puerto 8080 a 9090. Define cómo actualizar el índice y verificar que no se responde con la versión vieja.",
+            "answer": "Detectaría cambio, generaría nuevos fragmentos/vectores y reemplazaría los anteriores con versión trazable. Invalidaría caches pertinentes. Una consulta de prueba debe recuperar y citar la versión nueva, sin evidencia obsoleta."
+          }
+        },
+        {
+          "id": "rag-access",
+          "title": "Permisos y documentos hostiles",
+          "content": "# Recuperar dentro de autorización\n\nLos documentos externos pueden contener instrucciones maliciosas. Su texto se usa como evidencia, no como autorización para acceder a más datos o ejecutar acciones.\n\nAplica permisos antes de devolver fragmentos. La seguridad no se arregla pidiendo al modelo «no muestres documentos privados» después de entregárselos.\n\n## Diseño\nAutentica usuario, determina colección autorizada, filtra consultas y valida citas. Registra errores sin exponer contenido de otros usuarios. Limita herramientas si el RAG forma parte de un agente.\n\n## Prueba\nUsuario A tiene una nota secreta; B pregunta por una frase que solo existe allí. La respuesta de B debe abstenerse sin revelar que recuperó contenido privado.\n\nDelimitadores y prompts ayudan a organizar, pero los controles de acceso viven fuera de la generación.",
+          "exercise": {
+            "prompt": "¿En qué momento debe aplicarse el permiso de lectura: antes o después de entregar los fragmentos al modelo? Diseña una prueba.",
+            "answer": "Antes de recuperar o devolver evidencia autorizada al modelo. Prueba con dos usuarios y una frase única en un documento de A; B no debe recuperar, citar ni recibir ese contenido. También revisaría logs y caches."
+          }
+        },
+        {
+          "id": "rag-project",
+          "title": "Proyecto: asistente de tus apuntes",
+          "content": "# Alcance pequeño y verificable\n\nConstruye un asistente con diez notas de Cloud y veinte preguntas etiquetadas. Primero devuelve evidencia; después añade síntesis con fuentes.\n\n## Entregables\nColección limpia, IDs/versiones, fragmentador, búsqueda, respuestas con citas y evaluación. Compara búsqueda literal con vectorial y, si aporta mejora, híbrida.\n\n## Casos obligatorios\nPregunta respondible, pregunta sin respuesta, documento actualizado, documento borrado, permisos distintos y texto que intenta cambiar instrucciones.\n\n## Criterio de terminado\nLas citas existen, no se mezclan permisos, el índice se puede reconstruir y puedes explicar los fallos. Incluye un diagrama del recorrido y ejemplos antes/después de una mejora.\n\nEl resultado es una pieza de estudio para tu portafolio. No necesitas exponer archivos personales ni contratar servicios para el primer prototipo.",
+          "exercise": {
+            "prompt": "Define un MVP de RAG para tus notas y cuatro pruebas que demostrarían su funcionamiento.",
+            "answer": "MVP: diez Markdown, fragmentos trazables, búsqueda, respuesta breve con IDs de fuente y abstención. Pruebas: respuesta con pasaje correcto; pregunta ausente sin invención; actualización que elimina versión vieja; usuario sin permiso no recibe evidencia. Añadiría después borrado y documento hostil."
+          }
+        }
+      ]
+    }
+  ]
+}

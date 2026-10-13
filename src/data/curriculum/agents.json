@@ -1,0 +1,181 @@
+{
+  "id": "agentic-learning",
+  "title": "Agentic AI · herramientas y flujos",
+  "description": "Estado, herramientas, planificación, límites, memoria y evaluación. Diseña un agente de estudio con autonomía acotada.",
+  "category": "IA · Agentes",
+  "introduction": "# Introducción de cinco minutos\n\nUn agente combina un modelo con estado, herramientas y un ciclo de decisión. Puede observar un resultado, elegir una acción permitida y continuar hasta terminar o alcanzar un límite. La autonomía útil está acotada por objetivo, permisos y presupuesto.\n\n## Ejemplo\nUn asistente de estudio recibe «prepara un repaso de DNS», busca notas autorizadas, selecciona conceptos y propone ejercicios. No necesita acceso para publicar, borrar archivos o contactar a otras personas.\n\n## Ruta\nFlujo controlado → herramientas con contratos → estado y recuperación → evaluación y operación. Primero construye un proceso determinista; añade decisiones del modelo donde aporten valor medible.\n\n## Prompt de tutor\n«Sé mi mentor de Agentic AI. Explícame una idea con una analogía y un caso práctico. Dame un reto pequeño y espera mi intento. Trabajemos herramientas, estado, permisos y evaluación antes de ampliar autonomía».\n\nReferencia: [agentes en LangChain](https://docs.langchain.com/oss/python/langchain/agents). La implementación y los SDK cambian; verifica sus APIs antes de programar. CortexFlow contiene las lecciones y ejercicios, no un agente ejecutando acciones.",
+  "stages": [
+    {
+      "id": "agent-basics",
+      "title": "1 · Flujos y decisiones",
+      "content": "## Objetivo\n\nDistinguir una cadena fija de un ciclo con decisiones y conocer sus condiciones de parada. Elegir la estructura más pequeña que resuelva tu caso.",
+      "lessons": [
+        {
+          "id": "workflow-agent",
+          "title": "Workflow o agente",
+          "content": "# Secuencia fija frente a elección\n\nUn workflow define pasos conocidos: validar nota → extraer conceptos → validar resultado → presentar borrador. Un agente puede elegir la siguiente herramienta según lo observado.\n\n## Ejemplo\nPara exportar un mapa a JSON, una función normal es suficiente. Para investigar un problema desconocido en varias notas, puede ser útil elegir búsquedas sucesivas según resultados.\n\nLa decisión del modelo agrega flexibilidad y variabilidad. No convierte automáticamente un proceso en más fiable o más barato.\n\n## Práctica\nEscribe primero la secuencia sin modelo. Señala dónde una decisión necesita información que aún no tienes. Evalúa si basta una condición en código antes de añadir autonomía.\n\nSi puedes definir todas las ramas con reglas claras y estables, un workflow suele ser más fácil de probar. Un sistema puede combinar pasos fijos y decisiones acotadas.",
+          "exercise": {
+            "prompt": "Clasifica estas tareas: exportar un mapa, validar IDs y buscar evidencias sucesivas de un problema ambiguo. ¿Dónde podría aportar un agente?",
+            "answer": "Exportar y validar IDs son funciones deterministas. La búsqueda sucesiva podría usar decisiones del modelo si los resultados determinan qué investigar después. Mantendría permisos y validaciones en código y compararía frente a un workflow sencillo."
+          }
+        },
+        {
+          "id": "loop",
+          "title": "El ciclo observar, decidir, actuar",
+          "content": "# Un ciclo con salida\n\nEl agente recibe objetivo y estado, el modelo propone una acción, el sistema valida permisos y argumentos, ejecuta la herramienta y devuelve su resultado. Después decide continuar o responder.\n\n## Pseudocódigo\n~~~text\nmientras no terminado y pasos < limite:\n  accion = proponer(estado)\n  validar(accion, permisos)\n  resultado = ejecutar(accion)\n  estado = registrar(estado, resultado)\nresponder_o_informar_limite()\n~~~\n\nEl modelo propone; el ejecutor controla lo que realmente ocurre. Las condiciones de parada incluyen éxito, imposibilidad, necesidad de aclaración y presupuesto agotado.\n\n## Fallo común\nBuscar la misma cosa una y otra vez puede consumir recursos sin progreso. Guarda qué se intentó y detecta acciones repetidas.\n\n## Práctica\nSimula herramientas sin efectos externos y recorre el ciclo manualmente con tres pasos.",
+          "exercise": {
+            "prompt": "Define tres condiciones de parada para un agente que prepara preguntas de estudio. ¿Qué hace si alcanza el límite sin evidencia?",
+            "answer": "Termina con evidencia suficiente y preguntas validadas; se detiene si falta información necesaria; se detiene al alcanzar máximo de pasos o tiempo. Si no hay evidencia, informa el límite y pide el dato pertinente sin inventar preguntas basadas en hechos ausentes."
+          }
+        },
+        {
+          "id": "state",
+          "title": "Estado visible y tipos",
+          "content": "# Lo que debe recordar el proceso\n\nEl estado contiene objetivo, usuario/permisos, documentos encontrados, resultados de herramientas, pasos realizados y estado de finalización. No dependas únicamente de un historial de texto libre.\n\n## Ejemplo\n~~~json\n{\"objetivo\":\"repasar DNS\",\"pasos\":2,\"fuentes\":[\"nota-dns\"],\"estado\":\"preparando_borrador\"}\n~~~\n\nDefine transiciones válidas: iniciado → buscando → borrador → revisión → terminado. Un error puede llevar a reintento acotado o atención humana.\n\nLos datos de usuario y resultados de herramientas son entradas no confiables que debes validar. Evita mezclar una instrucción del sistema con contenido recuperado.\n\n## Práctica\nRegistra una ejecución y reconstruye por qué se eligió cada acción a partir de eventos observables. No necesitas almacenar razonamiento privado del modelo para tener trazabilidad.",
+          "exercise": {
+            "prompt": "Propón cinco campos de estado para el agente de repaso y una transición que no debería permitirse sin validación.",
+            "answer": "Objetivo, permisos del usuario, fuentes, contador de pasos y estado. No pasaría de borrador a publicado/guardado definitivo sin validar contenido y autorización correspondiente. También guardaría resultados de herramientas y errores."
+          }
+        },
+        {
+          "id": "planning",
+          "title": "Plan pequeño y revisión",
+          "content": "# Planificar para una tarea concreta\n\nUn plan útil divide el objetivo en pasos observables con criterio de salida. «Investigar todo» no define cuándo parar.\n\n## Ejemplo\n1. Buscar notas sobre DNS.\n2. Elegir dos conceptos con evidencia.\n3. Generar dos preguntas.\n4. Validar que la respuesta de cada una aparece en sus fuentes.\n5. Presentar borrador.\n\nEl plan puede cambiar cuando una herramienta devuelve datos nuevos, pero debe conservar el objetivo y límites. No permitir que un documento cambie el destino de la tarea.\n\n## Práctica\nTras cada paso, pregunta si hay progreso y qué información falta. Si el primer resultado no aporta nada, prueba una reformulación acotada y después pide aclaración.\n\nNo confundas una lista de intenciones con acciones realizadas: registra resultados reales y comprueba el criterio de terminado.",
+          "exercise": {
+            "prompt": "Escribe un plan de máximo cinco pasos para preparar un repaso de Docker. Define qué pasa si no hay notas.",
+            "answer": "Buscar notas autorizadas, seleccionar conceptos, redactar preguntas con referencias, validar apoyo y presentar borrador. Si no hay notas, pedir al usuario una fuente o tema concreto y detener generación de hechos supuestamente basados en documentos."
+          }
+        }
+      ]
+    },
+    {
+      "id": "agent-tools",
+      "title": "2 · Herramientas y ejecución",
+      "content": "## Objetivo\n\nConstruir herramientas pequeñas, validadas y con permisos explícitos. Probar errores antes de conectar efectos reales.",
+      "lessons": [
+        {
+          "id": "tool-contract",
+          "title": "Contratos de herramientas",
+          "content": "# Una herramienta es una API\n\nDefine nombre, propósito, argumentos, tipos, límites y salida. `buscar_notas(consulta, modulo)` es más fácil de controlar que `ejecutar_cualquier_cosa(texto)`.\n\n## Validación\nComprueba longitudes, enums, IDs existentes y permisos del usuario. No aceptes rutas arbitrarias o comandos libres cuando la tarea solo requiere buscar documentos.\n\n## Resultado\nDevuelve datos y un estado claro: encontrados, sin resultados o error temporal. Evita que un fallo técnico se parezca a una búsqueda vacía.\n\n## Práctica\nImplementa un doble de prueba con respuestas fijas. Prueba consulta vacía, módulo inexistente, usuario sin permiso y error de servicio.\n\nLa descripción ayuda al modelo a elegir; el esquema y el ejecutor limitan lo que puede pasar. Ninguno sustituye al otro.",
+          "exercise": {
+            "prompt": "Define contrato de buscar_notas: dos argumentos, salida y tres validaciones.",
+            "answer": "Argumentos: `consulta` string no vacío y `moduloId` opcional existente. Salida: estado y lista de pasajes con IDs/origen. Validaciones: longitud de consulta, módulo permitido y permisos de lectura. Un error de servicio devuelve estado de error, no lista vacía silenciosa."
+          }
+        },
+        {
+          "id": "tool-selection",
+          "title": "Elegir y encadenar herramientas",
+          "content": "# Decidir con resultados reales\n\nEl modelo puede proponer una herramienta y argumentos, pero el sistema debe verificar que ambos son válidos. Una llamada propuesta no implica que se ejecutó ni que tuvo éxito.\n\n## Ejemplo\nBuscar notas devuelve tres IDs. Leer contenido debe usar esos IDs autorizados, no inventar una ruta nueva. Generar ejercicios recibe evidencia que realmente fue leída.\n\nSi una herramienta falla, incorpora el estado de error y decide un reintento acotado o una respuesta al usuario. No finjas que el resultado existe.\n\n## Mini prueba\nCambia una herramienta simulada para devolver «no encontrado». Comprueba que el agente no sigue produciendo citas a ese documento.\n\nReducir herramientas a las necesarias facilita elección y control. Añadir veinte herramientas parecidas puede aumentar errores de selección.",
+          "exercise": {
+            "prompt": "Buscar devuelve el ID nota-7, pero leerlo falla. ¿Qué debe registrar el agente y qué no puede afirmar?",
+            "answer": "Registra el intento y fallo de lectura. Puede reintentar según política o pedir otra fuente; no puede afirmar que leyó el documento ni citar contenido inexistente. Las acciones posteriores deben basarse en resultados reales."
+          }
+        },
+        {
+          "id": "idempotency",
+          "title": "Reintentos y acciones duplicadas",
+          "content": "# Repetir sin duplicar efectos\n\nBuscar información suele poder repetirse; crear una tarea o enviar un mensaje puede duplicar efectos si se reintenta tras una respuesta perdida.\n\nUna clave de idempotencia o un ID de operación estable permite al servicio reconocer intentos repetidos. La garantía depende de la implementación del sistema externo, no solo de añadir un campo en el prompt.\n\n## Ejemplo\nEl agente guarda un plan de estudio. La red falla tras guardarlo y antes de recibir respuesta. Antes de crear otra copia, consulta el estado de la operación o reutiliza el identificador previsto.\n\n## Diseño\nSepara lectura, preparación y acción con efectos. Registra resultado y estado pendiente. Para operaciones no repetibles, exige verificación de situación antes de reintentar.\n\n## Práctica\nSimula éxito remoto con timeout local y comprueba que solo existe un recurso.",
+          "exercise": {
+            "prompt": "Un guardado tuvo éxito pero la respuesta se perdió. ¿Cómo evitarías crear dos planes al reintentar?",
+            "answer": "Usaría un identificador de operación estable y una API que deduplique, o consultaría si el plan ya existe antes de crear. Guardaría estado pendiente y confirmación. No supondría que timeout significa que la acción no ocurrió."
+          }
+        },
+        {
+          "id": "human-review",
+          "title": "Revisión humana y autonomía",
+          "content": "# Aprobar una acción concreta\n\nLas lecturas y borradores pueden tener una política distinta de acciones como publicar, borrar o enviar. Define qué está autorizado por la tarea y qué necesita aprobación explícita.\n\n## Ejemplo\nPreparar un plan es reversible. Publicarlo para todo un equipo cambia alcance. Antes de pedir aprobación, presenta contenido final, destino y efecto para que una persona pueda decidir.\n\nUna aprobación debe asociarse a esa acción y argumentos. Si el borrador cambia de forma material, comprueba si sigue cubierta por la autorización.\n\n## Práctica\nConstruye una herramienta simulada que requiera un token de autorización válido para publicar. El modelo no puede generarlo por su cuenta.\n\nNo conviertas cada operación de lectura en un diálogo de confirmación: aplica una política clara que preserve utilidad y control.",
+          "exercise": {
+            "prompt": "Diseña el paso previo a publicar un resumen para un equipo. ¿Qué ve la persona y qué valida el ejecutor?",
+            "answer": "La persona ve resumen final, audiencia/destino y acción de publicación. El ejecutor verifica permiso y aprobación ligada a esos argumentos. El agente puede preparar el borrador antes, pero no fabricarse la autorización."
+          }
+        }
+      ]
+    },
+    {
+      "id": "agent-memory",
+      "title": "3 · Memoria, recuperación y coordinación",
+      "content": "## Objetivo\n\nConservar información pertinente, recuperar evidencia y coordinar trabajo sin perder límites. Añadir complejidad solo con una ventaja comprobable.",
+      "lessons": [
+        {
+          "id": "memory",
+          "title": "Memoria de sesión y persistente",
+          "content": "# Dos necesidades distintas\n\nLa memoria de sesión mantiene contexto de una tarea; la persistente guarda preferencias o hechos que deben recuperarse en tareas posteriores. No guardes cualquier salida del modelo como verdad permanente.\n\n## Tutor\nSesión: ejercicio actual, intento y corrección. Persistente: idioma, objetivo y patrones que requieren repaso, cuando el usuario consiente ese uso.\n\nLos resúmenes pueden perder detalle. Conserva fuentes o registros estructurados para datos que importan, como progreso y fecha de revisión.\n\n## Diseño\nDefine qué se guarda, quién puede verlo, cómo se actualiza y cómo se elimina. Una preferencia antigua puede dejar de ser válida.\n\n## Práctica\nSimula una segunda sesión y comprueba que recuerda el objetivo adecuado sin reintroducir contenido irrelevante o errores corregidos.",
+          "exercise": {
+            "prompt": "Clasifica ejercicio actual, idioma preferido y una suposición del modelo sobre el alumno. ¿Qué guardarías y con qué cuidado?",
+            "answer": "Ejercicio actual: memoria de sesión. Idioma preferido: dato persistente confirmado y editable. Suposición: no la guardaría como hecho sin confirmación. Añadiría origen y política de actualización/borrado a datos persistentes."
+          }
+        },
+        {
+          "id": "agent-rag",
+          "title": "RAG como herramienta de un agente",
+          "content": "# Buscar evidencia cuando hace falta\n\nUn agente puede llamar a un recuperador para consultar notas relevantes. La herramienta debe aplicar permisos y devolver fuentes trazables, como aprendiste en RAG.\n\n## Diferencia práctica\nUn RAG fijo suele ejecutar una búsqueda y responder. Un agente puede decidir que falta evidencia y hacer otra búsqueda, comparar documentos o pedir aclaración.\n\nEso aumenta flexibilidad y también coste y riesgo de bucles. Limita consultas y exige progreso observable.\n\n## Ejemplo\nPara explicar un problema de Docker, busca puertos; si no hay información sobre la dirección de escucha, pide esa configuración en vez de seguir buscando al azar.\n\n## Práctica\nDiseña una ejecución con dos búsquedas máximas y una salida clara para «no hay evidencia». Evalúa si supera una búsqueda fija en tus preguntas reales.",
+          "exercise": {
+            "prompt": "¿Cuándo tiene sentido permitir una segunda búsqueda y qué límite aplicarías al agente?",
+            "answer": "Cuando el primer resultado revela una información faltante concreta que otra consulta puede resolver. Máximo de búsquedas/pasos, deduplicación y criterio de progreso. Si aún falta evidencia, pedir aclaración o abstenerse."
+          }
+        },
+        {
+          "id": "orchestration",
+          "title": "Grafo de estados y frameworks",
+          "content": "# Organizar transiciones explícitas\n\nUn grafo de estados representa nodos de trabajo y caminos permitidos. Puede contener búsqueda, validación, decisión, revisión humana y salida.\n\nFrameworks como LangGraph y las herramientas de agentes de LangChain pueden organizar ejecución y estado. El concepto sigue siendo el mismo: saber qué se ejecuta, con qué datos y qué sucede si falla.\n\n## Diseño inicial\nDibuja un flujo con cinco nodos. Marca ciclos, puntos de espera y estados terminales. Un checkpoint permite recuperar estado, pero debes considerar efectos ya realizados para no repetirlos al continuar.\n\n## Práctica\nInterrumpe después de buscar evidencia y reanuda desde un estado guardado. Comprueba que no repite una acción externa ya completada.\n\nAntes de usar una función concreta del framework, consulta su documentación y versión instalada. No dependas de ejemplos antiguos sin verificar.",
+          "exercise": {
+            "prompt": "Dibuja en texto un grafo para generar preguntas y esperar revisión. Incluye una rama de error.",
+            "answer": "Inicio → buscar → validar evidencia → generar borrador → revisión → guardar → fin. Sin evidencia: aclaración/fin. Error temporal: reintento acotado. Revisión rechazada: editar borrador. El estado registra qué pasos y efectos se completaron."
+          }
+        },
+        {
+          "id": "multi-agent",
+          "title": "Coordinación entre agentes",
+          "content": "# Cuándo dividir trabajo\n\nSeparar roles puede ayudar cuando tareas independientes requieren contextos distintos. Por ejemplo: un componente recupera evidencia y otro revisa apoyo de preguntas. También puedes resolverlo con funciones dentro de un solo flujo.\n\nCada agente añade mensajes, latencia, coste y posibles discrepancias. Un «equipo» no garantiza que los errores desaparezcan; varios modelos pueden compartir el mismo fallo.\n\n## Contrato\nDefine responsabilidad, entrada, salida y quién resuelve conflictos. No dejes que dos agentes modifiquen el mismo recurso simultáneamente sin coordinación.\n\n## Experimento\nCompara un flujo único con una división en dos roles sobre el mismo conjunto de tareas. Mide mejora real y coste adicional.\n\n## Práctica\nDiseña resultados estructurados y una autoridad de validación externa. Las autorizaciones del usuario no se amplían automáticamente porque un agente se lo pida a otro.",
+          "exercise": {
+            "prompt": "Para preparar preguntas con fuentes, propone dos roles y explica cuándo mantendrías un solo flujo.",
+            "answer": "Recuperador devuelve pasajes autorizados; revisor comprueba apoyo de preguntas. Mantendría un solo flujo si la separación no mejora métricas o complica operación. La validación de IDs, permisos y límites sigue en código."
+          }
+        }
+      ]
+    },
+    {
+      "id": "agent-quality",
+      "title": "4 · Evaluación y proyecto",
+      "content": "## Objetivo\n\nMedir éxito de tarea, efectos, fallos y recuperación. Entregar una autonomía pequeña que puedas explicar y depurar.",
+      "lessons": [
+        {
+          "id": "trace",
+          "title": "Trazas y observabilidad",
+          "content": "# Ver qué ocurrió\n\nRegistra ID de ejecución, acción propuesta, herramienta ejecutada, argumentos permitidos, estado de resultado, duración y contador de pasos. Evita secretos y contenido sensible innecesario.\n\n## Diagnóstico\n«El agente falló» es demasiado general. ¿Eligió mal la herramienta, envió argumentos inválidos, la herramienta devolvió un error o no terminó a tiempo?\n\nNo necesitas revelar ni almacenar razonamiento interno privado para observar el proceso. Eventos, decisiones operativas y resultados proporcionan evidencia útil.\n\n## Mini laboratorio\nEjecuta tres casos: éxito, ausencia de evidencia y timeout. Reconstruye cada recorrido usando sus eventos.\n\nUna traza debe permitir vincular citas y efectos a datos reales. Revisa también cuánto tarda cada paso y si aparecen búsquedas repetidas.",
+          "exercise": {
+            "prompt": "Lista cinco datos de una traza útil y dos cosas que evitarías registrar por defecto.",
+            "answer": "ID de ejecución, herramienta, estado de resultado, duración y pasos realizados; también referencias de evidencia. Evitaría claves/contraseñas y contenido sensible completo innecesario. Con esos eventos puedo localizar el paso del fallo."
+          }
+        },
+        {
+          "id": "budgets",
+          "title": "Presupuestos y bucles",
+          "content": "# Controlar cuánto puede trabajar\n\nDefine máximo de pasos, tiempo, llamadas y coste aproximado según el proveedor. Un límite debe producir una salida comprensible, no dejar la interfaz esperando indefinidamente.\n\nDetecta acciones repetidas con los mismos argumentos y ausencia de nueva evidencia. Permite alguna recuperación razonable, pero no ciclos sin progreso.\n\n## Ejemplo\nUn repaso de dos preguntas puede admitir tres búsquedas y una generación. Si falta información tras ese límite, pide al usuario una nota o aclaración.\n\n## Práctica\nSimula una herramienta que siempre devuelve el mismo resultado. Comprueba que el agente para y explica qué alcanzó a hacer.\n\nLimitar recursos es parte del diseño normal, no una señal de fracaso. Aumenta límites solo si pruebas concretas muestran que resuelven tareas útiles.",
+          "exercise": {
+            "prompt": "Define límites iniciales para un agente de repaso y qué mensaje mostraría al agotarlos.",
+            "answer": "Por ejemplo: cinco pasos, dos búsquedas y treinta segundos, ajustados tras medir. Mensaje: «Encontré esta evidencia, pero no suficiente para completar el repaso dentro del límite. Necesito una nota sobre X». Conservaría trabajo válido sin inventar lo restante."
+          }
+        },
+        {
+          "id": "agent-eval",
+          "title": "Evaluar tareas y efectos",
+          "content": "# Más que una respuesta bonita\n\nMide éxito según la tarea: preguntas apoyadas, fuentes válidas, tiempo razonable y ninguna acción fuera de autorización. Incluye fallos parciales y efectos duplicados.\n\n## Dataset\nCasos normales, datos ausentes, herramientas con timeout, salida mal formada y documentos con instrucciones engañosas. Simula efectos externos para las primeras pruebas.\n\nCompara un workflow determinista con el agente. Si consigue igual calidad con menos complejidad, el flujo simple puede ser mejor para ese caso.\n\n## Revisión\nUna salida final correcta no prueba que el recorrido haya sido aceptable: puede haber hecho búsquedas no autorizadas o creado duplicados.\n\n## Práctica\nInspecciona trazas junto a resultados. Define qué fallo exige detener la ejecución y cuál permite recuperación.",
+          "exercise": {
+            "prompt": "Un agente entrega preguntas correctas pero accede a notas de otro usuario. ¿Consideras el caso exitoso y qué prueba faltaba?",
+            "answer": "No: violó permisos aunque la salida sea útil. Faltaba evaluar comportamiento y acceso durante la ejecución. Añadiría pruebas de aislamiento de usuarios y verificaciones de permisos en cada herramienta."
+          }
+        },
+        {
+          "id": "agent-project",
+          "title": "Proyecto: asistente de repaso",
+          "content": "# Autonomía pequeña y útil\n\nObjetivo: preparar dos preguntas sobre un tema usando notas autorizadas. Herramientas iniciales: buscar y leer. Salida: borrador con preguntas y fuentes; la persona decide guardarlo.\n\n## Implementación\nDefine estado y contratos, crea dobles de herramientas, impón límites y registra eventos. Añade un recuperador real después de pasar las pruebas simuladas.\n\n## Pruebas\nÉxito, nota ausente, error de lectura, documento hostil, permiso insuficiente y agotamiento de pasos. Comprueba que no se cita lo no leído ni se ejecutan acciones ajenas.\n\n## Portafolio\nDiagrama del flujo, contrato de herramientas, evaluación frente a un workflow y una traza anonimizada. Explica qué autonomía aporta valor y dónde la has limitado.\n\nEl siguiente módulo conecta estas ideas con automatización de aplicaciones mediante RPA.",
+          "exercise": {
+            "prompt": "Escribe el alcance del MVP y tres cosas que no necesita poder hacer para preparar un repaso.",
+            "answer": "MVP: buscar/leer notas autorizadas y proponer dos preguntas con fuentes, presupuesto y trazas. No necesita publicar a terceros, borrar archivos ni ejecutar comandos arbitrarios. Pruebo ausencia de evidencia, fallo y permisos antes de conectar herramientas reales."
+          }
+        }
+      ]
+    }
+  ]
+}

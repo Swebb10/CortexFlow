@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Background, BackgroundVariant, MiniMap, Panel, ReactFlow, ReactFlowProvider, useNodesState, useReactFlow, useViewport } from '@xyflow/react'
+import { Background, BackgroundVariant, MiniMap, Panel, ReactFlow, ReactFlowProvider, useNodesInitialized, useNodesState, useReactFlow, useViewport } from '@xyflow/react'
 import type { Edge, XYPosition } from '@xyflow/react'
 import { Check, Hand, LocateFixed, Map, Minus, MousePointer2, Plus } from 'lucide-react'
 import type { FlowKnowledgeNode, KnowledgeMap } from '../types'
@@ -16,10 +16,11 @@ function MapControls({ minimap, onMinimap }: { minimap: boolean; onMinimap: () =
 }
 function FocusNode({ id, map }: { id: string | null; map: KnowledgeMap }) {
   const flow = useReactFlow()
+  const initialized = useNodesInitialized()
   const node = map.nodes.find((entry) => entry.id === id)
   const x = node?.position.x
   const y = node?.position.y
-  useEffect(() => { if (id && x !== undefined && y !== undefined) void flow.setCenter(x + 110, y + 55, { zoom: 0.85, duration: 350 }) }, [id, x, y, flow])
+  useEffect(() => { if (initialized && id && x !== undefined && y !== undefined) void flow.setCenter(x + 110, y + 55, { zoom: 0.85, duration: 350 }) }, [initialized, id, x, y, flow])
   return null
 }
 function Canvas(props: Props) {
@@ -36,7 +37,7 @@ function Canvas(props: Props) {
       if (change.type === 'select' && change.selected) onSelect(change.id)
       if (change.type === 'position' && change.position && change.dragging === false) onMove(change.id, change.position)
     }
-  }} onNodeClick={(_, node) => onSelect(node.id)} onNodeDoubleClick={(_, node) => onEdit(node.id)} onNodeDragStop={(_, node) => onMove(node.id, node.position)} onConnect={(connection) => onConnect(connection.target, connection.source)} onReconnect={(edge, connection) => onConnect(edge.target, connection.source)} isValidConnection={(connection) => !!connection.source && !!connection.target && canReparent(map, connection.target, connection.source)} fitView fitViewOptions={{ padding: 0.13, maxZoom: 1 }} minZoom={0.15} maxZoom={2} nodesConnectable edgesFocusable={false} deleteKeyCode={null} colorMode={theme === 'light' ? 'light' : 'dark'} panOnScroll zoomOnScroll={false} zoomOnPinch preventScrolling aria-label="Mapa mental interactivo" proOptions={{ hideAttribution: false }}>
+  }} onNodeClick={(_, node) => onSelect(node.id)} onNodeDoubleClick={(_, node) => onEdit(node.id)} onNodeDragStop={(_, node) => onMove(node.id, node.position)} onConnect={(connection) => onConnect(connection.target, connection.source)} onReconnect={(edge, connection) => onConnect(edge.target, connection.source)} isValidConnection={(connection) => !!connection.source && !!connection.target && canReparent(map, connection.target, connection.source)} fitView={!focusId} fitViewOptions={{ padding: 0.13, maxZoom: 1 }} minZoom={0.15} maxZoom={2} nodesConnectable edgesFocusable={false} deleteKeyCode={null} colorMode={theme === 'light' ? 'light' : 'dark'} panOnScroll zoomOnScroll={false} zoomOnPinch preventScrolling aria-label="Mapa mental interactivo" proOptions={{ hideAttribution: false }}>
     <Background variant={BackgroundVariant.Dots} gap={22} size={1.2} color="var(--canvas-dot)" />
     <FocusNode id={focusId} map={map} />
     <Panel position="top-left" className="canvas-legend"><span><i className="legend-root" />Idea central</span><span><i className="legend-concept" />Conceptos</span><span><i className="legend-leaf" />Subconceptos</span></Panel>

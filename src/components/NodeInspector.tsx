@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { ArrowRight, BookOpen, Brain, Check, CheckCheck, ChevronRight, Eye, EyeOff, Lightbulb, Network, Pencil, Plus, Trash2, X } from 'lucide-react'
 import type { KnowledgeMap, KnowledgeNode } from '../types'
 import { MarkdownContent } from './MarkdownContent'
+import { StudyPractice } from './StudyPractice'
+import { ListenButton } from './ListenButton'
 
 type Props = { node: KnowledgeNode; map: KnowledgeMap; onReview: () => void; onNext: () => void; onClose: () => void; onSelect: (id: string) => void; onAdd: (parentId: string) => void; onEdit: (id: string) => void; onRemove: (id: string) => void }
 export function NodeInspector({ node, map, onReview, onNext, onClose, onSelect, onAdd, onEdit, onRemove }: Props) {
@@ -22,6 +24,8 @@ export function NodeInspector({ node, map, onReview, onNext, onClose, onSelect, 
       <section className={`recall-card ${recall ? 'recall-on' : ''}`}><div><span className="recall-icon"><Brain size={18} /></span><span><strong>Active Recall</strong><small>Recuerda antes de releer.</small></span><button className="toggle" role="switch" aria-checked={recall} aria-label="Activar modo Active Recall" onClick={() => { setRecall(!recall); setRevealed(false) }}><span /></button></div>{recall && <p className="recall-question">{node.question}</p>}</section>
       <div className="detail-label"><span><BookOpen size={13} />NOTAS DEL CONCEPTO</span>{recall && <button onClick={() => setRevealed(!revealed)}>{revealed ? <EyeOff size={13} /> : <Eye size={13} />}{revealed ? 'Ocultar' : 'Mostrar'}</button>}</div>
       {hidden ? <div className="recall-hidden"><div><Brain size={28} /></div><h3>Deja que tu mente conecte.</h3><p>Explica este concepto en voz alta o escribe una respuesta antes de consultar tus notas.</p><button className="button secondary" onClick={() => setRevealed(true)}><Eye size={15} />Mostrar explicación</button></div> : <MarkdownContent content={node.content} />}
+      {!hidden && node.audio && <ListenButton sample={node.audio} />}
+      {!hidden && node.exercise && <StudyPractice key={`${map.id}-${node.id}-${node.exercise.prompt}`} storageId={`${map.id}:${node.id}`} exercise={node.exercise} />}
       {children.length > 0 && <section className="related-concepts"><div className="section-label"><Network size={13} />SIGUE LA CONEXIÓN</div>{children.map((child) => <button onClick={() => onSelect(child.id)} key={child.id}><span className={`related-dot tone-${child.tone}`} />{child.title}<ArrowRight size={14} /></button>)}</section>}
       <div className="study-tip"><Lightbulb size={16} /><p>Conecta este concepto con algo que ya conoces. Recordar empieza por relacionar.</p></div>
     </div>

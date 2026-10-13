@@ -7,8 +7,9 @@ import { Sidebar } from './components/Sidebar'
 import { MindMapCanvas } from './components/MindMapCanvas'
 import { NodeInspector } from './components/NodeInspector'
 import { Modal } from './components/Modal'
-import { demoMaps } from './data/demo-maps'
-import { isKnowledgeMap, loadMaps, readStorage, writeStorage } from './lib/storage'
+import { studyMaps } from './data/study-library'
+import { firstStudyNode } from './data/build-study-map'
+import { isKnowledgeMap, loadMaps, MAX_SAVED_MAPS, readStorage, saveMaps, writeStorage } from './lib/storage'
 import { MAX_FILE_BYTES, markdownToMap } from './lib/markdown'
 import { usePomodoro } from './hooks/usePomodoro'
 import { useMapHistory } from './hooks/useMapHistory'
@@ -20,10 +21,10 @@ import type { KnowledgeMap } from './types'
 
 type Notice = { text: string; error: boolean }
 export default function App() {
-  const { maps, histories, setMaps, changeMap, undo, redo } = useMapHistory(() => loadMaps(demoMaps))
-  const [activeId, setActiveId] = useState(() => readStorage('cortexflow:active') ?? 'software-cloud')
+  const { maps, histories, setMaps, changeMap, undo, redo } = useMapHistory(() => loadMaps(studyMaps))
+  const [activeId, setActiveId] = useState(() => { const saved = readStorage('cortexflow:active'); return maps.some((map) => map.id === saved) ? saved! : maps[0].id })
   const map = maps.find((entry) => entry.id === activeId) ?? maps[0]
-  const [selectedId, setSelectedId] = useState('cloud')
+  const [selectedId, setSelectedId] = useState(() => firstStudyNode(map))
   const node = map.nodes.find((entry) => entry.id === selectedId) ?? map.nodes[0]
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [inspectorOpen, setInspectorOpen] = useState(false)
@@ -33,7 +34,7 @@ export default function App() {
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null)
   const [view, setView] = useState<'map' | 'outline'>('map')
   const [query, setQuery] = useState('')
-  const [focusId, setFocusId] = useState<string | null>(null)
+  const [focusId, setFocusId] = useState<string | null>(() => node.id)
   const [notice, setNotice] = useState<Notice | null>(null)
   const [persistenceError, setPersistenceError] = useState(false)
   const [importing, setImporting] = useState(false)
@@ -51,7 +52,7 @@ export default function App() {
   const openEditNode = useCallback((nodeId: string) => { setEditor({ kind: 'edit', nodeId }); setEditorError(''); setFocusId(null) }, [])
   const requestDeleteNode = useCallback((id: string) => { setPendingDeleteId(id); setModal('delete-node') }, [])
 
-  useEffect(() => { setPersistenceError(!writeStorage('cortexflow:maps:v1', JSON.stringify(maps))) }, [maps])
+  useEffect(() => { setPersistenceError(!saveMaps(maps)) }, [maps])
   useEffect(() => { writeStorage('cortexflow:active', map.id) }, [map.id])
   useEffect(() => {
     if (!notice) return
@@ -76,8 +77,8 @@ export default function App() {
   }
   function selectMap(id: string) {
     const next = maps.find((entry) => entry.id === id)!
-    setActiveId(id); setSelectedId(next.nodes.find((entry) => entry.parentId !== null)?.id ?? next.nodes[0].id)
-    setFocusId(null); setQuery(''); setSidebarOpen(false)
+    setActiveId(id); setSelectedId(firstStudyNode(next))
+    setFocusId(firstStudyNode(next)); setQuery(''); setSidebarOpen(false)
   }
   function selectNode(id: string) { setSelectedId(id); setInspectorOpen(true) }
   function moveNode(id: string, position: XYPosition) { setFocusId(null); updateMap((current) => {
@@ -110,10 +111,11 @@ export default function App() {
   function nextNode() {
     const index = map.nodes.findIndex((entry) => entry.id === node.id)
     const next = map.nodes.slice(index + 1).concat(map.nodes.slice(0, index + 1))
-    selectNode((next.find((entry) => !map.reviewedNodeIds.includes(entry.id) && entry.id !== node.id) ?? next[0]).id)
+    const nextId = (next.find((entry) => !map.reviewedNodeIds.includes(entry.id) && entry.id !== node.id) ?? next[0]).id
+    selectNode(nextId); setFocusId(nextId)
   }
   function addMap(next: KnowledgeMap) {
-    if (maps.length >= 30) throw new Error('Has alcanzado 30 módulos. Exporta y elimina alguno para añadir más.')
+    if (maps.length >= MAX_SAVED_MAPS) throw new Error(`Has alcanzado ${MAX_SAVED_MAPS} módulos. Exporta y elimina alguno para añadir más.`)
     setMaps((previous) => [...previous, next]); setActiveId(next.id)
     setSelectedId(next.nodes[0].id); setFocusId(null); setQuery(''); setSidebarOpen(false)
     setNotice({ text: `${next.nodes.length} conceptos conectados. Tu mapa está listo.`, error: false })
@@ -150,8 +152,9 @@ export default function App() {
   }
   function deleteMap() {
     const remaining = maps.filter((entry) => entry.id !== map.id)
-    setMaps(remaining.length ? remaining : [structuredClone(demoMaps[0])])
-    setActiveId(remaining[0]?.id ?? demoMaps[0].id); setSelectedId(''); setModal(null)
+    const nextMap = remaining[0] ?? structuredClone(studyMaps[0])
+    setMaps(remaining.length ? remaining : [nextMap])
+    setActiveId(nextMap.id); setSelectedId(firstStudyNode(nextMap)); setFocusId(firstStudyNode(nextMap)); setModal(null)
     setNotice({ text: 'Módulo eliminado de este navegador.', error: false })
   }
   return <div className="app-shell">
@@ -163,20 +166,20 @@ export default function App() {
       <main className="main-panel" id="main" tabIndex={-1}>
         <div className="main-heading">
           <div className="breadcrumb"><Home size={12} /><span>Mi espacio</span><ChevronRight size={12} /><span>{map.category}</span></div>
-          <div className="map-title-row"><div><div className="eyebrow"><span className="live-dot" />CONECTA. COMPRENDE. RECUERDA.</div><h1>{map.title}<span className="title-dot">.</span></h1></div><div className="map-actions"><button className="button primary add-concept-button" onClick={() => openAddNode(node.id)} aria-label="Añadir concepto al mapa"><Plus size={15} /><span>Nuevo concepto</span></button><button className="button export-button" onClick={exportMap}><Download size={15} /><span>Exportar</span></button></div></div>
+          <div className="map-title-row"><div><div className="eyebrow"><span className="live-dot" />CONECTA. COMPRENDE. RECUERDA.</div><h1>{map.title}<span className="title-dot">.</span></h1></div><div className="map-actions"><button className="button primary add-concept-button" onClick={() => openAddNode(node.id)} aria-label="Añadir concepto al mapa"><Plus size={15} /><span>Nuevo concepto</span></button><button className="button export-button" onClick={exportMap} aria-label="Exportar mapa"><Download size={15} /><span>Exportar</span></button></div></div>
           <p className="map-description">{map.description}</p>
           <div className="map-toolbar"><div className="view-tabs" role="group" aria-label="Vista de contenido"><button onClick={() => setView('map')} aria-pressed={view === 'map'}><Network size={15} />Mapa mental</button><button onClick={() => setView('outline')} aria-pressed={view === 'outline'}><ListTree size={15} />Esquema</button></div><div className="map-toolbar-right"><div className="editor-history" role="group" aria-label="Historial del mapa"><button className="icon-button" aria-label="Deshacer cambio" title="Deshacer · Ctrl Z" disabled={!canUndo} onClick={() => { undo(map.id); setFocusId(null) }}><Undo2 size={15} /></button><button className="icon-button" aria-label="Rehacer cambio" title="Rehacer · Ctrl Shift Z" disabled={!canRedo} onClick={() => { redo(map.id); setFocusId(null) }}><Redo2 size={15} /></button></div><span className="concept-count"><GitBranch size={13} />{map.nodes.length} conceptos</span><div className="node-search"><Search size={15} /><input ref={searchInput} value={query} placeholder="Buscar concepto…" aria-label="Buscar concepto" onChange={(event) => { setQuery(event.target.value); setFocusId(null) }} /><kbd>Ctrl K</kbd>{query && <div className="search-results">{searchResults.length ? searchResults.map((entry) => <button key={entry.id} onClick={() => { selectNode(entry.id); setFocusId(entry.id); setQuery('') }}><span className={`related-dot tone-${entry.tone}`} />{entry.title}<ArrowRight size={13} /></button>) : <p>No se encontraron conceptos.</p>}</div>}</div><button className="icon-button delete-map-button" onClick={() => setModal('delete')} aria-label="Eliminar módulo" title="Eliminar módulo"><Trash2 size={14} /></button></div></div>
         </div>
         {view === 'map' ? <MindMapCanvas map={map} selectedId={node.id} onSelect={selectNode} onMove={moveNode} focusId={focusId} onAdd={openAddNode} onEdit={openEditNode} onRemove={requestDeleteNode} onConnect={connectNode} /> : <div className="outline-view"><div className="outline-intro"><ListTree size={20} /><div><h2>Tus ideas, en perspectiva.</h2><p>Selecciona un concepto para leer y practicar.</p></div></div>{map.nodes.map((entry) => <button key={entry.id} className={`outline-node tone-${entry.tone} ${entry.id === node.id ? 'selected' : ''}`} onClick={() => selectNode(entry.id)}><div className="outline-symbol"><Network size={18} /></div><div><small>{entry.parentId ? map.nodes.find((parent) => parent.id === entry.parentId)?.title : 'Idea central'}</small><strong>{entry.title}</strong><p>{entry.summary}</p></div>{map.reviewedNodeIds.includes(entry.id) ? <Check size={17} /> : <ArrowRight size={17} />}</button>)}</div>}
         <footer className="map-footer"><div className="map-progress"><span className="progress-icon"><Sparkles size={15} /></span><div><strong>Tu conocimiento está creciendo</strong><span>{map.reviewedNodeIds.length} de {map.nodes.length} conceptos repasados</span></div></div><div className="progress-track" role="progressbar" aria-label="Progreso de repaso" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}><span style={{ width: `${progress}%` }} /></div><strong className="progress-value">{progress}%</strong></footer>
       </main>
-      <NodeInspector key={`${map.id}-${node.id}`} node={node} map={map} onReview={reviewNode} onNext={nextNode} onClose={() => setInspectorOpen(false)} onSelect={selectNode} onAdd={openAddNode} onEdit={openEditNode} onRemove={requestDeleteNode} />
+      <NodeInspector key={`${map.id}-${node.id}`} node={node} map={map} onReview={reviewNode} onNext={nextNode} onClose={() => setInspectorOpen(false)} onSelect={(id) => { selectNode(id); setFocusId(id) }} onAdd={openAddNode} onEdit={openEditNode} onRemove={requestDeleteNode} />
     </div>
     {notice && <div className={`toast ${notice.error ? 'toast-error' : ''}`} role={notice.error ? 'alert' : 'status'}>{notice.error ? <X size={17} /> : <Check size={17} />}<span>{notice.text}</span><button onClick={() => setNotice(null)} aria-label="Cerrar aviso"><X size={14} /></button></div>}
     {editor && <NodeEditor key={`${map.id}-${editor.kind === 'edit' ? editor.nodeId : editor.parentId}`} map={map} target={editor} onClose={() => setEditor(null)} onSave={saveNode} error={editorError} />}
     {modal === 'delete-node' && nodeToDelete && <Modal title="Eliminar esta rama" onClose={() => setModal(null)}><p className="modal-description">Se eliminará «{nodeToDelete.title}» y sus subconceptos: {branchIds(map, nodeToDelete.id).size} conceptos en total. Puedes recuperar la rama con Deshacer durante esta sesión.</p><div className="delete-actions"><button className="button secondary" onClick={() => setModal(null)}>Cancelar</button><button className="button danger" onClick={deleteNode}><Trash2 size={15} />Eliminar rama</button></div></Modal>}
     {modal === 'create' && <Modal title="Dale forma a una idea" onClose={() => setModal(null)}><p className="modal-description">Escribe en Markdown. Los encabezados se convierten en conceptos conectados.</p><form onSubmit={createNote} className="note-form"><label>Título del módulo<input autoFocus value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Ej. Sistemas distribuidos" maxLength={100} required /></label><label>Tu nota en Markdown<textarea value={draft} onChange={(event) => setDraft(event.target.value)} rows={10} required spellCheck={false} /></label><p className="form-hint"><FileText size={13} />Usa # para el título, ## para conceptos y ### para subconceptos.</p>{formError && <p className="form-error" role="alert">{formError}</p>}<button type="submit" className="button primary"><Network size={16} />Crear mapa mental<ArrowRight size={15} /></button></form></Modal>}
-    {modal === 'help' && <Modal title="Menos fricción. Más conexiones." onClose={() => setModal(null)}><p className="modal-description">Un pequeño ritual para comprender mejor lo que estudias.</p><div className="help-steps"><div><span><Upload size={20} /></span><section><small>01 · CAPTURA</small><h3>Empieza por una nota</h3><p>Importa .md o .txt, o escribe una nota. Los encabezados forman la jerarquía; un texto sin encabezados se organiza por párrafos.</p></section></div><div><span><Network size={20} /></span><section><small>02 · CONECTA</small><h3>Construye tu mapa</h3><p>Usa Nuevo concepto o Añadir hijo para ampliar el mapa. Haz doble clic para editar; cambia conexiones arrastrando entre los puntos de los nodos. Deshacer recupera tus cambios con Ctrl + Z.</p></section></div><div><span><BookOpen size={20} /></span><section><small>03 · RECUERDA</small><h3>Estudia de forma activa</h3><p>Inicia un bloque de 25 minutos, activa Active Recall y responde antes de revelar la explicación. Después marca el concepto como repasado.</p></section></div></div><div className="privacy-note"><ShieldCheck size={18} /><p>Tus notas se procesan localmente. Exporta copias JSON para respaldar mapas, posiciones y progreso. Puedes importarlas desde el selector de archivos.</p></div></Modal>}
-    {modal === 'delete' && <Modal title="Eliminar este módulo" onClose={() => setModal(null)}><p className="modal-description">Se eliminará «{map.title}» con sus posiciones y progreso de este navegador. Puedes exportar una copia antes de continuar.{maps.length === 1 && ' Se cargará el mapa de ejemplo para mantener tu espacio disponible.'}</p><div className="delete-actions"><button className="button secondary" onClick={exportMap}><Download size={15} />Exportar copia</button><button className="button danger" onClick={deleteMap}><Trash2 size={15} />Eliminar módulo</button></div></Modal>}
+    {modal === 'help' && <Modal title="Menos fricción. Más conexiones." onClose={() => setModal(null)}><p className="modal-description">Un pequeño ritual para comprender mejor lo que estudias.</p><div className="help-steps"><div><span><Upload size={20} /></span><section><small>01 · CAPTURA</small><h3>Elige tu ruta de estudio</h3><p>Empieza con Cloud, alemán, ruso, LLMs, RAG, agentes o RPA. Cada ruta contiene etapas, lecciones y ejercicios. También puedes importar o escribir tus propias notas.</p></section></div><div><span><Network size={20} /></span><section><small>02 · CONECTA</small><h3>Construye tu mapa</h3><p>Usa Nuevo concepto o Añadir hijo para ampliar el mapa. Haz doble clic para editar; cambia conexiones arrastrando entre los puntos de los nodos. Deshacer recupera tus cambios con Ctrl + Z.</p></section></div><div><span><BookOpen size={20} /></span><section><small>03 · RECUERDA</small><h3>Estudia de forma activa</h3><p>Lee una lección y escribe tu intento antes de comparar la respuesta orientativa. Usa Active Recall para recuperar lo aprendido, marca tu repaso e inicia un bloque de 25 minutos.</p></section></div></div><div className="privacy-note"><ShieldCheck size={18} /><p>Tus notas se procesan localmente. Exporta copias JSON para respaldar mapas, posiciones y progreso. Puedes importarlas desde el selector de archivos.</p></div></Modal>}
+    {modal === 'delete' && <Modal title="Eliminar este módulo" onClose={() => setModal(null)}><p className="modal-description">Se eliminará «{map.title}» con sus posiciones y progreso de este navegador. Puedes exportar una copia antes de continuar.{maps.length === 1 && ' Se cargará la ruta de Cloud para mantener tu espacio disponible.'}</p><div className="delete-actions"><button className="button secondary" onClick={exportMap}><Download size={15} />Exportar copia</button><button className="button danger" onClick={deleteMap}><Trash2 size={15} />Eliminar módulo</button></div></Modal>}
   </div>
 }

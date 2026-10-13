@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { layoutNodes, markdownToMap } from './markdown'
 import { advanceTimer, durations, freshTimer, loadTimer } from './timer'
 import { isKnowledgeMap } from './storage'
-import initialMap from '../data/initial-map.json'
+import initialMap from './fixtures/example-map.json'
 import type { KnowledgeMap } from '../types'
 
 describe('Markdown a mapa', () => {

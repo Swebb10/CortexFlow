@@ -1,0 +1,181 @@
+{
+  "id": "rpa-learning",
+  "title": "RPA · UiPath y Automation Anywhere",
+  "description": "Procesos, selectores, datos, excepciones, colas e IA. Diseña un bot robusto con evidencias y control de errores.",
+  "category": "IA · Automatización",
+  "introduction": "# Introducción de cinco minutos\n\nRPA automatiza tareas repetitivas mediante software que interactúa con aplicaciones, datos y servicios. Puede copiar registros, validar campos y generar informes; su valor depende de un proceso estable y criterios claros.\n\n## Ejemplo\nRecibir solicitudes de una hoja, comprobar campos, introducir datos en una aplicación de pruebas y registrar resultado. Si existe una API adecuada, suele ser más robusto usarla para ese tramo que depender de clics.\n\n## Ruta\nElegir proceso → construir flujo → tratar fallos → operar y combinar con IA. UiPath y Automation Anywhere son plataformas distintas con conceptos compartidos. Aprende responsabilidades antes de memorizar ubicaciones de botones que pueden cambiar.\n\n## Prompt de tutor\n«Sé mi mentor de RPA con UiPath y Automation Anywhere. Explícame con analogías y ejemplos; después dame un mini reto y espera mi intento. Trabajemos casos de uso, excepciones y verificación de resultados. Avanza de un bot simple a uno que pueda recuperarse de fallos».\n\nEmpieza con datos ficticios y una aplicación de prueba. CortexFlow no instala ni ejecuta bots; aquí encuentras material de estudio y retos para implementar en la plataforma elegida. Licencias y capacidades dependen de versión y plan, consulta documentación oficial.",
+  "stages": [
+    {
+      "id": "process",
+      "title": "1 · Proceso y decisiones",
+      "content": "## Objetivo\n\nElegir una tarea repetible, definir entradas/salidas y conocer excepciones antes de automatizar. Documentar el proceso con evidencia.",
+      "lessons": [
+        {
+          "id": "rpa-basics",
+          "title": "Qué automatizar con RPA",
+          "content": "# Repetición con reglas claras\n\nUna buena primera tarea tiene datos estructurados, volumen suficiente, reglas estables y resultados verificables. Un proceso con decisiones ambiguas y pantallas cambiantes exige más diseño y mantenimiento.\n\n## Ejemplo\nCopiar solicitudes válidas de un CSV a una aplicación de pruebas. Las reglas pueden ser: ID presente, correo válido y categoría permitida. Cada fila termina en completada, rechazada o pendiente por fallo técnico.\n\nNo automatices un proceso roto sin revisarlo: podrías multiplicar errores más rápido. El beneficio se compara con tiempo de desarrollo, supervisión y mantenimiento.\n\n## Práctica\nObserva una tarea real, cuenta pasos y separa decisión humana de regla mecánica. Define dónde se confirma que el trabajo quedó realizado.\n\nRPA no significa únicamente grabar clics: incluye datos, controles, servicios y operación.",
+          "exercise": {
+            "prompt": "Elige una tarea sencilla para un bot de aprendizaje. Define entrada, regla y resultado verificable.",
+            "answer": "Entrada: CSV de solicitudes ficticias. Regla: campos obligatorios y categoría válida. Resultado: registro creado una vez en aplicación de pruebas y log por fila, o rechazo explicado. Verificaría ID de registro y estado final."
+          }
+        },
+        {
+          "id": "process-map",
+          "title": "Mapa de proceso y alcance",
+          "content": "# Dibujar antes de construir\n\nDocumenta inicio, entradas, pasos, decisiones, excepciones y salida. Una captura de pantalla no describe por sí sola qué hacer si una fila está incompleta.\n\n## Flujo\nLeer archivo → validar fila → comprobar duplicado → crear registro → verificar → guardar resultado. Si hay dato inválido, marcar rechazo y continuar; si falla aplicación, usar recuperación acotada.\n\n## Alcance\nDefine aplicaciones soportadas, volumen inicial, permisos y quién atiende pendientes. Separa el MVP de mejoras posteriores.\n\n## Práctica\nRecorre el diagrama manualmente con una fila válida, una inválida y una duplicada. Si no sabes el resultado esperado de una de ellas, todavía falta una regla.\n\nLa documentación permite que otro desarrollador revise el comportamiento sin depender de haber visto tu grabación.",
+          "exercise": {
+            "prompt": "Escribe un flujo de seis pasos para cargar solicitudes y dos ramas de excepción.",
+            "answer": "Leer → validar → comprobar duplicado → crear → verificar → registrar resultado. Dato inválido: rechazar con motivo. Fallo temporal de aplicación: reintentar de forma limitada y dejar pendiente si continúa. Cada fila tiene un estado final."
+          }
+        },
+        {
+          "id": "api-vs-ui",
+          "title": "API, interfaz y automatización",
+          "content": "# Elegir el canal más robusto\n\nUna API con contrato estable puede crear o consultar registros sin depender de posición de botones. Una interfaz es necesaria cuando no existe acceso programático permitido o cierta operación solo está disponible allí.\n\n## Comparación\nInterfaz: depende de elementos, estados, sesiones y renderizado. API: depende de autenticación, esquema, errores y límites de servicio. Ambos requieren permisos y validación de resultado.\n\nPuedes combinar: obtener datos por API y completar un paso visual. No uses atajos que evadan controles del sistema.\n\n## Práctica\nPara cada paso del proceso, anota canal disponible y cómo compruebas éxito. Un clic no demuestra que se creó el registro; una respuesta HTTP tampoco sustituye revisar el contrato esperado.\n\nEscoge por requisitos reales, no porque una plataforma permita grabar rápidamente.",
+          "exercise": {
+            "prompt": "Si una aplicación ofrece API para crear registros, ¿qué compararías antes de automatizar la misma tarea con clics?",
+            "answer": "Permisos y disponibilidad de API, contrato, límites, validación, mantenimiento y manejo de fallos. Si cumple requisitos, usaría API para ese tramo. Verificaría respuesta e identificador creado; si uso UI, confirmaría el estado posterior al guardado."
+          }
+        },
+        {
+          "id": "rpa-platforms",
+          "title": "UiPath y Automation Anywhere",
+          "content": "# Conceptos compartidos\n\nEn UiPath, Studio sirve para desarrollar y Orchestrator para administrar ejecuciones y recursos según configuración. Automation Anywhere organiza desarrollo y operación alrededor de Automation 360 y Control Room.\n\nLas denominaciones, interfaces y licencias cambian. Consulta la documentación de tu versión en vez de asumir que un tutorial antiguo coincide con tu pantalla.\n\n## Conceptos que debes reconocer\nVariables, condiciones, bucles, interacción con UI, credenciales, manejo de errores, publicación y ejecución. Aprende cómo se representa cada responsabilidad en la plataforma elegida.\n\n## Práctica\nConstruye «leer tres filas y mostrar un resumen» en una plataforma antes de repetir en otra. Compara datos y control de flujo, no solo los nombres de actividades.\n\nRecursos: [UiPath Academy](https://academy.uipath.com/) y [documentación de Automation 360](https://docs.automationanywhere.com/).",
+          "exercise": {
+            "prompt": "Enumera cuatro conceptos que transferirías de una plataforma RPA a otra. ¿Qué verificarías en vez de memorizar botones?",
+            "answer": "Variables, condiciones, bucles y tratamiento de errores; también selectores y credenciales. Verificaría versión, actividades disponibles, configuración y documentación actual. Los conceptos se transfieren, la ubicación y API de actividades puede variar."
+          }
+        }
+      ]
+    },
+    {
+      "id": "rpa-build",
+      "title": "2 · Construir un bot básico",
+      "content": "## Objetivo\n\nUsar datos y elementos de interfaz con sincronización y verificación. Separar configuración de lógica.",
+      "lessons": [
+        {
+          "id": "variables",
+          "title": "Variables y tipos de datos",
+          "content": "# Datos con forma definida\n\nUna variable conserva un valor que el flujo necesita: texto, número, fecha, booleano, fila o tabla. Elegir tipo correcto evita comparar una cantidad como si fuera texto.\n\n## Ejemplo\n`solicitudId` texto, `importe` número, `esValida` booleano y `resultados` colección. Conserva identificadores con ceros iniciales como texto si el contrato lo requiere.\n\nNo conviertas todo automáticamente: fechas y decimales dependen de formato/localidad. Un CSV con `1,50` necesita una regla explícita de lectura.\n\n## Configuración\nRuta de entrada, URL de pruebas y máximo de reintentos deben estar fuera de la lógica repetida para ajustarse sin rehacer actividades.\n\n## Práctica\nProcesa tres filas con valores límite y registra el valor interpretado. Detecta un campo vacío antes de interactuar con la aplicación.",
+          "exercise": {
+            "prompt": "¿Qué tipos usarías para código 0012, importe 15.50, estado válido y lista de resultados? Explica un riesgo.",
+            "answer": "Código como texto para conservar ceros; importe numérico con parseo explícito; estado booleano; resultados como colección/tabla. Riesgo: convertir `0012` a número y perder formato, o interpretar un decimal con localidad incorrecta."
+          }
+        },
+        {
+          "id": "conditions-loops",
+          "title": "Condiciones, bucles y funciones",
+          "content": "# Una fila cada vez\n\nUn bucle procesa filas; una condición decide si cada una puede avanzar. Divide actividades repetidas en componentes con entradas y salidas claras.\n\n## Pseudocódigo\n~~~text\npara cada fila:\n  si falta id:\n    registrar_rechazo()\n  si no:\n    resultado = procesar_solicitud(fila)\n    registrar(resultado)\n~~~\n\nEvita un flujo enorme donde cualquier error detiene todo el archivo. Decide qué fallos permiten continuar con otra fila y cuáles hacen inseguro seguir.\n\n## Práctica\nTres filas: válida, vacía y válida. La segunda debe quedar rechazada sin impedir el procesamiento de la tercera.\n\nLimita bucles y confirma condición de salida. Una espera que nunca encuentra un elemento también debe terminar con un error controlado.",
+          "exercise": {
+            "prompt": "Define el comportamiento para válida → inválida → válida. ¿Qué separarías en una función reutilizable?",
+            "answer": "Procesaría primera y tercera; registraría rechazo y motivo para la segunda. Separaría validar fila, crear registro y verificar resultado. Cada función devuelve estado explícito y no oculta errores que afectan a todo el proceso."
+          }
+        },
+        {
+          "id": "selectors",
+          "title": "Selectores estables",
+          "content": "# Identificar el elemento correcto\n\nUn selector localiza un elemento por atributos o estructura. Coordenas nombres, roles, identificadores y contexto; no dependes únicamente de un punto fijo de pantalla.\n\n## Fragilidad\nPosición absoluta, índices cambiantes y títulos con fechas pueden romperse. Elige atributos estables y valida que el selector no coincida con varios elementos inesperados.\n\n## Ejemplo\nEn una tabla, identifica la fila por `solicitudId` y después su botón de editar. Elegir «el tercer botón» puede modificar otra solicitud cuando cambia el orden.\n\n## Práctica\nPrueba distinto tamaño de ventana, filas reordenadas y títulos dinámicos. Comprueba que se actúa sobre el mismo registro.\n\nLa disponibilidad de estrategias depende de tecnología y plataforma. Referencia: [selectores en UiPath](https://docs.uipath.com/activities/other/latest/ui-automation/about-selectors).",
+          "exercise": {
+            "prompt": "Un bot pulsa el tercer botón «Editar». ¿Por qué es frágil y cómo definirías un selector mejor?",
+            "answer": "El orden puede cambiar por filtros o nuevos registros. Localizaría la fila con el ID de solicitud y su botón dentro del contexto de esa fila. Probaría reordenación y verificaría el ID antes de modificar."
+          }
+        },
+        {
+          "id": "waits",
+          "title": "Esperas y verificación posterior",
+          "content": "# Esperar una condición\n\nUna pausa fija puede ser demasiado corta en días lentos y desperdiciar tiempo en días rápidos. Espera un estado verificable, con timeout: elemento visible, carga terminada o confirmación de guardado.\n\n## Después del clic\nComprueba el resultado: mensaje de éxito más ID de registro, cambio de estado o lectura del dato guardado. Un clic ejecutado sin error no garantiza que la aplicación aceptó la operación.\n\n## Ejemplo\nEnviar formulario → esperar confirmación → capturar identificador → registrar completado. Si aparece validación de campo, tratarla como resultado distinto.\n\n## Práctica\nSimula una pantalla lenta y una respuesta con error de validación. El flujo debe distinguir ambas y no marcar éxito por haber pulsado guardar.\n\nUsa timeout y diagnóstico específico para localizar dónde se bloqueó.",
+          "exercise": {
+            "prompt": "Sustituye una espera fija de diez segundos tras guardar por una estrategia basada en estado. ¿Qué comprobarías?",
+            "answer": "Esperaría confirmación o mensaje de validación hasta un timeout. Si hay éxito, leería el ID/estado guardado; si hay rechazo, registraría motivo. Si expira, verificaría si se creó el registro antes de reintentar."
+          }
+        }
+      ]
+    },
+    {
+      "id": "rpa-reliability",
+      "title": "3 · Errores, credenciales y colas",
+      "content": "## Objetivo\n\nProcesar transacciones con fallos controlados, secretos protegidos y estados recuperables. Verificar antes de repetir efectos.",
+      "lessons": [
+        {
+          "id": "exceptions",
+          "title": "Excepción de negocio o técnica",
+          "content": "# Clasificar para responder bien\n\nUna excepción de negocio indica que una entrada no cumple una regla: falta un dato o la solicitud ya está cerrada. Una técnica indica fallo del entorno: aplicación caída, timeout o sesión perdida.\n\nReintentar el mismo dato inválido no lo corrige. Un fallo temporal puede permitir reintento, siempre acotado y considerando si hubo efectos.\n\n## Flujo\nCapturar → clasificar → registrar contexto útil → recuperar o marcar pendiente → limpiar recursos necesarios. No uses un bloque de captura para convertir todos los errores en «éxito».\n\n## Práctica\nTres fallos: correo ausente, servicio inaccesible y duplicado detectado. Define estado final y tratamiento para cada uno.\n\nRecurso: [UiPath Academy: excepciones](https://academy.uipath.com/courses/error-and-exception-handling-in-studio).",
+          "exercise": {
+            "prompt": "Clasifica un campo obligatorio vacío y un timeout de aplicación. Define qué harías con cada uno.",
+            "answer": "Campo vacío: negocio, rechazo con motivo y sin reintento ciego. Timeout: técnico, comprobar estado y reintentar de forma limitada si es seguro; después pendiente/atención. Nunca marcar completado solo por capturar el error."
+          }
+        },
+        {
+          "id": "retry-recovery",
+          "title": "Reintentos y recuperación de sesión",
+          "content": "# Recuperar sin duplicar\n\nUn timeout tras guardar deja incertidumbre: puede haberse creado el registro. Consulta por ID de solicitud antes de repetir una creación.\n\n## Política\nMáximo de intentos, espera creciente para fallos temporales y condición de recuperación. Si la sesión expira, restablece autenticación mediante mecanismos permitidos y retoma desde estado conocido.\n\nNo reintentes indefinidamente ni repitas pagos o envíos sin comprobar idempotencia. Los efectos se controlan por claves, consulta de estado y reglas del sistema destino.\n\n## Práctica\nSimula guardado exitoso seguido de fallo en la confirmación. El resultado final debe contener una sola solicitud.\n\nSi no puedes verificar qué ocurrió, deja el caso pendiente para revisión en vez de adivinar. Incluye evidencia suficiente para que otra persona pueda resolverlo.",
+          "exercise": {
+            "prompt": "Tras un timeout no sabes si se creó la solicitud. ¿Cuál es el siguiente paso y qué estado usarías si sigue la incertidumbre?",
+            "answer": "Consultar por el identificador estable y verificar si existe antes de crear de nuevo. Si no puedo confirmar, marcar pendiente de revisión con contexto. No considerar timeout como prueba de que no ocurrió la creación."
+          }
+        },
+        {
+          "id": "secrets",
+          "title": "Credenciales y acceso mínimo",
+          "content": "# Separar secretos de lógica\n\nNo escribas contraseñas en variables visibles, archivos de proyecto o logs. Usa los mecanismos de credenciales de la plataforma y asigna solo el acceso requerido por el bot.\n\nAutomation Anywhere dispone de Credential Vault con credenciales y lockers; su acceso se administra según roles. En UiPath utiliza los recursos de credenciales apropiados de tu instalación, evitando secretos incrustados.\n\n## Operación\nDefine quién puede ejecutar, modificar y ver registros. Considera rotación y revocación sin tener que editar cada actividad.\n\n## Práctica\nRevisa un proyecto ficticio: configuración, capturas de error y mensajes de log. Comprueba que no exponen el secreto ni datos sensibles innecesarios.\n\nReferencia: [Credential Vault de Automation 360](https://docs.automationanywhere.com/r/automation-360/cloud-credentials-overview).",
+          "exercise": {
+            "prompt": "¿Dónde guardarías una contraseña usada por un bot y qué evitarías en su log de error?",
+            "answer": "En el gestor de credenciales de la plataforma, con permisos mínimos. Evitaría contraseña, tokens y capturas innecesarias con datos sensibles. Registraría ID de ejecución, actividad, estado y diagnóstico suficiente para resolver el fallo."
+          }
+        },
+        {
+          "id": "queues",
+          "title": "Colas y estados de transacción",
+          "content": "# Un registro por unidad de trabajo\n\nUna cola separa recepción de solicitudes y procesamiento. Cada ítem debe tener identificación, datos, estado e información de intentos según la plataforma.\n\n## Beneficios\nDistribuir carga, reanudar pendientes y observar qué terminó. Una cola no garantiza por sí sola «exactamente una vez»: los reintentos y efectos externos siguen requiriendo idempotencia.\n\n## Diseño\nUn productor añade entradas validadas; uno o más consumidores procesan y actualizan estado. Evita que dos ejecuciones creen el mismo registro simultáneamente sin control.\n\n## Práctica\nProcesa cinco ítems y provoca un fallo técnico en uno. Comprueba que puedes identificarlo y recuperarlo sin repetir todos los completados.\n\nReferencia: [colas de UiPath Orchestrator](https://docs.uipath.com/orchestrator/automation-cloud/latest/user-guide/managing-queues-in-orchestrator).",
+          "exercise": {
+            "prompt": "Explica productor, consumidor y estado de un ítem. ¿Por qué una cola no elimina automáticamente duplicados en el sistema destino?",
+            "answer": "Productor agrega unidades de trabajo; consumidor las procesa; estado refleja pendiente/en curso/completada/fallida según plataforma. Reintentos o respuesta perdida pueden repetir efectos externos; se necesitan IDs estables y verificación/idempotencia en destino."
+          }
+        }
+      ]
+    },
+    {
+      "id": "rpa-operation",
+      "title": "4 · Operación, IA y proyecto",
+      "content": "## Objetivo\n\nMedir un bot, probar cambios y combinar IA solo donde aporte valor. Preparar un proyecto con fallos documentados y recuperación.",
+      "lessons": [
+        {
+          "id": "rpa-logs",
+          "title": "Logs, métricas y diagnóstico",
+          "content": "# Saber qué produjo el bot\n\nRegistra inicio/fin de ejecución, ID de solicitud, actividad, duración, resultado y tipo de error. Mantén relación entre registro de origen y resultado final.\n\n## Métricas\nTasa de completados, rechazos de negocio, fallos técnicos, tiempo por ítem y pendientes. Contar solo número de ejecuciones no muestra si el trabajo realmente terminó.\n\nLos screenshots pueden ayudar en fallos visuales, pero revisa datos expuestos y retención. Más información no siempre facilita diagnóstico si está desordenada.\n\n## Práctica\nGenera un informe de diez filas con un rechazo y un error técnico. Otra persona debería identificar qué requiere corrección de dato y qué requiere atención del entorno.\n\nEl tiempo ahorrado se estima frente al proceso manual completo, incluyendo supervisión y mantenimiento.",
+          "exercise": {
+            "prompt": "Diseña una fila de log y tres métricas para el bot de solicitudes.",
+            "answer": "Log: fecha, ejecución, solicitudId, actividad, resultado, duración y error clasificado. Métricas: porcentaje completado, porcentaje de fallo técnico y tiempo por ítem. Separaría rechazo de negocio de fallo del bot para no interpretar mal la calidad."
+          }
+        },
+        {
+          "id": "rpa-testing",
+          "title": "Pruebas y cambios de pantalla",
+          "content": "# Probar comportamiento, no solo clics\n\nUsa datos ficticios y un entorno de prueba. Incluye entrada válida, campo ausente, duplicado, pantalla lenta, sesión expirada y cambio de orden de filas.\n\n## Regresión\nCuando cambie una pantalla, vuelve a ejecutar los casos afectados. Mantén selectores y configuración centralizados para reducir cambios dispersos.\n\nUn resultado correcto una vez no prueba robustez. Repetir pruebas útiles con variaciones de estado descubre dependencias escondidas.\n\n## Entrega\nDocumenta requisitos, versión de plataforma, configuración, permisos y cómo operar pendientes. Conserva una opción de detener una ejecución y recuperar desde un estado conocido.\n\n## Práctica\nCambia el tamaño de ventana y reordena registros; el bot debe actuar sobre el mismo ID. Si depende de coordenadas, identifica el punto frágil.",
+          "exercise": {
+            "prompt": "Escribe cuatro pruebas que deberían pasar antes de usar el bot con datos reales.",
+            "answer": "Dato válido crea un registro; campo obligatorio vacío se rechaza; duplicado no crea otra copia; timeout tras guardar verifica estado antes de repetir. Añadiría sesión expirada y filas reordenadas para revisar recuperación y selectores."
+          }
+        },
+        {
+          "id": "rpa-ai",
+          "title": "Combinar RPA con IA",
+          "content": "# Interpretación y ejecución separadas\n\nRPA funciona bien con reglas y acciones definidas. Un modelo puede ayudar a interpretar texto no estructurado, por ejemplo clasificar el motivo de una solicitud. Después una validación decide si puede seguir automáticamente.\n\n## Flujo\nTexto → extracción/clasificación → esquema validado → reglas de negocio → revisión si hay dudas → acción RPA → verificación.\n\nNo permitas que el texto de un correo se convierta en instrucciones libres para el bot. El modelo produce datos dentro de un contrato, no permisos adicionales.\n\n## Práctica\nUsa tres solicitudes claras y dos ambiguas. Las ambiguas van a revisión; no se resuelven inventando campos. Comprueba resultados y tasa de derivación.\n\nLa confianza declarada por el modelo no basta para autorizar acciones importantes: usa evidencia y criterios medidos.",
+          "exercise": {
+            "prompt": "Diseña un flujo para clasificar solicitudes por IA y cargarlas mediante RPA. ¿Qué pasa con una salida inválida o ambigua?",
+            "answer": "El modelo devuelve categoría y datos según esquema; validamos tipos y reglas. Si falta información o hay ambigüedad, revisión humana. Solo entradas válidas pasan a creación RPA con ID estable y verificación. Nunca ejecutar instrucciones libres del texto."
+          }
+        },
+        {
+          "id": "rpa-project",
+          "title": "Proyecto: carga de solicitudes robusta",
+          "content": "# Tu bot de portafolio\n\nUsa veinte solicitudes ficticias en CSV y una aplicación de pruebas. Implementa validación, identificación de duplicados, creación, verificación y reporte por fila.\n\n## Escenarios\nUna fila válida, una incompleta, una duplicada y una operación con timeout. Después añade cola y recuperación si aportan valor al volumen.\n\n## Entregables\nDiagrama, reglas, configuración, credenciales externas, logs anonimizados, pruebas y una grabación de éxito/fallo recuperado. Documenta límites y cómo atender pendientes.\n\n## Extensión\nAñade IA para categorizar descripciones con revisión de ambiguos; compara con reglas simples. No necesitas implementar ambas plataformas de golpe: termina una y luego reproduce el proceso en la otra.\n\nCierra la ruta explicando cómo redes, APIs, LLMs, RAG y agentes se conectan con este proceso.",
+          "exercise": {
+            "prompt": "Define el alcance de tu primer bot y cinco criterios de terminado. Incluye al menos un fallo que debe recuperar.",
+            "answer": "MVP: veinte filas ficticias, validación, carga en aplicación de pruebas y reporte. Criterios: crea una vez, rechaza incompletas, verifica resultado, protege credenciales y recupera timeout sin duplicar. Los pendientes tienen motivo e ID; una persona puede retomarlos."
+          }
+        }
+      ]
+    }
+  ]
+}

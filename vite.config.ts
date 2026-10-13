@@ -10,6 +10,7 @@ export default defineConfig({
         manualChunks: {
           flow: ['@xyflow/react'],
           markdown: ['react-markdown', 'remark-gfm'],
+          curriculum: ['./src/data/study-library.ts'],
         },
       },
     },

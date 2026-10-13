@@ -1,0 +1,356 @@
+{
+  "id": "german-learning",
+  "title": "Alemán · desde cero hasta B2",
+  "description": "Frases frecuentes, diálogos, patrones y producción progresiva. Aprende a usar el idioma con contexto y repaso.",
+  "category": "Idiomas",
+  "introduction": "# Tu ruta de alemán\n\nEmpieza en **Pre-A1**, aunque sientas que tu nivel es «menos que A1». A1–B2 son referencias de competencia: recorrer estos nodos no certifica un nivel. Combina las lecciones con lectura, escucha y conversación real.\n\n## Método\n1. Lee o escucha un diálogo corto para entender la situación.\n2. Identifica una frase reutilizable y cambia una sola pieza.\n3. Observa el patrón; usa la explicación gramatical cuando aclare una duda.\n4. Escribe tu intento antes de ver la respuesta orientativa.\n5. Corrige un punto y practica otra variante.\n6. Recupera el patrón mañana, dentro de tres días y la semana siguiente.\n\n**30 minutos:** 5 de repaso, 10 de input, 10 de producción y 5 de corrección. **60 minutos:** añade escucha repetida y conversación. No necesitas estudiar todos los idiomas y rutas cada día.\n\n## Cómo corregirte\nAnota: mi frase → versión corregida → motivo breve → patrón → dos ejemplos → nuevo intento. Si aún dudas, repite el mismo patrón con otro contexto. Marca «repasado» cuando puedas producir algo sin mirar, no solo después de leer.\n\n## Prompt para tu profesor\n«Soy principiante y estudio 30–60 minutos al día. Enséñame alemán mediante input, frases frecuentes, patrones y contexto. Introduce poca gramática cuando sea útil. Pídeme producir antes de dar la respuesta. Corrige mi frase, explica el patrón con dos ejemplos y hazme practicar de nuevo. Reutiliza lo aprendido y aumenta la dificultad solo cuando lo use con soltura».\n\nLas respuestas son modelos para comparar; CortexFlow no evalúa automáticamente tu alemán. El audio usa voces de tu navegador, si están disponibles.",
+  "stages": [
+    {
+      "id": "pre-a1",
+      "title": "Pre-A1 · primeras conversaciones",
+      "content": "## Empezar sin sobrecarga\n\nAprende saludos, presentación, petición de ayuda y sonidos frecuentes. Practica una mini conversación de cuatro turnos antes de avanzar. Usa `du` con personas cercanas y `Sie` en situaciones formales.\n\n**Evidencia:** te presentas, preguntas el nombre y pides que repitan sin leer todo el diálogo.",
+      "lessons": [
+        {
+          "id": "greetings",
+          "title": "Saludar y despedirse",
+          "content": "# Un encuentro cotidiano\n\n— **Hallo! Wie geht's?** — ¡Hola! ¿Qué tal?  \n— **Gut, danke. Und dir?** — Bien, gracias. ¿Y tú?  \n— **Auch gut. Bis später!** — Bien también. ¡Hasta luego!\n\n`Hallo` funciona en muchas situaciones. `Guten Morgen`, `Guten Tag` y `Guten Abend` sitúan el saludo en la mañana, el día y la tarde/noche. `Tschüss` es una despedida habitual; `Auf Wiedersehen` encaja en contextos más formales.\n\n## Patrón  \nAprende `Wie geht's?` como bloque. No necesitas analizar cada palabra para usarlo. En una situación formal: **Wie geht es Ihnen?**. Evita mezclar `Ihnen` y `dir` en el mismo tratamiento.\n\n## Repaso  \nRepite el diálogo cambiando `gut` por `ganz gut` (bastante bien) o `nicht so gut` (no muy bien). Pronunciar despacio con intención comunica más que recitar deprisa.",
+          "exercise": {
+            "prompt": "Escribe un diálogo de cuatro turnos: saludo por la mañana, pregunta informal, respuesta «bien, gracias» y despedida.",
+            "answer": "— Guten Morgen! Wie geht's?\n— Gut, danke. Und dir?\n— Auch gut.\n— Tschüss! Bis später!\n\n`Und dir?` mantiene el trato informal. Otra despedida natural sería `Bis morgen!` si os veréis mañana."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Hallo! Wie geht's? Gut, danke. Und dir? Auch gut. Bis später!"
+          }
+        },
+        {
+          "id": "introductions",
+          "title": "Presentarte y preguntar el nombre",
+          "content": "# Conocer a alguien\n\n— **Ich heiße Sebastian. Wie heißt du?** — Me llamo Sebastian. ¿Cómo te llamas?  \n— **Ich heiße Anna. Freut mich!** — Me llamo Anna. ¡Encantada!  \n— **Freut mich auch.** — Igualmente.\n\n## Piezas que puedes cambiar  \n`Ich heiße ___` sirve para cualquier nombre. `Ich bin ___` permite decir quién eres: **Ich bin Student** / **Ich bin Studentin**. Para presentarte también puedes decir `Ich bin Sebastian`.\n\nObserva `heiße` con `ich` y `heißt` con `du`; aquí basta reconocer estas dos formas dentro de frases. El pronombre `ich` se escribe normalmente en minúscula salvo al iniciar una oración.\n\n## Situación formal  \n**Wie heißen Sie?** = ¿Cómo se llama? `Sie` de cortesía lleva mayúscula. Responde con el mismo registro y evita convertir cada interacción en un examen de conjugación.",
+          "exercise": {
+            "prompt": "Preséntate con tu nombre, pregunta informalmente el nombre de otra persona y responde «encantado». Después transforma solo la pregunta al registro formal.",
+            "answer": "Ich heiße Sebastian. Wie heißt du? Freut mich!\n\nFormal: **Wie heißen Sie?**\n\nError frecuente: `Ich heißt Sebastian` → `Ich heiße Sebastian`. Reconoce la pareja `ich heiße / du heißt`; practica con dos nombres nuevos."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Ich heiße Sebastian. Wie heißt du? Ich heiße Anna. Freut mich! Wie heißen Sie?"
+          }
+        },
+        {
+          "id": "repair",
+          "title": "Pedir ayuda y ganar tiempo",
+          "content": "# Sobrevivir a una conversación\n\n**Entschuldigung. Ich verstehe das nicht.** — Disculpe. No entiendo eso.  \n**Können Sie das bitte wiederholen?** — ¿Puede repetirlo, por favor?  \n**Bitte sprechen Sie langsamer.** — Hable más despacio, por favor.  \n**Was bedeutet das?** — ¿Qué significa eso?  \n**Wie sagt man das auf Deutsch?** — ¿Cómo se dice eso en alemán?\n\n## Contexto  \nEn una recepción: escuchas una instrucción demasiado rápida. Primero pide repetir; después identifica la palabra que no reconociste. Pedir aclaración es parte de conversar, no una interrupción del aprendizaje.\n\nCon un amigo puedes decir **Kannst du das bitte wiederholen?**. Guarda la frase completa y sustituye `das` por una palabra que necesitas: **Was bedeutet „Bahnhof“?**\n\n## Producción gradual  \nDi una frase, espera respuesta y confirma: **Ah, danke! Jetzt verstehe ich.** No hace falta introducir otra estructura hasta que estas salgan con facilidad.",
+          "exercise": {
+            "prompt": "En una tienda no entiendes una frase. Escribe dos peticiones educadas: repetirla y hablar más despacio. Añade una pregunta sobre la palabra «Bahnhof».",
+            "answer": "Können Sie das bitte wiederholen? Bitte sprechen Sie langsamer. Was bedeutet „Bahnhof“?\n\n`Bahnhof` significa estación de tren. Con un amigo: `Kannst du das bitte wiederholen?`. Repite la petición con una palabra distinta, como `Termin`."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Entschuldigung. Ich verstehe das nicht. Können Sie das bitte wiederholen? Bitte sprechen Sie langsamer."
+          }
+        },
+        {
+          "id": "sounds",
+          "title": "Sonidos útiles dentro de frases",
+          "content": "# Escuchar, imitar, comparar\n\nEmpieza con **Ich möchte einen Kaffee** y **Tschüss, bis morgen!**. Escucha un modelo, repite despacio y vuelve a escucharlo. Usa la voz del navegador como apoyo y busca también grabaciones de hablantes reales.\n\n## Sonidos que merecen atención  \n- `w` suele sonar como la **v** de otros idiomas, con dientes superiores sobre el labio inferior: `Wasser`.  \n- `z` representa normalmente /ts/: `Zeit`.  \n- `sch` se parece a «sh»: `Schule`.  \n- En `ich`, `ch` es una fricción suave cerca del paladar; no equivale exactamente a la jota española.  \n- `ü`: coloca labios de «u» e intenta decir «i». `ö`: labios de «o» intentando decir «e».\n\nLas aproximaciones en español ayudan a empezar, pero no sustituyen escuchar el sonido. No conviertas esto en una lista de reglas: practica dos frases completas y comprueba que se entienden.",
+          "exercise": {
+            "prompt": "Explica cómo practicarías la palabra «Tschüss» sin depender solo de una transcripción española. Después escribe una despedida que la incluya.",
+            "answer": "Escucharía un modelo, repetiría la frase completa y compararía el sonido de `ü`, manteniendo los labios redondeados mientras intento decir «i».\n\n**Tschüss, bis morgen!**\n\nNo hay una equivalencia española exacta de `ü`. Dedica un minuto y vuelve a una conversación, sin bloquearte buscando perfección."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Ich möchte einen Kaffee. Tschüss, bis morgen! Wasser. Schule."
+          }
+        }
+      ]
+    },
+    {
+      "id": "a1",
+      "title": "A1 · resolver situaciones sencillas",
+      "content": "## Base cotidiana\n\nTrabaja origen, residencia, compras, preguntas, rutinas y planes inmediatos. Reutiliza tus saludos en cada ejercicio.\n\n**Evidencia:** mantienes un intercambio breve sobre quién eres, qué necesitas y cuándo puedes quedar. Recursos de nivel y práctica: [Goethe-Institut](https://www.goethe.de/en/spr/prf.html).",
+      "lessons": [
+        {
+          "id": "origin",
+          "title": "Origen, residencia e idiomas",
+          "content": "# ¿De dónde eres?\n\n— **Woher kommst du?**  \n— **Ich komme aus Costa Rica. Und du?**  \n— **Ich komme aus Deutschland. Wo wohnst du?**  \n— **Ich wohne in San José. Ich lerne Deutsch.**\n\n## Tres patrones  \n`Ich komme aus ___` indica procedencia; `Ich wohne in ___` residencia; `Ich spreche ___` idiomas. `Ich spreche ein bisschen Deutsch` expresa que hablas un poco.\n\nObserva el verbo en segunda posición en afirmaciones: `Ich / wohne / in San José`. En preguntas con `wo` o `woher`, el verbo sigue a la palabra de pregunta.\n\nNo generalices aún `aus` a cualquier país con artículo: **aus der Schweiz**, **aus der Türkei** son bloques útiles cuando aparezcan. Empieza por tu propia situación.\n\n## Variación  \nPresenta después a un amigo: **Er wohnt in Berlin** / **Sie lernt Spanisch**. Reutiliza `Freut mich` al cerrar la presentación.",
+          "exercise": {
+            "prompt": "Di de dónde eres, dónde vives y qué idioma aprendes. Pregunta después dónde vive tu interlocutor.",
+            "answer": "Ich komme aus Costa Rica. Ich wohne in San José. Ich lerne Deutsch. Wo wohnst du?\n\nSi tu lugar es otro, cambia solo el país y la ciudad. Error: `Ich in San José wohne` → `Ich wohne in San José`: el verbo ocupa la segunda posición de la afirmación."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Ich komme aus Costa Rica. Ich wohne in San José. Ich spreche Spanisch und ein bisschen Deutsch."
+          }
+        },
+        {
+          "id": "requests",
+          "title": "Pedir algo en un café",
+          "content": "# Una petición frecuente\n\n— **Guten Tag. Ich möchte einen Kaffee, bitte.**  \n— **Mit Milch?**  \n— **Ja, bitte. Und ein Wasser.**  \n— **Sonst noch etwas?**  \n— **Nein, danke. Was kostet das?**\n\n`Ich möchte ___` es una forma educada de pedir o expresar un deseo. `Ich hätte gern ___` también es muy natural para pedir. Evita traducir siempre «quiero» como `Ich will`: puede sonar más directo según el contexto.\n\n## Patrón útil  \n**einen Kaffee**, **einen Tee**, **ein Wasser**: apréndelos dentro de la petición. `Kaffee` y `Tee` son masculinos; al ser lo que pides aquí, `ein` se convierte en `einen`. No necesitas memorizar todos los casos para realizar este pedido.\n\n## Repaso  \nCambia bebida y cantidad: **Zwei Kaffee, bitte** es un pedido habitual; **zwei Tassen Kaffee** especifica dos tazas.",
+          "exercise": {
+            "prompt": "Pide educadamente un té y un agua. Pregunta cuánto cuesta y rechaza algo adicional.",
+            "answer": "Ich möchte einen Tee und ein Wasser, bitte. Was kostet das? Nein, danke.\n\nTambién: `Ich hätte gern einen Tee und ein Wasser.` Reconoce `einen Tee / ein Wasser` como bloques y practica después con café."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Guten Tag. Ich möchte einen Kaffee, bitte. Mit Milch? Ja, bitte. Was kostet das?"
+          }
+        },
+        {
+          "id": "questions",
+          "title": "Preguntas frecuentes y orden",
+          "content": "# Buscar información\n\n**Wo ist der Bahnhof?** — ¿Dónde está la estación?  \n**Wann beginnt der Kurs?** — ¿Cuándo empieza el curso?  \n**Wie viel kostet das?** — ¿Cuánto cuesta eso?  \n**Hast du Zeit?** — ¿Tienes tiempo?  \n**Sprichst du Englisch?** — ¿Hablas inglés?\n\n## Reconocer dos patrones  \nCon una palabra de pregunta: `Wo / ist / der Bahnhof?`. Sin ella, para una respuesta sí/no, empieza el verbo: `Hast / du / Zeit?`.\n\nPractica la respuesta junto a la pregunta: **Ja, ich habe Zeit** o **Nein, heute leider nicht**. Esta última significa «no, hoy lamentablemente no» y sirve sin construir una oración larga.\n\n## Contexto  \nLlegas a un curso y preguntas hora, ubicación y precio. Di `Entschuldigung` al iniciar y `Danke` al terminar. Una sola pregunta clara funciona mejor que juntar cinco estructuras nuevas.",
+          "exercise": {
+            "prompt": "Construye preguntas para saber dónde está el hotel, cuándo empieza el curso y si tu amigo tiene tiempo.",
+            "answer": "Wo ist das Hotel? Wann beginnt der Kurs? Hast du Zeit?\n\nEn las dos primeras, la palabra de pregunta ocupa el inicio. En la tercera el verbo inicia la pregunta. Responde ahora a `Hast du Zeit?` sin mirar el modelo."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Wo ist der Bahnhof? Wann beginnt der Kurs? Hast du Zeit? Ja, ich habe Zeit."
+          }
+        },
+        {
+          "id": "routine",
+          "title": "Hablar de tu día",
+          "content": "# Una rutina sencilla\n\n**Ich stehe um sieben Uhr auf. Dann frühstücke ich. Um acht Uhr arbeite ich. Abends lerne ich Deutsch.**\n\nMe levanto a las siete. Después desayuno. A las ocho trabajo. Por la tarde/noche estudio alemán.\n\n## Observa el patrón  \n`aufstehen` aparece como **Ich stehe … auf**: una parte queda al final. Aprende primero esta frase con tu propia hora.\n\nCuando comienzas con tiempo, el verbo mantiene la segunda posición: **Abends / lerne / ich Deutsch**. «Segunda posición» significa segundo bloque de información, no necesariamente segunda palabra.\n\n## Frecuencia  \n**jeden Tag** = cada día; **oft** = a menudo; **manchmal** = a veces. **Ich lerne jeden Tag zehn Minuten** crea una rutina pequeña y realista.\n\n## Repaso activo  \nSin mirar, cuenta tres acciones con `dann` (después). Cambia mañana la hora y una actividad; así reutilizas el patrón en vez de memorizar un párrafo.",
+          "exercise": {
+            "prompt": "Escribe tres frases: te levantas a las ocho, después desayunas y por la tarde estudias alemán.",
+            "answer": "Ich stehe um acht Uhr auf. Dann frühstücke ich. Abends lerne ich Deutsch.\n\nError: `Dann ich frühstücke` → `Dann frühstücke ich`. Al colocar `dann` primero, el verbo sigue en segunda posición. Otra variante: `Morgens trinke ich Kaffee`."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Ich stehe um sieben Uhr auf. Dann frühstücke ich. Abends lerne ich Deutsch."
+          }
+        },
+        {
+          "id": "negation",
+          "title": "Decir que no y expresar necesidad",
+          "content": "# Necesitar y negar\n\n**Ich brauche ein Ticket.** — Necesito un billete.  \n**Ich habe kein Auto.** — No tengo coche.  \n**Ich verstehe das nicht.** — No entiendo eso.  \n**Heute habe ich keine Zeit.** — Hoy no tengo tiempo.\n\n## Distinción intuitiva  \n`kein` suele negar un sustantivo que llevaría `ein` o no llevaría artículo: `ein Auto → kein Auto`, `Zeit → keine Zeit`. `nicht` niega otras partes o la afirmación: `Ich komme heute nicht`.\n\nReconoce **kein Auto / keine Zeit** como patrones antes de extender la explicación a todos los casos. La posición de `nicht` cambia según lo que niegas; estos ejemplos no son una regla universal de «siempre al final».\n\n## Mini diálogo  \n— **Hast du ein Auto?**  \n— **Nein, ich habe kein Auto. Ich fahre mit dem Bus.**\n\nReutiliza `Hast du…?` y cambia el objeto por `ein Ticket`.",
+          "exercise": {
+            "prompt": "Responde que no tienes coche, que hoy no tienes tiempo y que no entiendes eso.",
+            "answer": "Ich habe kein Auto. Heute habe ich keine Zeit. Ich verstehe das nicht.\n\n`kein` acompaña a los sustantivos de estas dos primeras frases; `nicht` niega entender en la tercera. Practica: `Ich habe kein Ticket`."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Ich brauche ein Ticket. Ich habe kein Auto. Heute habe ich keine Zeit. Ich verstehe das nicht."
+          }
+        },
+        {
+          "id": "modal-plans",
+          "title": "Planes con können y müssen",
+          "content": "# Quedar y organizarse\n\n— **Kannst du morgen kommen?**  \n— **Ja, aber ich muss zuerst arbeiten.**  \n— **Wir können um sechs Uhr essen.**\n\n¿Puedes venir mañana? Sí, pero primero tengo que trabajar. Podemos comer a las seis.\n\n## Un patrón productivo  \n**Ich kann + … + infinitivo al final**: `Ich kann Deutsch lernen`. Con `muss`: **Ich muss heute arbeiten**.\n\nLa parte conjugada expresa posibilidad u obligación; la acción principal va al final. Practica solo `ich kann`, `du kannst`, `ich muss` antes de ampliar personas.\n\n**Ich möchte Deutsch lernen** reutiliza la petición del café para expresar un objetivo. `nicht müssen` significa no tener que hacerlo, no prohibición: **Du musst nicht kommen** = no hace falta que vengas.\n\n## Comprobación A1  \nPresenta tu rutina, pide una bebida y organiza una cita con hora. Si cada frase exige consultar el modelo, repite con pequeñas variaciones antes de pasar a A2.",
+          "exercise": {
+            "prompt": "Invita a alguien a venir mañana. Di que tienes que trabajar hoy, pero que puedes venir mañana.",
+            "answer": "Kannst du morgen kommen? Ich muss heute arbeiten, aber ich kann morgen kommen.\n\nError: `Ich kann komme morgen` → `Ich kann morgen kommen`. `kommen` conserva el infinitivo al final. Repite con `lernen`."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Kannst du morgen kommen? Ich muss heute arbeiten, aber ich kann morgen kommen."
+          }
+        }
+      ]
+    },
+    {
+      "id": "a2",
+      "title": "A2 · experiencias y vida diaria",
+      "content": "## Ampliar lo que ya sabes\n\nConecta frases, cuenta actividades pasadas y resuelve situaciones de viaje, salud y hogar. Escucha el mismo diálogo varias veces: primero sentido general, después detalles, finalmente repetición.\n\n**Evidencia:** cuentas lo que hiciste ayer y explicas una necesidad sencilla con un motivo.",
+      "lessons": [
+        {
+          "id": "past",
+          "title": "Contar lo que hiciste ayer",
+          "content": "# Una conversación al día siguiente\n\n— **Was hast du gestern gemacht?**  \n— **Ich habe gearbeitet. Danach habe ich Deutsch gelernt. Am Abend bin ich nach Hause gegangen.**\n\n## Patrón en uso  \nEn conversación, muchas experiencias pasadas se cuentan con **haben/sein + participio**: `Ich habe gelernt`, `Ich bin gegangen`. La parte final lleva la acción; la primera parte se adapta a la persona.\n\nEmpieza con bloques frecuentes: **habe gearbeitet**, **habe gelernt**, **habe gegessen**, **bin gegangen**, **bin gefahren**. No deduzcas que todo verbo de movimiento siempre usa `sein` en cualquier uso: aprende la frase concreta.\n\n## Reutilización  \n`gestern`, `danach`, `am Abend` ordenan el relato. Con tiempo al inicio: **Gestern habe ich gearbeitet**.\n\nNo necesitas relatar una biografía. Tres hechos del día anterior son suficientes para practicar el patrón y volver a usarlo mañana.",
+          "exercise": {
+            "prompt": "Cuenta que ayer trabajaste, estudiaste alemán y después fuiste a casa.",
+            "answer": "Gestern habe ich gearbeitet und Deutsch gelernt. Danach bin ich nach Hause gegangen.\n\nError: `Ich habe gehen` → `Ich bin gegangen` para este significado. Practica otro relato con `Ich habe gegessen` y `Ich bin gefahren`."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Was hast du gestern gemacht? Ich habe gearbeitet. Danach habe ich Deutsch gelernt. Am Abend bin ich nach Hause gegangen."
+          }
+        },
+        {
+          "id": "reasons",
+          "title": "Explicar motivos con weil",
+          "content": "# Dar una razón\n\n**Ich lerne Deutsch, weil ich in Deutschland arbeiten möchte.** — Aprendo alemán porque quiero trabajar en Alemania.  \n**Ich bleibe zu Hause, weil ich müde bin.** — Me quedo en casa porque estoy cansado.\n\n## Observa el final  \nDespués de `weil`, el verbo conjugado suele ir al final en el registro estándar: `weil ich müde **bin**`; con modal: `weil ich … arbeiten **möchte**`.\n\nPrimero puedes decir dos frases: **Ich bin müde. Ich bleibe zu Hause.** Después únelas. Así ves qué parte cambia y no aprendes el orden como una abstracción.\n\n`denn` es otra manera de dar una razón, con orden de oración principal: **Ich bleibe zu Hause, denn ich bin müde**. Mantén primero `weil` si alternar ambas te confunde.\n\n## Repaso  \nExplica por qué estudias, por qué no puedes ir hoy y por qué pides repetir. Mantén una sola nueva estructura por ejercicio.",
+          "exercise": {
+            "prompt": "Une «Ich lerne Deutsch» e «Ich möchte in Berlin arbeiten» con weil. Después explica que te quedas en casa porque estás cansado.",
+            "answer": "Ich lerne Deutsch, weil ich in Berlin arbeiten möchte. Ich bleibe zu Hause, weil ich müde bin.\n\nError: `weil ich bin müde` → `weil ich müde bin`. El verbo conjugado cierra esta subordinada. Otro ejemplo: `weil ich heute arbeiten muss`."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Ich lerne Deutsch, weil ich in Deutschland arbeiten möchte. Ich bleibe zu Hause, weil ich müde bin."
+          }
+        },
+        {
+          "id": "travel",
+          "title": "Moverte y pedir indicaciones",
+          "content": "# En la estación\n\n— **Entschuldigung, wie komme ich zum Bahnhof?**  \n— **Gehen Sie geradeaus und dann links.**  \n— **Wie lange dauert das?**  \n— **Etwa zehn Minuten zu Fuß.**\n\n## Bloques prácticos  \n`geradeaus` = recto; `links/rechts` = izquierda/derecha; `zu Fuß` = a pie; **mit dem Bus** = en autobús. **Ich möchte nach Berlin fahren** expresa el destino ciudad.\n\n`zum Bahnhof` reúne `zu + dem`. Aprende el bloque para este destino y evita deducir que toda dirección usa la misma preposición. **zum Hotel** y **nach Hause** son otros bloques frecuentes.\n\n## Resolver un problema  \n**Ist das der richtige Zug?** — ¿Es el tren correcto?  \n**Wo muss ich umsteigen?** — ¿Dónde debo hacer transbordo?  \n**Der Zug hat Verspätung.** — El tren lleva retraso.\n\nSimula una escena con una pregunta, una instrucción y una confirmación; incorpora tus frases para pedir hablar más despacio.",
+          "exercise": {
+            "prompt": "Pregunta cómo llegar a la estación y cuánto tarda a pie. Da después una indicación: recto y a la derecha.",
+            "answer": "Wie komme ich zum Bahnhof? Wie lange dauert das zu Fuß?\n\nGehen Sie geradeaus und dann rechts.\n\nPara un amigo: `Geh geradeaus und dann rechts`. Conserva el registro dentro de la escena."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Entschuldigung, wie komme ich zum Bahnhof? Gehen Sie geradeaus und dann links. Wie lange dauert das?"
+          }
+        },
+        {
+          "id": "home-comparison",
+          "title": "Describir casa y comparar",
+          "content": "# Elegir dónde vivir\n\n**Meine Wohnung ist klein, aber ruhig. Sie ist näher am Bahnhof als die andere Wohnung. Diese Wohnung ist günstiger.**\n\nMi piso es pequeño, pero tranquilo. Está más cerca de la estación que el otro piso. Este piso es más económico.\n\n## Patrones reutilizables  \n`___ ist klein/groß/ruhig/teuer`. Para comparar: **größer als**, **günstiger als**, **besser als**. Con igualdad: **so groß wie**.\n\nAprende primero `besser` como forma frecuente de `gut`, sin asumir que todos los comparativos se forman igual. `als` compara diferencias; `wie` aparece en igualdad.\n\n## Preguntas reales  \n**Wie hoch ist die Miete?** — ¿Cuánto es el alquiler?  \n**Sind die Nebenkosten inklusive?** — ¿Están incluidos los gastos adicionales?  \n**Kann ich die Wohnung besichtigen?** — ¿Puedo visitar el piso?\n\nComparar no requiere una lista de adjetivos: describe dos opciones con dos criterios que realmente te importen.",
+          "exercise": {
+            "prompt": "Describe un piso pequeño y tranquilo. Compara dos pisos diciendo que el segundo es más barato que el primero.",
+            "answer": "Die Wohnung ist klein und ruhig. Die zweite Wohnung ist günstiger als die erste.\n\nError: `günstiger wie` → `günstiger als` en alemán estándar. Para igualdad: `so günstig wie`. Repite con `größer`."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Meine Wohnung ist klein, aber ruhig. Diese Wohnung ist günstiger als die andere Wohnung."
+          }
+        },
+        {
+          "id": "appointments",
+          "title": "Salud, citas y mensajes",
+          "content": "# Concertar una cita\n\n— **Guten Tag, ich möchte einen Termin vereinbaren.**  \n— **Passt Ihnen Dienstag um zehn Uhr?**  \n— **Leider kann ich dann nicht. Geht es auch am Mittwoch?**\n\nPara describir una molestia: **Ich habe Kopfschmerzen** o **Mein Hals tut weh**. Son frases para comunicarte, no instrucciones médicas.\n\n## Un mensaje breve  \n**Hallo Anna, leider kann ich heute nicht kommen, weil ich krank bin. Können wir uns morgen treffen? Viele Grüße, Sebastian.**\n\nObserva cómo ya puedes combinar `kann`, `weil` y una propuesta. Elige registro informal o formal según el destinatario: `Hallo Anna` frente a `Sehr geehrte Frau Müller`.\n\n## Comprobación A2  \nGraba o escribe un relato breve sobre ayer, una necesidad de hoy y un plan para mañana. Pide a un profesor que revise un error recurrente y vuelve a producir el mensaje.",
+          "exercise": {
+            "prompt": "Escribe a un amigo que hoy no puedes ir porque estás enfermo y propone veros mañana. Mantén un tono informal.",
+            "answer": "Hallo Anna, leider kann ich heute nicht kommen, weil ich krank bin. Können wir uns morgen treffen? Viele Grüße, Sebastian.\n\nLa subordinada termina en `bin`. Si escribes a otra persona, cambia el nombre y conserva el patrón."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Ich möchte einen Termin vereinbaren. Leider kann ich am Dienstag nicht. Geht es auch am Mittwoch?"
+          }
+        }
+      ]
+    },
+    {
+      "id": "b1",
+      "title": "B1 · narrar, explicar y participar",
+      "content": "## De frases a conversaciones sostenidas\n\nTrabaja relatos, opiniones, condiciones, cortesía y experiencias laborales. Mantén vocabulario cotidiano mientras aumentas la longitud de los intercambios.\n\n**Evidencia:** explicas una decisión, narras un problema y respondes preguntas sin depender de un guion fijo.",
+      "lessons": [
+        {
+          "id": "narrative",
+          "title": "Narrar con conectores",
+          "content": "# Contar un problema con orden\n\n**Zuerst habe ich den Zug verpasst. Dann habe ich Anna angerufen. Als ich am Bahnhof angekommen bin, war sie schon da. Zum Glück konnten wir einen späteren Zug nehmen.**\n\n## Estructura de relato  \nPresenta situación → problema → acción → resultado. `zuerst`, `dann`, `danach`, `zum Glück` guían al oyente sin vocabulario complicado.\n\n`als` introduce aquí un momento pasado concreto: **Als ich angekommen bin, …**. `wenn` se usa para condiciones o situaciones repetidas: **Wenn ich den Zug verpasse, nehme ich den Bus**.\n\nEn la oración que empieza con la subordinada, después viene el verbo de la principal: `Als …, **war** sie …`. Trabaja este patrón solo después de dominar el relato en frases separadas.\n\n## Naturalidad  \n`war` y `hatte` son habituales incluso en relatos conversacionales; no hace falta forzar todas las frases al Perfekt.",
+          "exercise": {
+            "prompt": "Cuenta en cuatro frases que perdiste el autobús, llamaste a un amigo y finalmente llegaste a tiempo. Usa zuerst, dann y zum Glück.",
+            "answer": "Zuerst habe ich den Bus verpasst. Dann habe ich einen Freund angerufen. Er hat mich abgeholt. Zum Glück bin ich rechtzeitig angekommen.\n\nEs una respuesta posible. Comprueba que el relato incluye problema, acción y resultado; no necesita palabras idénticas al modelo."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Zuerst habe ich den Zug verpasst. Dann habe ich Anna angerufen. Zum Glück konnten wir einen späteren Zug nehmen."
+          }
+        },
+        {
+          "id": "opinions",
+          "title": "Dar una opinión y matizar",
+          "content": "# Participar sin memorizar discursos\n\n**Ich finde, dass regelmäßiges Üben wichtig ist. Meiner Meinung nach helfen kurze Gespräche mehr als lange Wortlisten. Das stimmt, aber gute Beispiele sind auch wichtig.**\n\n## Bloques útiles  \n`Ich finde, dass …` para opinión; `Meiner Meinung nach …` para perspectiva; `Das stimmt, aber …` para aceptar y matizar. Evita traducir «estoy de acuerdo» literalmente: **Ich stimme dir zu** es natural.\n\nDespués de `dass`, el verbo conjugado va al final: `dass … wichtig **ist**`. En `Meiner Meinung nach helfen …`, el primer bloque completo cuenta como una posición.\n\n## Contexto  \nDos compañeros discuten cómo estudiar. No tienes que «ganar»: expresa una idea, apóyala con un ejemplo y pregunta **Was denkst du darüber?**.\n\n## Repaso  \nUsa una opinión sobre un tema anterior, como vivienda, viajes o tu rutina. Combina una frase nueva con tres patrones conocidos.",
+          "exercise": {
+            "prompt": "Da tu opinión sobre practicar alemán a diario. Añade una razón y pregunta qué piensa la otra persona.",
+            "answer": "Ich finde, dass tägliches Üben wichtig ist, weil man die Wörter öfter benutzt. Was denkst du darüber?\n\nPuedes simplificar: `Ich finde tägliches Üben wichtig. So vergesse ich weniger.` La claridad importa más que acumular subordinadas."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Ich finde, dass regelmäßiges Üben wichtig ist. Das stimmt, aber gute Beispiele sind auch wichtig. Was denkst du darüber?"
+          }
+        },
+        {
+          "id": "conditions",
+          "title": "Condiciones y contrastes",
+          "content": "# Planificar con alternativas\n\n**Wenn ich Zeit habe, lerne ich Deutsch. Obwohl ich müde bin, übe ich zehn Minuten. Wenn es regnet, bleiben wir zu Hause.**\n\n`wenn` establece una condición o una situación repetida; `obwohl` introduce algo que podría impedir la acción, pero no la impide.\n\n## Reconoce el orden  \nEn la parte con `wenn/obwohl`, el verbo conjugado termina la subordinada. Si esa parte inicia toda la oración, la principal empieza por el verbo: **Wenn ich Zeit habe, lerne ich …**.\n\nPrimero ensaya dos frases: `Ich bin müde. Ich übe trotzdem.` Después compara con `Obwohl ich müde bin, übe ich`.\n\n## Una sola dificultad  \nNo añadas tiempos nuevos a la vez. Usa presente y palabras conocidas. Cuando salga con soltura, cambia la situación: lluvia, trabajo, transporte o falta de tiempo.\n\nExplica con tus palabras qué significa la conexión antes de intentar nombrar la regla.",
+          "exercise": {
+            "prompt": "Di que estudiarás si tienes tiempo y que practicarás aunque estés cansado. Usa presente en las dos frases.",
+            "answer": "Wenn ich Zeit habe, lerne ich Deutsch. Obwohl ich müde bin, übe ich.\n\nError: `Wenn ich habe Zeit` → `Wenn ich Zeit habe`. Otro ejemplo: `Wenn der Kurs beginnt, höre ich zu`. Practica de nuevo con lluvia."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Wenn ich Zeit habe, lerne ich Deutsch. Obwohl ich müde bin, übe ich zehn Minuten."
+          }
+        },
+        {
+          "id": "polite",
+          "title": "Peticiones amables y propuestas",
+          "content": "# Pedir sin sonar brusco\n\n**Könnten Sie mir bitte helfen?** — ¿Podría ayudarme?  \n**Ich hätte gern einen Termin.** — Quisiera una cita.  \n**An deiner Stelle würde ich früher anfangen.** — En tu lugar empezaría antes.\n\n## Un patrón, varias situaciones  \n`Könnten Sie …?` suaviza una petición. `würde + infinitivo` permite una propuesta o situación hipotética: **Ich würde morgen kommen**.\n\nLa etiqueta gramatical es Konjunktiv II, pero primero reconoce su función: crear distancia amable o imaginar. Aprende `könnte`, `hätte`, `wäre` como bloques frecuentes al encontrarlos.\n\n## Contexto laboral  \n— **Könnten wir den Termin verschieben?**  \n— **Ja, wann würde es Ihnen passen?**  \n— **Am Donnerstag wäre es gut.**\n\nNo todo necesita máxima formalidad. Con un amigo: **Kannst du mir kurz helfen?** es natural. El contexto determina el tono, no solo la complejidad de la gramática.",
+          "exercise": {
+            "prompt": "Pide formalmente ayuda, propone cambiar una cita y sugiere el jueves.",
+            "answer": "Könnten Sie mir bitte helfen? Könnten wir den Termin verschieben? Am Donnerstag wäre es gut.\n\nMantén `Sie/Ihnen` si continúas en registro formal. Variante informal: `Könntest du mir helfen?`."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Könnten Sie mir bitte helfen? Könnten wir den Termin verschieben? Am Donnerstag wäre es gut."
+          }
+        },
+        {
+          "id": "work-study",
+          "title": "Trabajo, aprendizaje y correcciones",
+          "content": "# Explicar lo que haces\n\n**Ich arbeite im IT-Bereich. Ich bin für die Server zuständig. Zurzeit lerne ich, wie man Anwendungen bereitstellt. Ich suche eine Stelle, bei der ich viel lernen kann.**\n\n## Patrones profesionales  \n`Ich bin für … zuständig` expresa responsabilidad. `Zurzeit …` habla de la situación actual. `Ich habe Erfahrung mit …` presenta experiencia sin exagerarla.\n\nEn **wie man Anwendungen bereitstellt**, la pregunta está integrada y el verbo va al final. No uses el orden de una pregunta independiente dentro de esta frase.\n\n## Corregir con intención  \nMi frase: `Ich lerne, wie kann ich Docker benutzen`.  \nVersión: **Ich lerne, wie ich Docker benutzen kann**.  \nMotivo: la pregunta indirecta termina con el verbo conjugado.  \nPatrón: `wie ich … kann`.  \nEjemplos: **wie ich besser lernen kann**, **wie ich das Problem lösen kann**.\n\n## Comprobación B1  \nExplica en dos minutos un proyecto, qué problema resuelve y qué aprendiste. Responde después dos preguntas inesperadas.",
+          "exercise": {
+            "prompt": "Preséntate como estudiante de cloud. Explica que estás aprendiendo cómo usar Docker y que buscas un trabajo donde puedas aprender.",
+            "answer": "Ich lerne Cloud-Technologien. Ich lerne, wie ich Docker benutzen kann. Ich suche eine Stelle, bei der ich viel lernen kann.\n\nUsa palabras que correspondan a tu experiencia real. Repite la pregunta indirecta con `Linux benutzen`."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Ich arbeite im IT-Bereich. Zurzeit lerne ich, wie man Anwendungen bereitstellt. Ich habe Erfahrung mit Linux."
+          }
+        }
+      ]
+    },
+    {
+      "id": "b2",
+      "title": "B2 · argumentar y comunicar con precisión",
+      "content": "## Refinar lo que ya puedes hacer\n\nAmplía comprensión de textos y conversaciones, argumentación y registro. Las lecciones son puntos de práctica: B2 requiere exposición variada y feedback externo, no solo completar un mapa.\n\n[Descriptores del MCER](https://www.coe.int/en/web/common-european-framework-reference-languages/level-descriptions): contrasta lo que realmente puedes hacer en comprensión y producción.",
+      "lessons": [
+        {
+          "id": "argument",
+          "title": "Argumentar con ejemplos y límites",
+          "content": "# Defender una idea sin absolutismos\n\n**Einerseits erleichtert die Cloud die Zusammenarbeit, andererseits entstehen neue Sicherheitsfragen. Ein Vorteil ist, dass Teams schneller arbeiten können. Allerdings hängt das Ergebnis davon ab, wie die Systeme eingerichtet werden.**\n\n## Organización  \nIdea → motivo → ejemplo → límite → conclusión. `einerseits/andererseits` muestra dos perspectivas; `allerdings` introduce una reserva; `zum Beispiel` concreta.\n\nNo confundas hablar más largo con argumentar mejor. Explica a qué situación se aplica tu afirmación y cuándo deja de funcionar. **Das gilt vor allem für …** ayuda a delimitar.\n\n## Producción  \nCompara estudiar con profesor y estudiar con una app. Recupera `Ich finde, dass`, `weil` y `obwohl`; añade solo un conector nuevo. Después reduce el texto a una explicación oral de un minuto.\n\n## Revisión  \nComprueba si cada párrafo aporta una razón distinta y si un lector puede identificar tu postura.",
+          "exercise": {
+            "prompt": "Escribe entre cuatro y seis frases sobre ventajas y límites de aprender con una app. Incluye una ventaja, un ejemplo y una reserva.",
+            "answer": "Eine Lern-App hilft mir, regelmäßig zu üben. Zum Beispiel kann ich jeden Tag kurze Dialoge wiederholen. Allerdings fehlt manchmal echtes Feedback. Deshalb kombiniere ich die App mit Gesprächen. So kann ich prüfen, ob ich spontan reagieren kann.\n\nValora estructura, claridad y ejemplos; este modelo no es la única respuesta posible."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Einerseits hilft eine App beim Wiederholen, andererseits brauche ich auch echte Gespräche. Allerdings kommt es auf die Nutzung an."
+          }
+        },
+        {
+          "id": "register",
+          "title": "Registro, desacuerdo y correo formal",
+          "content": "# Elegir tono según destinatario\n\nInformal: **Kannst du mir die Datei schicken?**  \nFormal: **Könnten Sie mir die Datei bitte zusenden?**  \nDesacuerdo amable: **Ich verstehe Ihren Punkt. Aus meiner Sicht sollten wir jedoch …**\n\n## Un correo útil  \n**Sehr geehrte Frau Müller, vielen Dank für Ihre Nachricht. Leider kann ich den vorgeschlagenen Termin nicht wahrnehmen. Wäre ein Gespräch am Donnerstag möglich? Mit freundlichen Grüßen, Sebastian.**\n\nNo basta sustituir `du` por `Sie`: saludo, elección de palabras y cierre también construyen el registro. Evita usar frases demasiado solemnes entre amigos.\n\n## Naturalidad  \n**Da bin ich anderer Meinung** es un desacuerdo claro; **Das sehe ich etwas anders** lo suaviza. No necesitas disculparte en cada frase para ser cortés.\n\n## Producción  \nReescribe el mismo mensaje para un amigo y para una empresa. Mantén el contenido y cambia el trato, el saludo y dos expresiones.",
+          "exercise": {
+            "prompt": "Escribe dos peticiones de un documento: una a un amigo y otra a una empresa. Añade al mensaje formal un saludo y un cierre.",
+            "answer": "Informal: `Hallo Anna, kannst du mir die Datei schicken? Danke!`\n\nFormal: `Sehr geehrte Frau Müller, könnten Sie mir die Datei bitte zusenden? Vielen Dank. Mit freundlichen Grüßen, Sebastian.`\n\nComprueba coherencia de `du/Sie`, saludo y cierre. Practica luego una propuesta de cita."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Das sehe ich etwas anders. Könnten Sie mir die Datei bitte zusenden? Vielen Dank für Ihre Nachricht."
+          }
+        },
+        {
+          "id": "reading-listening",
+          "title": "Comprensión, resumen y paráfrasis",
+          "content": "# Comprender sin traducir cada palabra\n\nEscoge una noticia o entrevista breve de dificultad manejable. Primera pasada: identifica quién habla y de qué trata. Segunda: anota tres ideas y los conectores. Tercera: escucha o lee el fragmento que no entendiste.\n\n## Reformular  \n**Im Text geht es um …** introduce el tema.  \n**Die Autorin erklärt, dass …** atribuye una idea.  \n**Mit anderen Worten …** permite explicarla con tus propias palabras.\n\nDistingue idea principal, ejemplo y opinión. Una palabra desconocida no obliga a detener toda la lectura; comprueba primero si impide entender el argumento.\n\n## Escucha activa  \nUsa transcripción después de intentar entender. Repite 15–30 segundos y luego responde sin leer. La voz sintética sirve para imitar frases, pero las voces reales aportan ritmos y registros variados.\n\n## Repaso  \nVuelve al mismo contenido dos días después y resume sin tus notas.",
+          "exercise": {
+            "prompt": "Resume en alemán este texto: «Eine Lern-App hilft beim Üben. Für spontane Gespräche ist aber auch Kontakt mit anderen Menschen wichtig». Usa dos frases sin copiarlo entero.",
+            "answer": "Im Text geht es um das Sprachenlernen. Die App unterstützt regelmäßiges Üben, aber Gespräche mit anderen Menschen sind ebenfalls wichtig.\n\nEl resumen mantiene ambas ideas y el contraste. Una paráfrasis válida puede usar otras palabras."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Im Text geht es um das Sprachenlernen. Mit anderen Worten: Übung und echte Gespräche ergänzen sich."
+          }
+        },
+        {
+          "id": "project-b2",
+          "title": "Proyecto de conversación y plan de repaso",
+          "content": "# Tu carpeta de evidencias\n\nPrepara tres productos: una conversación cotidiana de cinco minutos, una explicación de un proyecto y un texto argumentativo breve. Guarda un primer intento y una versión revisada; así ves progreso real.\n\n## Ciclo de práctica  \n1. Elige una situación y dos patrones anteriores.  \n2. Produce sin consultar las notas.  \n3. Pide feedback sobre un error recurrente, no sobre veinte detalles a la vez.  \n4. Corrige usando frase → versión → motivo → patrón → ejemplos.  \n5. Repite con otra situación y revisa días después.\n\n## Evitar sobrecarga  \nSi entiendes textos pero te bloqueas al hablar, reduce longitud y aumenta intercambios. Si siempre usas los mismos verbos, incorpora uno dentro de un contexto conocido. Distribuye escucha, lectura, escritura y conversación durante la semana.\n\n## Meta  \nUsar el idioma espontáneamente requiere mucha práctica más allá de estos nodos. Usa los descriptores MCER y un profesor para revisar tu perfil de competencias.",
+          "exercise": {
+            "prompt": "Diseña una sesión de 30 minutos para practicar una conversación laboral. Elige dos patrones conocidos y explica cómo volverás a practicar tras recibir una corrección.",
+            "answer": "5 min de repaso, 10 de escuchar/leer una escena, 10 de representar la conversación y 5 de corrección. Patrones: `Ich bin für … zuständig` y `Könnten wir …?`.\n\nReescribo una frase problemática, entiendo el motivo y hago otra petición con el mismo patrón. La reviso mañana y la semana siguiente."
+          },
+          "audio": {
+            "language": "de-DE",
+            "text": "Ich bin für die Server zuständig. Könnten wir den Termin verschieben? Ich möchte das Problem kurz erklären."
+          }
+        }
+      ]
+    }
+  ]
+}
